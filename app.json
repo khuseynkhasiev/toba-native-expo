@@ -3,7 +3,7 @@
     "name": "toba-native",
     "slug": "toba-native",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
