@@ -1,21 +1,21 @@
-import {SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, View} from 'react-native';
 import { useState } from "react";
 
 export default function SeriesOnePage({ navigation }) {
 
     const [counter, setCounter] = useState(1);
     const handleCounter = (value) => {
-        setTimeout(() => {
+/*        setTimeout(() => {
             if (value === "inc") setCounter(counter + 1);
             else if (value === "dec" && counter > 1) setCounter(counter - 1);
-        }, 1000);
+        }, 1000);*/
     };
     return (
         <View>
-            <View style={styles.btnBlock}>
-                <TouchableOpacity onClick={() => handleCounter("dec")}></TouchableOpacity>
-                <TouchableOpacity onClick={() => handleCounter("inc")}></TouchableOpacity>
-            </View>
+{/*            <View style={styles.btnBlock}>
+                <TouchableOpacity onPress={() => handleCounter("dec")}></TouchableOpacity>
+                <TouchableOpacity onPress={() => handleCounter("inc")}></TouchableOpacity>
+            </View>*/}
             {/*            {counter === 1 && <OneScene counter={counter} />}
             {counter === 2 && <TwoScene counter={counter} />}
             {counter === 3 && <ThreeScene counter={counter} />}
@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
     btn:{
         width: '50%',
         height: '100%',
-        background: 'transparent'
+        //background: 'transparent'
     }
 });
