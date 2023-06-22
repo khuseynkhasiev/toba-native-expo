@@ -8,13 +8,12 @@ import {
 } from 'react-native';
 
 export default function MainPage({ navigation }) {
-    let titleImg = require('../assets/image/title.jpg');
     const handleSeriesTitle = () => {
         navigation.navigate('Series')
     }
     return (
         <SafeAreaView style={styles.container}>
-            <ImageBackground style={styles.img} source={titleImg} />
+            <ImageBackground style={styles.backgroundImg} source={require('../assets/image/title.jpg')} />
             <TouchableOpacity style={styles.btn} onPress={handleSeriesTitle}>
                 <Text style={styles.text}>Читать</Text>
             </TouchableOpacity>
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         width: '25%',
     },
-    img: {
+    backgroundImg: {
         width: '100%',
         height: '100%',
         filter: 'blur(1px)'
