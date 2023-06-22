@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     series__seriesContainer: {
         position: 'absolute',
         flexDirection: 'row',
-        columnGap: '10%'
+        columnGap: 20,
     },
     series__list:{
         width: '100%',
