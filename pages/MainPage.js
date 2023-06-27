@@ -46,5 +46,5 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         textAlign: 'center',
         backgroundColor: 'rgb(235, 93, 61)'
-    }
+    },
 });
