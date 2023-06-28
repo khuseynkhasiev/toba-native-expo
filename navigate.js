@@ -1,11 +1,11 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import SeriesTitle from "./pages/SeriesTitle";
-
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import MainPage from "./pages/MainPage";
 import SeriesOnePage from './pages/SeriesOnePage';
+
 
 const Stack = createStackNavigator();
 
@@ -26,7 +26,9 @@ export default function Navigate(){
                         headerTitleAlign: {
                             alignItems: 'center',
                             justifyContent: 'center'
-                    }
+                    },
+                        cardStyleInterpolator:
+                        CardStyleInterpolators.forFadeFromBottomAndroid,
                     }}
                 />
                 <Stack.Screen
@@ -35,7 +37,9 @@ export default function Navigate(){
                     options={{
                         title: 'Все серии',
                         headerStyle: { backgroundColor: '#eb5d3d', height: 30},
-                        headerTitleStyle: { fontWeight: 'bold' }
+                        headerTitleStyle: { fontWeight: 'bold' },
+                        cardStyleInterpolator:
+                        CardStyleInterpolators.forFadeFromBottomAndroid,
                     }}
                 />
                 <Stack.Screen
@@ -44,8 +48,11 @@ export default function Navigate(){
                     options={{
                         title: '1 серия',
                         headerStyle: { backgroundColor: '#eb5d3d', height: 30},
-                        headerTitleStyle: { fontWeight: 'bold' }
-                    }}
+                        headerTitleStyle: { fontWeight: 'bold' },
+                        cardStyleInterpolator:
+                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                    }
+                }
                 />
             </Stack.Navigator>
         </NavigationContainer>
