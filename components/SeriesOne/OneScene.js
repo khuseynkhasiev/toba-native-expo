@@ -8,15 +8,24 @@ import {
   View,
 } from "react-native";
 
-export default function OneScene() {
+export default function OneScene({ click }) {
   const fadeAnimScale = useRef(new Animated.Value(1)).current;
+  const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
+
+  const animOpacity = () => {
+    Animated.timing(fadeAnimOpacity, {
+      toValue: click ? 0 : 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  };
 
   const animScale = () => {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.sequence([
       Animated.timing(fadeAnimScale, {
         toValue: 3,
-        duration: 10000, 
+        duration: 10000,
         delay: 500,
         useNativeDriver: false,
       }),
@@ -29,14 +38,14 @@ export default function OneScene() {
       if (event.finished) animScale();
     });
   };
-
   useEffect(() => {
     animScale();
-  });
+    animOpacity();
+  }, [click]);
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
         <Animated.Image
           style={[
             styles.backgroundImg,
@@ -48,7 +57,7 @@ export default function OneScene() {
           МНЕ СНЯТСЯ СЧАСТЛИВЫЕ СНЫ. В НИХ НЕБО ЧИСТОЕ И НЕ ЗАПЯТНАНО ГРЯЗНЫМ
           ДЫХАНИЕМ ГОРОДА.
         </Text>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   );
 }
