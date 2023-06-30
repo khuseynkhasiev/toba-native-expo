@@ -58,9 +58,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     nameSeries: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: 'normal',
-        color: 'steelblue',
+        color: 'black',
+        backgroundColor: '#F0F8FF',
+        borderRadius: 5,
+        marginTop: 5,
+        width: 100,
+        padding: 5,
+        textAlign: 'center',
     },
     seriesImg: {
         maxWidth: 400,

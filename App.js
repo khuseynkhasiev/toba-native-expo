@@ -1,6 +1,5 @@
 import 'react-native-gesture-handler';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import SeriesTitle from "./pages/SeriesTitle";
+import { StyleSheet } from 'react-native';
 import MainStack from './navigate';
 
 export default function App() {

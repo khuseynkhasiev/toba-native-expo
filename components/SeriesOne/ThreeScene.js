@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     textAlign: "center",
     borderRadius: 5,
+    padding: 10,
   },
   backgroundImg: {
     width: "100%",
