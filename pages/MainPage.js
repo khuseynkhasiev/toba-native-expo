@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         borderRadius: 10,
         textAlign: 'center',
-        backgroundColor: 'rgb(235, 93, 61)'
+        backgroundColor: '#F0F8FF'
     },
 });

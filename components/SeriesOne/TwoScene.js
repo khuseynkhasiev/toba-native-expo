@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderRadius: 5,
     zIndex: 4,
+    padding: 10,
   },
   backgroundImg: {
     width: "100%",

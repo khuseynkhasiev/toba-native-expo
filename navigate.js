@@ -20,7 +20,7 @@ export default function Navigate() {
           component={MainPage}
           options={{
             title: "Главная",
-            headerStyle: { backgroundColor: "#eb5d3d", height: 30 },
+            headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
             headerTitleStyle: {
               fontWeight: "bold",
               alignItems: "center",
@@ -39,7 +39,7 @@ export default function Navigate() {
           component={SeriesTitle}
           options={{
             title: "Все серии",
-            headerStyle: { backgroundColor: "#eb5d3d", height: 30 },
+            headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
             headerTitleStyle: { fontWeight: "bold" },
             cardStyleInterpolator:
               CardStyleInterpolators.forFadeFromBottomAndroid,
@@ -50,7 +50,7 @@ export default function Navigate() {
           component={SeriesOnePage}
           options={{
             title: "1 серия",
-            headerStyle: { backgroundColor: "#eb5d3d", height: 30 },
+            headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
             headerTitleStyle: { fontWeight: "bold" },
             cardStyleInterpolator:
               CardStyleInterpolators.forFadeFromBottomAndroid,
