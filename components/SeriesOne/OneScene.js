@@ -10,15 +10,19 @@ export default function OneScene({ click }) {
   const fadeAnimScale = useRef(new Animated.Value(1)).current;
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
-  const animOpacity = () => {
+  useEffect(() => {
+    animScale();
+    animOpacity();
+  }, [click]);
+
+  function animOpacity() {
     Animated.timing(fadeAnimOpacity, {
       toValue: click ? 0 : 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  };
-
-  const animScale = () => {
+  }
+  function animScale() {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.sequence([
       Animated.timing(fadeAnimScale, {
@@ -35,11 +39,7 @@ export default function OneScene({ click }) {
     ]).start((event) => {
       if (event.finished) animScale();
     });
-  };
-  useEffect(() => {
-    animScale();
-    animOpacity();
-  }, [click]);
+  }
 
   return (
     <SafeAreaView style={styles.wrapper}>

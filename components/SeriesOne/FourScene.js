@@ -7,32 +7,12 @@ import {
 } from "react-native";
 
 export default function FourScene ({ click }) {
-
     const open = require("../../assets/scene/4/2.png");
     const close = require("../../assets/scene/4/1.png");
-
     const fadeAnimScale = useRef(new Animated.Value(1)).current;
     const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
-
     const [back, setBack] = useState(close);
     const [time, setTime] = useState(false);
-    const animScale = () => {
-        Animated.sequence([
-            Animated.timing(fadeAnimScale, {
-                toValue: 3,
-                duration: 1800,
-                delay: 500,
-                useNativeDriver: false,
-            }),
-        ]).start();
-    };
-    const animOpacity = () => {
-        Animated.timing(fadeAnimOpacity, {
-            toValue: time ? 0 : 1,
-            duration: 1000,
-            useNativeDriver: false,
-        }).start();
-    };
 
     useEffect(() => {
         animScale();
@@ -44,6 +24,24 @@ export default function FourScene ({ click }) {
             setBack(open);
         }, 3500)
     }, [click, time]);
+
+    function animScale(){
+        Animated.sequence([
+            Animated.timing(fadeAnimScale, {
+                toValue: 3,
+                duration: 1800,
+                delay: 500,
+                useNativeDriver: false,
+            }),
+        ]).start();
+    }
+    function animOpacity (){
+        Animated.timing(fadeAnimOpacity, {
+            toValue: time ? 0 : 1,
+            duration: 1000,
+            useNativeDriver: false,
+        }).start();
+    }
 
     return (
         <SafeAreaView style={styles.wrapper}>

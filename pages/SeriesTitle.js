@@ -2,7 +2,7 @@ import {ImageBackground, SafeAreaView, StyleSheet, View, TouchableOpacity, Image
 
 export default function SeriesTitle({ navigation }) {
     let titleImg = require('../assets/image/title.jpg');
-    let seriesTwo = require('../assets/image/series-two.png');
+    let seriesTwo = require('../assets/image/series-one.png');
 
     return (
         <SafeAreaView style={styles.container}>
