@@ -10,6 +10,8 @@ export default function OneScene({ click }) {
   const fadeAnimScale = useRef(new Animated.Value(1)).current;
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
+  const titleImg = require('../../assets/image/title.jpg');
+
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
       toValue: click ? 0 : 1,
@@ -50,6 +52,7 @@ export default function OneScene({ click }) {
             { transform: [{ scale: fadeAnimScale }] },
           ]}
           source={require("../../assets/scene/1/1.png")}
+
         />
         <Text style={styles.dialog}>
           МНЕ СНЯТСЯ СЧАСТЛИВЫЕ СНЫ. В НИХ НЕБО ЧИСТОЕ И НЕ ЗАПЯТНАНО ГРЯЗНЫМ

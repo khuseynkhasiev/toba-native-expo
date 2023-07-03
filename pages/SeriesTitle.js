@@ -1,8 +1,8 @@
 import {ImageBackground, SafeAreaView, StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
 
 export default function SeriesTitle({ navigation }) {
-    let titleImg = require('../assets/image/title.jpg');
-    let seriesTwo = require('../assets/image/series-two.png');
+    const titleImg = require('../assets/image/title.jpg');
+    /*const seriesTwo = require('../assets/image/series-two.png');*/
 
     return (
         <SafeAreaView style={styles.container}>
@@ -10,30 +10,47 @@ export default function SeriesTitle({ navigation }) {
             <View style={styles.seriesContainer}>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
                     <Image style={styles.seriesImg}
-                           source={seriesTwo}
+                           source={titleImg}
                     />
                     <Text style={styles.nameSeries}>1 cерия</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
                     <Image style={styles.seriesImg}
-                           source={seriesTwo}
+                           source={titleImg}
                     />
                     <Text style={styles.nameSeries}>2 cерия</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
                     <Image style={styles.seriesImg}
-                           source={seriesTwo}
+                           source={titleImg}
                     />
                     <Text style={styles.nameSeries}>3 cерия</Text>
                 </TouchableOpacity>
             </View>
+
+            <TouchableOpacity style={styles.btnLeft} onPress={() => navigation.navigate('Library')}>
+                <Text style={styles.btnText}>Библиотека</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     btn: {
-        alignItems: "center"
+        position: 'relative'
+    },
+    btnLeft: {
+        position: "absolute",
+        left: 5,
+        bottom: 5,
+        width: '25%',
+    },
+    btnText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        backgroundColor: '#F0F8FF',
+        //marginBottom: 5
     },
     container: {
         width: '100%',
@@ -45,7 +62,8 @@ const styles = StyleSheet.create({
     backgroundImg: {
         width: '100%',
         height: '100%',
-        filter: 'blur(3px)'
+        //filter: 'blur(3px)',
+        blurRadios: 5
     },
     seriesContainer: {
         position: 'absolute',
@@ -58,15 +76,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     nameSeries: {
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'normal',
         color: 'black',
         backgroundColor: '#F0F8FF',
         borderRadius: 5,
-        marginTop: 5,
+        marginTop: '95%',
         width: 100,
         padding: 5,
         textAlign: 'center',
+        position: 'absolute'
     },
     seriesImg: {
         maxWidth: 400,

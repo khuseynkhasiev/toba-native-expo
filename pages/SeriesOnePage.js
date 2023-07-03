@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, View, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import OneScene from "../components/SeriesOne/OneScene";
 import TwoScene from "../components/SeriesOne/TwoScene";
