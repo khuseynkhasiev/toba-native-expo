@@ -22,6 +22,7 @@ export default function Navigate() {
           component={MainPage}
           options={{
             title: "Главная",
+              headerShown: false,
             headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
             headerTitleStyle: {
               fontWeight: "bold",
@@ -41,6 +42,7 @@ export default function Navigate() {
               component={LibraryPage}
               options={{
                   title: "Библиотека",
+                  headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
                   cardStyleInterpolator:
@@ -52,6 +54,7 @@ export default function Navigate() {
               component={Profile}
               options={{
                   title: "Профиль",
+                  headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
                   cardStyleInterpolator:
@@ -63,6 +66,7 @@ export default function Navigate() {
           component={SeriesTitle}
           options={{
             title: "Все серии",
+              headerShown: false,
             headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
             headerTitleStyle: { fontWeight: "bold" },
             cardStyleInterpolator:
@@ -74,6 +78,7 @@ export default function Navigate() {
           component={SeriesOnePage}
           options={{
             title: "1 серия",
+              headerShown: false,
             headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
             headerTitleStyle: { fontWeight: "bold" },
             cardStyleInterpolator:

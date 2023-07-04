@@ -10,25 +10,28 @@ export default function SeriesTitle({ navigation }) {
             <View style={styles.seriesContainer}>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
                     <Image style={styles.seriesImg}
-                           source={titleImg}
+                           source={require('../assets/image/seriestitleone.jpg')}
                     />
                     <Text style={styles.nameSeries}>1 cерия</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
                     <Image style={styles.seriesImg}
-                           source={titleImg}
+                           source={require('../assets/image/seriestitletwo.jpg')}
                     />
                     <Text style={styles.nameSeries}>2 cерия</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
                     <Image style={styles.seriesImg}
-                           source={titleImg}
+                           source={require('../assets/image/seriestitlethree.jpg')}
                     />
                     <Text style={styles.nameSeries}>3 cерия</Text>
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.btnLeft} onPress={() => navigation.navigate('Library')}>
+            <TouchableOpacity style={styles.btnLeft} onPress={() => navigation.navigate('Main')}>
+                <Text style={styles.btnText}>Главная</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnRight} onPress={() => navigation.navigate('Library')}>
                 <Text style={styles.btnText}>Библиотека</Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -42,6 +45,12 @@ const styles = StyleSheet.create({
     btnLeft: {
         position: "absolute",
         left: 5,
+        bottom: 5,
+        width: '25%',
+    },
+    btnRight: {
+        position: "absolute",
+        right: 5,
         bottom: 5,
         width: '25%',
     },
