@@ -1,90 +1,115 @@
 import {ImageBackground, SafeAreaView, StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
+import * as React from "react";
 
 export default function SeriesTitle({ navigation }) {
-    const titleImg = require('../assets/image/title.jpg');
-    /*const seriesTwo = require('../assets/image/series-two.png');*/
 
     return (
-        <SafeAreaView style={styles.container}>
-            <ImageBackground style={styles.backgroundImg} source={titleImg}/>
-            <View style={styles.seriesContainer}>
+        <SafeAreaView style={styles.series}>
+            <ImageBackground style={styles.backgroundImg} source={require('../assets/image/seriesBackground.png')}/>
+            <View style={styles.series__container}>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
-                    <Image style={styles.seriesImg}
-                           source={require('../assets/image/seriestitleone.jpg')}
-                    />
-                    <Text style={styles.nameSeries}>1 cерия</Text>
+                    <View style={styles.series__block}>
+                        <Image style={styles.seriesImg}
+                               source={require('../assets/image/seriestitleone.jpg')}
+                        />
+                        <Text style={styles.series__nameSeries}>1 СЕРИЯ</Text>
+                    </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
                     <Image style={styles.seriesImg}
                            source={require('../assets/image/seriestitletwo.jpg')}
                     />
-                    <Text style={styles.nameSeries}>2 cерия</Text>
+                    <Text style={styles.series__nameSeries}>2 СЕРИЯ</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
                     <Image style={styles.seriesImg}
                            source={require('../assets/image/seriestitlethree.jpg')}
                     />
-                    <Text style={styles.nameSeries}>3 cерия</Text>
+                    <Text style={styles.series__nameSeries}>3 СЕРИЯ</Text>
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={styles.btnLeft} onPress={() => navigation.navigate('Main')}>
-                <Text style={styles.btnText}>Главная</Text>
+            <TouchableOpacity style={styles.series__profileBtn} onPress={() => navigation.navigate('Profile')}>
+                <Image style={styles.series__profileIcon} source={require('../assets/image/profileIcon.svg')}></Image>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.btnRight} onPress={() => navigation.navigate('Library')}>
-                <Text style={styles.btnText}>Библиотека</Text>
+            <TouchableOpacity style={styles.series__menuBtn} onPress={() => navigation.navigate('Main')}>
+                <Image style={styles.series__menuIcon} source={require('../assets/image/menuIcon.svg')}></Image>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>
+                <Image style={styles.series__libraryIcon} source={require('../assets/image/libraryIcon.svg')}></Image>
+                <Text style={styles.series__text}>БИБЛИОТЕКА</Text>
             </TouchableOpacity>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    btn: {
-        position: 'relative'
-    },
-    btnLeft: {
-        position: "absolute",
-        left: 5,
-        bottom: 5,
-        width: '25%',
-    },
-    btnRight: {
-        position: "absolute",
-        right: 5,
-        bottom: 5,
-        width: '25%',
-    },
-    btnText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        backgroundColor: '#F0F8FF',
-        //marginBottom: 5
-    },
-    container: {
+    series: {
         width: '100%',
         height: '100%',
         alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row'
+        justifyContent: 'flex-end',
     },
     backgroundImg: {
         width: '100%',
         height: '100%',
-        //filter: 'blur(3px)',
-        blurRadios: 5
     },
-    seriesContainer: {
+    series__block: {
+      width: 200,
+      height: 250,
+      filter: 'blur(7.5px)'
+    },
+    series__profileIcon: {
+        width: 45,
+        height: 45,
+    },
+    series__profileBtn: {
+        position: "absolute",
+        top: 8,
+        right: 28,
+    },
+    series__menuBtn: {
+        position: "absolute",
+        top: 10,
+        left: 30,
+    },
+    series__menuIcon: {
+        width: 30,
+        height: 20,
+    },
+    series__libraryIcon: {
+        width: 16,
+        height: 20,
+        display: "flex",
+        flexDirection: 'row'
+    },
+    series__libraryBtn: {
+        position: "absolute",
+        left: 30,
+        marginBottom: 15,
+        display: "flex",
+        flexDirection: 'row',
+        columnGap: 5,
+    },
+    series__text: {
+        fontSize: 15,
+        fontWeight: 700,
+        textAlign: 'center',
+        lineHeight: 'normal',
+        color: '#FFF',
+    },
+    series__container: {
         position: 'absolute',
         flexDirection: 'row',
-        columnGap: 20,
+        columnGap: 22,
+        marginBottom: 70
     },
     list:{
         width: '100%',
         height: '100%',
         justifyContent: 'center',
     },
-    nameSeries: {
+    series__nameSeries: {
         fontSize: 20,
         fontWeight: 'normal',
         color: 'black',

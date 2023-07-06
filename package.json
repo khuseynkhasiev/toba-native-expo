@@ -15,6 +15,7 @@
     "eas-cli": "^3.15.0",
     "expo": "~48.0.18",
     "expo-av": "~13.2.1",
+    "expo-font": "^11.4.0",
     "expo-image": "~1.0.1",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",

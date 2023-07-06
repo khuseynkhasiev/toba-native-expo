@@ -1,7 +1,7 @@
 import {
     StyleSheet,
     View,
-    Button
+    TouchableOpacity
 } from 'react-native';
 import * as React from 'react';
 
@@ -20,15 +20,15 @@ export default function Intro (){
                 ref={video}
                 style={styles.backgroundVideo}
                 source={require('../assets/intro.mp4')}
-                useNativeControls
+                useNativeControls={false}
                 //resizeMode={ResizeMode.CONTAIN}
-/*                paused={false}
-                autoPlay={true}*/
+                /*                paused={false}
+                                autoPlay={true}*/
                 resizeMode='cover'
                 isLooping
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
             />
-        </View>
+    </View>
     )
 }
 const styles = StyleSheet.create({
@@ -40,5 +40,5 @@ const styles = StyleSheet.create({
     backgroundVideo: {
         height: '100%',
         width: '100%'
-    }
+    },
 });

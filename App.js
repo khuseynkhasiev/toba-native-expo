@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 export default function App() {
   const [onActive, setIsActive] = useState(true);
 
+
   useEffect(() => {
     setTimeout(() => {
       setIsActive(false);
@@ -14,11 +15,12 @@ export default function App() {
   })
 
   return (
-      <>
+/*      <>
         {onActive && <Intro/>}
         {!onActive && <MainStack/>}
         <StatusBar hidden />
-      </>
+      </>*/
+      <MainStack/>
   )
 }
 
