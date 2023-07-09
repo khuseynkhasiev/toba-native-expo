@@ -1,34 +1,24 @@
-import {ImageBackground, SafeAreaView, StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
+import {
+    SafeAreaView,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    Text,
+    Dimensions,
+} from 'react-native';
 import * as React from "react";
+import SliderSeries from "../components/SliderSeries";
+
+const { width, height} = Dimensions.get('screen')
 
 export default function SeriesTitle({ navigation }) {
-
     return (
         <SafeAreaView style={styles.series}>
-            <ImageBackground style={styles.backgroundImg} source={require('../assets/image/seriesBackground.png')}/>
-            <View style={styles.series__container}>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
-                    <View style={styles.series__block}>
-                        <Image style={styles.seriesImg}
-                               source={require('../assets/image/seriestitleone.jpg')}
-                        />
-                        <Text style={styles.series__nameSeries}>1 СЕРИЯ</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
-                    <Image style={styles.seriesImg}
-                           source={require('../assets/image/seriestitletwo.jpg')}
-                    />
-                    <Text style={styles.series__nameSeries}>2 СЕРИЯ</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('SeriesOne')}>
-                    <Image style={styles.seriesImg}
-                           source={require('../assets/image/seriestitlethree.jpg')}
-                    />
-                    <Text style={styles.series__nameSeries}>3 СЕРИЯ</Text>
-                </TouchableOpacity>
-            </View>
-
+            <Image
+                source={require('../assets/image/libraryBackground.png')}
+                style={[StyleSheet.absoluteFillObject]}
+            />
+            <SliderSeries />
             <TouchableOpacity style={styles.series__profileBtn} onPress={() => navigation.navigate('Profile')}>
                 <Image style={styles.series__profileIcon} source={require('../assets/image/profileIcon.svg')}></Image>
             </TouchableOpacity>
@@ -42,22 +32,13 @@ export default function SeriesTitle({ navigation }) {
         </SafeAreaView>
     )
 }
-
 const styles = StyleSheet.create({
     series: {
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
+        flex: 1,
     },
     backgroundImg: {
-        width: '100%',
-        height: '100%',
-    },
-    series__block: {
-      width: 200,
-      height: 250,
-      filter: 'blur(7.5px)'
+        width: width,
+        height: height,
     },
     series__profileIcon: {
         width: 45,
@@ -86,7 +67,7 @@ const styles = StyleSheet.create({
     series__libraryBtn: {
         position: "absolute",
         left: 30,
-        marginBottom: 15,
+        bottom: 15,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,
@@ -97,12 +78,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         lineHeight: 'normal',
         color: '#FFF',
-    },
-    series__container: {
-        position: 'absolute',
-        flexDirection: 'row',
-        columnGap: 22,
-        marginBottom: 70
+        fontFamily: 'NanumGothicCodingBold',
     },
     list:{
         width: '100%',
@@ -110,20 +86,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     series__nameSeries: {
-        fontSize: 20,
+        fontSize: 10,
         fontWeight: 'normal',
         color: 'black',
         backgroundColor: '#F0F8FF',
-        borderRadius: 5,
-        marginTop: '95%',
-        width: 100,
+        width: 150,
         padding: 5,
-        textAlign: 'center',
-        position: 'absolute'
+        textAlign: 'left',
     },
-    seriesImg: {
-        maxWidth: 400,
-        width: 100,
-        height: 134,
-    }
+    series__subtitle:{
+        fontSize: 8,
+        fontWeight: 'normal',
+        color: 'black',
+        backgroundColor: '#F0F8FF',
+        width: 150,
+        padding: 5,
+        textAlign: 'left',
+    },
 });

@@ -2,7 +2,6 @@ import {
     Image,
     ImageBackground,
     SafeAreaView,
-    StatusBar,
     StyleSheet,
     Text,
     TouchableOpacity, View,
@@ -37,10 +36,10 @@ const styles = StyleSheet.create({
         color: 'rgba(207, 207, 207, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
         fontSize: 40,
+        fontFamily: 'space-armor',
         fontStyle: 'normal',
         fontWeight: 400,
         lineHeight: 'normal',
-        letterSpacing: 30,
         position: "absolute",
         top: 50,
         right: 30,
@@ -49,7 +48,6 @@ const styles = StyleSheet.create({
     profile__container: {
         width: '100%',
         height: '100%',
-        //position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end'
@@ -65,8 +63,6 @@ const styles = StyleSheet.create({
     },
     profile: {
         flex: 1,
-/*        alignItems: 'center',
-        justifyContent: 'flex-end',*/
     },
     profile__background: {
         width: '100%',
@@ -81,7 +77,7 @@ const styles = StyleSheet.create({
     profile__libraryBtn: {
         position: "absolute",
         left: 30,
-        marginBottom: 15,
+        bottom: 15,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,
@@ -89,12 +85,11 @@ const styles = StyleSheet.create({
     profile__profileIcon: {
         width: 45,
         height: 45,
-        //resizeMode: 'cover'
     },
     profile__seriesBtn: {
         position: "absolute",
         right: 30,
-        marginBottom: 15,
+        bottom: 15,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,
@@ -114,5 +109,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         lineHeight: 'normal',
         color: '#FFF',
+        fontFamily: 'NanumGothicCodingBold',
     },
 });

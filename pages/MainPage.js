@@ -10,8 +10,10 @@ import {
 export default function MainPage({ navigation }) {
     return (
         <SafeAreaView style={styles.main}>
-            <Text style={styles.main__title}>TOBA</Text>
-            <Text style={styles.main__subtitle}>ANIMICS</Text>
+            <View style={styles.main__textContainer}>
+                <Text style={styles.main__title}>TOBA</Text>
+                <Text style={styles.main__subtitle}> ANIMICS</Text>
+            </View>
             <View style={styles.main__container}>
                 <ImageBackground style={styles.main__background} source={require('../assets/image/mainPage.png')} />
                 <TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
@@ -19,10 +21,10 @@ export default function MainPage({ navigation }) {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.main__libraryBtn} onPress={() => navigation.navigate('Library')}>
                     <Image style={styles.main__libraryIcon} source={require('../assets/image/libraryIcon.svg')}></Image>
-                    <Text style={styles.main__text}>БИБЛИОТЕКА</Text>
+                    <Text style={styles.main__textBtn}>БИБЛИОТЕКА</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.main__seriesBtn} onPress={() => navigation.navigate('Series')}>
-                    <Text style={styles.main__text}>ЧИТАТЬ</Text>
+                    <Text style={styles.main__textBtn}>ЧИТАТЬ</Text>
                     <Image style={styles.main__seriesIcon} source={require('../assets/image/seriesIcon.svg')}></Image>
                 </TouchableOpacity>
             </View>
@@ -34,15 +36,11 @@ const styles = StyleSheet.create({
     main__container: {
         width: '100%',
         height: '100%',
-        //position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end'
     },
     main: {
-/*        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-end',*/
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
@@ -52,19 +50,21 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     main__title: {
-        position: 'absolute',
+        fontFamily: 'space-armor',
         color: 'rgba(207, 207, 207, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
         fontSize: 96,
         fontStyle: 'normal',
         fontWeight: 400,
         lineHeight: 'normal',
-        letterSpacing: 40,
-        zIndex: 1,
         textAlign: 'center',
     },
-    main__subtitle: {
+    main__textContainer:{
         position: 'absolute',
+        zIndex: 1,
+    },
+    main__subtitle: {
+        fontFamily: 'Montserrat',
         color: '#FFF',
         textAlign: 'center',
         fontSize: 15,
@@ -72,8 +72,6 @@ const styles = StyleSheet.create({
         fontWeight: 400,
         lineHeight: 'normal',
         letterSpacing: 60,
-        zIndex: 1,
-        bottom: 127,
     },
     main__profileIcon: {
         width: 45,
@@ -82,7 +80,7 @@ const styles = StyleSheet.create({
     main__seriesBtn: {
         position: "absolute",
         right: 30,
-        marginBottom: 15,
+        bottom: 15,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
     main__libraryBtn: {
         position: "absolute",
         left: 30,
-        marginBottom: 15,
+        bottom: 15,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,
@@ -110,9 +108,10 @@ const styles = StyleSheet.create({
         top: 8,
         right: 28,
     },
-    main__text: {
+    main__textBtn: {
         fontSize: 15,
         fontWeight: 700,
+        fontFamily: 'NanumGothicCodingBold',
         textAlign: 'center',
         lineHeight: 'normal',
         color: '#FFF',
