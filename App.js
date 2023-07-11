@@ -11,6 +11,7 @@ const fonts = () => Font.loadAsync({
   'space-armor': require('./assets/fonts/SpaceArmor-vmlv4.otf'),
   'NanumGothicCoding': require('./assets/fonts/NanumGothicCoding-Regular.ttf'),
   'NanumGothicCodingBold': require('./assets/fonts/NanumGothicCoding-Bold.ttf'),
+  'Montserrat': require('./assets/fonts/Montserrat-Regular.ttf')
 })
 
 export default function App() {
@@ -29,6 +30,10 @@ export default function App() {
             {!onActive && <MainStack/>}
             <StatusBar hidden />
           </>
+/*        <>
+          <MainStack/>
+          <StatusBar hidden />
+        </>*/
     )
   } else {
     return (

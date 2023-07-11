@@ -17,15 +17,15 @@ export default function MainPage({ navigation }) {
             <View style={styles.main__container}>
                 <ImageBackground style={styles.main__background} source={require('../assets/image/mainPage.png')} />
                 <TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
-                    <Image style={styles.main__profileIcon} source={require('../assets/image/profileIcon.svg')}></Image>
+                    <Image style={styles.main__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.main__libraryBtn} onPress={() => navigation.navigate('Library')}>
-                    <Image style={styles.main__libraryIcon} source={require('../assets/image/libraryIcon.svg')}></Image>
+                    <Image style={styles.main__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
                     <Text style={styles.main__textBtn}>БИБЛИОТЕКА</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.main__seriesBtn} onPress={() => navigation.navigate('Series')}>
                     <Text style={styles.main__textBtn}>ЧИТАТЬ</Text>
-                    <Image style={styles.main__seriesIcon} source={require('../assets/image/seriesIcon.svg')}></Image>
+                    <Image style={styles.main__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
         fontSize: 96,
         fontStyle: 'normal',
         fontWeight: 400,
-        lineHeight: 'normal',
         textAlign: 'center',
     },
     main__textContainer:{
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontStyle: 'normal',
         fontWeight: 400,
-        lineHeight: 'normal',
         letterSpacing: 60,
     },
     main__profileIcon: {
@@ -107,28 +105,15 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 8,
         right: 28,
+        zIndex: 2,
+        color: 'white',
     },
     main__textBtn: {
         fontSize: 15,
         fontWeight: 700,
         fontFamily: 'NanumGothicCodingBold',
         textAlign: 'center',
-        lineHeight: 'normal',
         color: '#FFF',
+        letterSpacing: 5,
     },
 });
-
-
-/*
-<ImageBackground style={styles.main__background} source={require('../assets/image/mainPage.png')} />
-<TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
-    <Image style={styles.main__profileIcon} source={require('../assets/image/profileIcon.svg')}></Image>
-</TouchableOpacity>
-<TouchableOpacity style={styles.main__libraryBtn} onPress={() => navigation.navigate('Library')}>
-    <Image style={styles.main__libraryIcon} source={require('../assets/image/libraryIcon.svg')}></Image>
-    <Text style={styles.main__text}>БИБЛИОТЕКА</Text>
-</TouchableOpacity>
-<TouchableOpacity style={styles.main__seriesBtn} onPress={() => navigation.navigate('Series')}>
-    <Text style={styles.main__text}>ЧИТАТЬ</Text>
-    <Image style={styles.main__seriesIcon} source={require('../assets/image/seriesIcon.svg')}></Image>
-</TouchableOpacity>*/

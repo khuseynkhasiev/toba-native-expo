@@ -4,41 +4,48 @@ import {
     TouchableOpacity,
     Image,
     Text,
-    Dimensions,
+    Dimensions, ImageBackground, View,
 } from 'react-native';
 import * as React from "react";
 import SliderSeries from "../components/SliderSeries";
 
-const { width, height} = Dimensions.get('screen')
+const { width, height} = Dimensions.get('window')
 
 export default function SeriesTitle({ navigation }) {
     return (
-        <SafeAreaView style={styles.series}>
-            <Image
-                source={require('../assets/image/libraryBackground.png')}
-                style={[StyleSheet.absoluteFillObject]}
+        <View style={styles.series}>
+            <ImageBackground
+                source={require('../assets/image/seriesBackground.png')}
+                //style={[StyleSheet.absoluteFillObject]}
+                style={styles.backgroundImg}
             />
             <SliderSeries />
             <TouchableOpacity style={styles.series__profileBtn} onPress={() => navigation.navigate('Profile')}>
-                <Image style={styles.series__profileIcon} source={require('../assets/image/profileIcon.svg')}></Image>
+                <Image style={styles.series__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
             </TouchableOpacity>
             <TouchableOpacity style={styles.series__menuBtn} onPress={() => navigation.navigate('Main')}>
-                <Image style={styles.series__menuIcon} source={require('../assets/image/menuIcon.svg')}></Image>
+                <Image style={styles.series__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
             </TouchableOpacity>
             <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>
-                <Image style={styles.series__libraryIcon} source={require('../assets/image/libraryIcon.svg')}></Image>
+                <Image style={styles.series__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
                 <Text style={styles.series__text}>БИБЛИОТЕКА</Text>
             </TouchableOpacity>
-        </SafeAreaView>
+        </View>
     )
 }
 const styles = StyleSheet.create({
     series: {
         flex: 1,
+        position: 'relative'
+        //backgroundColor: 'red'
     },
     backgroundImg: {
-        width: width,
-        height: height,
+        //...StyleSheet.absoluteFillObject,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
     },
     series__profileIcon: {
         width: 45,
@@ -61,8 +68,8 @@ const styles = StyleSheet.create({
     series__libraryIcon: {
         width: 16,
         height: 20,
-        display: "flex",
-        flexDirection: 'row'
+/*        display: "flex",
+        flexDirection: 'row'*/
     },
     series__libraryBtn: {
         position: "absolute",
@@ -76,9 +83,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 700,
         textAlign: 'center',
-        lineHeight: 'normal',
         color: '#FFF',
         fontFamily: 'NanumGothicCodingBold',
+        letterSpacing: 5,
     },
     list:{
         width: '100%',

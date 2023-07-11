@@ -14,14 +14,14 @@ export default function LibraryPage({ navigation }) {
             <View style={styles.library__container}>
                 <ImageBackground style={styles.library__background} source={require('../assets/image/libraryBackground.png')} />
                 <TouchableOpacity style={styles.library__menuBtn} onPress={() => navigation.navigate('Main')}>
-                    <Image style={styles.library__menuIcon} source={require('../assets/image/menuIcon.svg')}></Image>
+                    <Image style={styles.library__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.library__profileBtn} onPress={() => navigation.navigate('Profile')}>
-                    <Image style={styles.library__profileIcon} source={require('../assets/image/profileIcon.svg')}></Image>
+                    <Image style={styles.library__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>
                     <Text style={styles.library__text}>ЧИТАТЬ</Text>
-                    <Image style={styles.library__seriesIcon} source={require('../assets/image/seriesIcon.svg')}></Image>
+                    <Image style={styles.library__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
         fontFamily: 'space-armor',
         fontStyle: 'normal',
         fontWeight: 400,
-        lineHeight: 'normal',
         position: "absolute",
         top: 50,
         left: 30,
@@ -91,8 +90,8 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 700,
         textAlign: 'center',
-        lineHeight: 'normal',
         color: '#FFF',
         fontFamily: 'NanumGothicCodingBold',
+        letterSpacing: 5,
     },
 });

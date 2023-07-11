@@ -15,15 +15,15 @@ export default function Profile({ navigation }) {
             <View style={styles.profile__container}>
                 <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')} />
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
-                    <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.svg')}></Image>
+                    <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.profile__libraryBtn} onPress={() => navigation.navigate('Library')}>
-                    <Image style={styles.profile__libraryIcon} source={require('../assets/image/libraryIcon.svg')}></Image>
+                    <Image style={styles.profile__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
                     <Text style={styles.profile__text}>БИБЛИОТЕКА</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.profile__seriesBtn} onPress={() => navigation.navigate('Series')}>
                     <Text style={styles.profile__text}>ЧИТАТЬ</Text>
-                    <Image style={styles.profile__seriesIcon} source={require('../assets/image/seriesIcon.svg')}></Image>
+                    <Image style={styles.profile__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
                 </TouchableOpacity>
             </View>
 
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
         fontFamily: 'space-armor',
         fontStyle: 'normal',
         fontWeight: 400,
-        lineHeight: 'normal',
         position: "absolute",
         top: 50,
         right: 30,
@@ -107,8 +106,8 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 700,
         textAlign: 'center',
-        lineHeight: 'normal',
         color: '#FFF',
         fontFamily: 'NanumGothicCodingBold',
+        letterSpacing: 5,
     },
 });

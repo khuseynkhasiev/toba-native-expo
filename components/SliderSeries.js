@@ -3,7 +3,7 @@ import {StyleSheet, View, Image, Text, FlatList, Dimensions, TouchableOpacity} f
 import * as React from "react";
 import SliderItem from "./SliderItem";
 
-const { width, height} = Dimensions.get('screen')
+const { width, height} = Dimensions.get('window')
 
 const Separator = () => {
     return <View style={styles.separator} />;
@@ -63,7 +63,7 @@ export default function SliderSeries() {
     return (
         <View style={styles.sliderSeries}>
             <FlatList
-                style={styles.sliderSeries__container}
+                style={[styles.sliderSeries__container, {width: width - 200}]}
                 contentContainerStyle={styles.listContent}
                 data={series}
                 keyExtractor={(_, index) => index.toString()}
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     },
     sliderSeries__container: {
         width: width - 200,
+        //width: '100%' - 200,
     },
     listContent: {
         flexGrow: 1,
