@@ -2,12 +2,10 @@ import { useEffect, useRef } from "react";
 import {
   Animated,
   Dimensions,
-  Image,
   ImageBackground,
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
 } from "react-native";
 
 export default function TwoScene({ click }) {
@@ -16,15 +14,21 @@ export default function TwoScene({ click }) {
   const fadeOrelTranslateX = useRef(new Animated.Value(0)).current;
   const fadeOrelTranslateY = useRef(new Animated.Value(0)).current;
 
-  const animOpacity = () => {
+  useEffect(() => {
+    animScale();
+    animTranslateX();
+    animTranslateY();
+    animOpacity();
+  }, [click]);
+
+  function animOpacity (){
     Animated.timing(fadeAnimOpacity, {
       toValue: 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  };
-
-  const animTranslateX = () => {
+  }
+  function animTranslateX (){
     Animated.sequence([
       Animated.timing(fadeOrelTranslateX, {
         toValue: click
@@ -39,8 +43,8 @@ export default function TwoScene({ click }) {
         useNativeDriver: false,
       }),
     ]).start();
-  };
-  const animTranslateY = () => {
+  }
+  function animTranslateY (){
     Animated.sequence([
       Animated.timing(fadeOrelTranslateY, {
         toValue: click
@@ -55,9 +59,9 @@ export default function TwoScene({ click }) {
         useNativeDriver: false,
       }),
     ]).start();
-  };
+  }
 
-  const animScale = () => {
+  function animScale () {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.sequence([
       Animated.timing(fadeAnimScale, {
@@ -73,14 +77,7 @@ export default function TwoScene({ click }) {
     ]).start((event) => {
       if (event.finished) animScale();
     });
-  };
-
-  useEffect(() => {
-    animScale();
-    animTranslateX();
-    animTranslateY();
-    animOpacity();
-  }, [click]);
+  }
 
   return (
     <SafeAreaView style={styles.wrapper}>

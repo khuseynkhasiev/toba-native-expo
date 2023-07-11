@@ -6,23 +6,21 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
 } from "react-native";
 
 export default function ThreeScene({ click }) {
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
-  const animOpacity = () => {
+  useEffect(() => {
+    animOpacity();
+  }, [click]);
+  function animOpacity (){
     Animated.timing(fadeAnimOpacity, {
       toValue: click ? 0 : 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
-  };
-
-  useEffect(() => {
-    animOpacity();
-  }, [click]);
+  }
 
   return (
     <SafeAreaView style={styles.wrapper}>
