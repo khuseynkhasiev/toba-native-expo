@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "toba-native",
-    "slug": "toba-native",
+    "name": "comics-toba",
+    "slug": "comics-toba",
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
@@ -15,16 +15,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.khuseynkhasiev.tobanative"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.khuseynkhasiev.tobanative"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9a096240-c3ae-427f-988e-737cf2ff550a"
+      }
     }
   }
 }
