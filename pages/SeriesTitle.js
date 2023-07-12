@@ -12,10 +12,6 @@ import SliderSeries from "../components/SliderSeries";
 const { width, height} = Dimensions.get('window')
 
 export default function SeriesTitle({ navigation }) {
-    let titleImg = require('../assets/image/title.jpg');
-    let seriesTwo = require('../assets/image/series-one.png');
-
-export default function SeriesTitle({ navigation }) {
     return (
         <View style={styles.series}>
             <ImageBackground

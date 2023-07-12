@@ -17,12 +17,12 @@ export default function Profile({ navigation }) {
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
                     <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.profile__libraryBtn} onPress={() => navigation.navigate('Library')}>
+{/*                <TouchableOpacity style={styles.profile__libraryBtn} onPress={() => navigation.navigate('Library')}>
                     <Image style={styles.profile__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
                     <Text style={styles.profile__text}>БИБЛИОТЕКА</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.profile__seriesBtn} onPress={() => navigation.navigate('Series')}>
-                    <Text style={styles.profile__text}>ЧИТАТЬ</Text>
+                </TouchableOpacity>*/}
+                <TouchableOpacity style={styles.profile__seriesBtn} onPress={() => navigation.navigate('Settings')}>
+                    <Text style={styles.profile__text}>НАСТРОЙКИ</Text>
                     <Image style={styles.profile__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
                 </TouchableOpacity>
             </View>
