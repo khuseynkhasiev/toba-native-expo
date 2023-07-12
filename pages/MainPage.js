@@ -6,8 +6,44 @@ import {
     Text,
     TouchableOpacity, View,
 } from 'react-native';
+import { Audio } from 'expo-av';
+import {useEffect, useState} from "react";
+import PlayBackgroundMusic from '../components/store/PlayBackgroundMusic';
+import {observer} from "mobx-react-lite";
 
-export default function MainPage({ navigation }) {
+const MainPage = observer(({ navigation }) => {
+    const [sound, setSound] = useState(null);
+
+    // запуск фоновой музыки
+    useEffect(() => {
+        const playSound = async () => {
+            try {
+                const { sound } = await Audio.Sound.createAsync(
+                    require('../assets/music/baraban-background.mp3'),
+                    { shouldPlay: true, isLooping: true }
+                );
+                setSound(sound);
+            } catch (error) {
+                console.warn('Error playing sound: ', error);
+            }
+        };
+
+        const stopSound = async () => {
+            if (sound) {
+                await sound.stopAsync();
+                sound.unloadAsync();
+                setSound(null);
+            }
+        };
+
+        if (PlayBackgroundMusic.play) {
+            if (!sound) {
+                playSound();
+            }
+        } else {
+            stopSound();
+        }
+    }, [PlayBackgroundMusic.play]);
     return (
         <SafeAreaView style={styles.main}>
             <View style={styles.main__textContainer}>
@@ -30,7 +66,7 @@ export default function MainPage({ navigation }) {
             </View>
         </SafeAreaView>
     )
-}
+})
 
 const styles = StyleSheet.create({
     main__container: {
@@ -117,3 +153,5 @@ const styles = StyleSheet.create({
         letterSpacing: 5,
     },
 });
+
+export default MainPage;

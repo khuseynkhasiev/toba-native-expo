@@ -10,6 +10,7 @@ import MainPage from "./pages/MainPage";
 import SeriesOnePage from "./pages/SeriesOnePage";
 import LibraryPage from "./pages/LibraryPage";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 const Stack = createStackNavigator();
 
@@ -73,6 +74,18 @@ export default function Navigate() {
               CardStyleInterpolators.forFadeFromBottomAndroid,
           }}
         />
+          <Stack.Screen
+              name="Settings"
+              component={Settings}
+              options={{
+                  title: "Настройки",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
         <Stack.Screen
           name="SeriesOne"
           component={SeriesOnePage}
