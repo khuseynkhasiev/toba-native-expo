@@ -4,7 +4,8 @@ import {
     SafeAreaView,
     StyleSheet,
     Text,
-    TouchableOpacity, View,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { Audio } from 'expo-av';
 import {useEffect, useState} from "react";

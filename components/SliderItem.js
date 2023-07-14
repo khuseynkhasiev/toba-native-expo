@@ -6,7 +6,7 @@ import PlayBackgroundMusic from "./store/PlayBackgroundMusic";
 
 const { width, height} = Dimensions.get('window');
 const itemWidth = (width - 200 - 44) / 3;
-
+const sliderHeight = height * 0.7;
 export default function SliderItem({item}) {
 
     const navigation = useNavigation();
@@ -20,15 +20,15 @@ export default function SliderItem({item}) {
     }
 
     return (
-        <TouchableOpacity style={[styles.series__container, { width: itemWidth }]} onPress={() => handleClick()}>
+        <TouchableOpacity style={[styles.series__container, { width: itemWidth, height: sliderHeight }]} onPress={() => handleClick()}>
             <ImageBackground
                 style={styles.series__titleBackground}
                 source={require('../assets/image/seriesTitileBackground.png')}
                 resizeMode="cover"
                 blurRadius={5}
             >
-                <Image style={styles.seriesImg} source={item.img} resizeMode="contain"/>
-                <View>
+                <Image style={styles.series__seriesImg} source={item.img} resizeMode="contain"/>
+                <View style={styles.series__info}>
                     <Text style={styles.series__nameSeries}>{item.title}</Text>
                     <Text style={styles.series__subtitle}>{item.subtitle}</Text>
                 </View>
@@ -45,22 +45,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    series__info: {
+        height: sliderHeight / 2 - 10
+    },
     series__container: {
         columnGap: 50,
         //width: 200,
-        height: 250,
+        //height: 250,
         backdropFilter: 'blur(5px)',
         width: itemWidth,
         borderRadius: 5,
         overflow: 'hidden',
     },
-    seriesImg: {
+    series__seriesImg: {
         maxWidth: 400,
         //width: 100,
         width: itemWidth - 10,
-        height: 134,
+        //height: 134,
+        height: sliderHeight / 2,
         margin: 'auto',
-        marginTop: 19,
+        marginTop: 20,
         marginBottom: 10,
         //borderRadius: 5,
         resizeMode: 'contain'
@@ -82,6 +86,6 @@ const styles = StyleSheet.create({
         fontWeight: 300,
         width: itemWidth - 10,
         padding: 10,
-        textAlign: 'center'
+        textAlign: 'center',
     }
 });
