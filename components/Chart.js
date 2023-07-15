@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { View, StyleSheet } from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
 const Chart = () => {
 
     const [redLine, setRedLine] = useState(0);
-    const [greenLine, setGreenLine] = useState(0);
-    const [blueLine, setBlueLine] = useState(0);
+    const [greenLine, setGreenLine] = useState(30);
+    const [blueLine, setBlueLine] = useState(15);
 
     useEffect(() => {
         growthChartBlue();
@@ -17,7 +17,7 @@ const Chart = () => {
             for (let i=0; i < 100; i++){
                 setTimeout(() => {
                     setRedLine(redLine + 1);
-                }, 40)
+                }, 30)
             }
         }
     }
@@ -26,7 +26,7 @@ const Chart = () => {
             for (let i=0; i < 100; i++){
                 setTimeout(() => {
                     setGreenLine(greenLine + 1);
-                }, 30)
+                }, 0)
             }
         }
     }
@@ -35,7 +35,7 @@ const Chart = () => {
             for (let i=0; i < 100; i++){
                 setTimeout(() => {
                     setBlueLine(blueLine + 1);
-                }, 25)
+                }, 80)
             }
         }
     }
@@ -43,15 +43,24 @@ const Chart = () => {
     return (
         <View style={styles.chartContainer}>
             <View style={[styles.segment, styles.blueSegment , {height: blueLine}]} />
+            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{blueLine}</Text>
             <View style={[styles.segment, styles.redSegment, {height: redLine}]} />
+            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{redLine}</Text>
             <View style={[styles.segment, styles.greenSegment, {height: greenLine}]} />
+            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{greenLine}</Text>
+            <View style={[styles.segment, styles.blueSegment , {height: blueLine}]} />
+            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{blueLine}</Text>
+            <View style={[styles.segment, styles.redSegment, {height: redLine}]} />
+            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{redLine}</Text>
+            <View style={[styles.segment, styles.greenSegment, {height: greenLine}]} />
+            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{greenLine}</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     chartContainer: {
-        width: '15%',
+        width: '40%',
         height: 110,
         flexDirection: 'row',
         justifyContent: 'center',
@@ -59,29 +68,35 @@ const styles = StyleSheet.create({
         backgroundColor: '#e0e0e0',
         borderRadius: 10,
         padding: 5,
-        top: '20%',
-        left: '10%',
+        top: '25%',
+        left: '15%',
         position: "absolute",
-        zIndex: 3
+        zIndex: 1
     },
     segment: {
         flex: 1,
-        marginHorizontal: 2,
-        borderRadius: 5,
+        marginHorizontal: 5,
+        borderRadius: 2,
     },
     blueSegment: {
-        backgroundColor: 'blue',
+        //backgroundColor: 'blue',
         width: 10,
+        borderColor: 'blue',
+        borderWidth: 3
         //height: blueLine
     },
     redSegment: {
-        backgroundColor: 'red',
+        //backgroundColor: 'red',
         width: 10,
+        borderColor: 'red',
+        borderWidth: 3
         //height: redLine
     },
     greenSegment: {
-        backgroundColor: 'green',
+        //backgroundColor: 'green',
         width: 10,
+        borderColor: 'green',
+        borderWidth: 3
         //height: greenLine
     },
 });
