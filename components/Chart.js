@@ -43,17 +43,17 @@ const Chart = () => {
     return (
         <View style={styles.chartContainer}>
             <View style={[styles.segment, styles.blueSegment , {height: blueLine}]} />
-            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{blueLine}</Text>
+            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{blueLine}</Text>
             <View style={[styles.segment, styles.redSegment, {height: redLine}]} />
-            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{redLine}</Text>
+            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{redLine}</Text>
             <View style={[styles.segment, styles.greenSegment, {height: greenLine}]} />
-            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{greenLine}</Text>
+            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{greenLine}</Text>
             <View style={[styles.segment, styles.blueSegment , {height: blueLine}]} />
-            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{blueLine}</Text>
+            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{blueLine}</Text>
             <View style={[styles.segment, styles.redSegment, {height: redLine}]} />
-            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{redLine}</Text>
+            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{redLine}</Text>
             <View style={[styles.segment, styles.greenSegment, {height: greenLine}]} />
-            <Text style={[{fontsize: 13}, {color: 'white'}, {width: 30}]}>{greenLine}</Text>
+            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{greenLine}</Text>
         </View>
     );
 };

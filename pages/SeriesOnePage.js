@@ -6,7 +6,7 @@ import ThreeScene from "../components/SeriesOne/ThreeScene";
 import FourScene from "../components/SeriesOne/FourScene";
 
 export default function SeriesOnePage() {
-  const [counter, setCounter] = useState(2);
+  const [counter, setCounter] = useState(1);
   const [click, setClick] = useState(false);
 
   const handleCounter = (value) => {
@@ -34,7 +34,7 @@ export default function SeriesOnePage() {
         onPress={() => handleCounter("inc")}
       ></TouchableOpacity>
 
-{/*      {counter === 1 && <OneScene click={click} />}*/}
+      {counter === 1 && <OneScene click={click} />}
       {counter === 2 && <TwoScene click={click} />}
 {/*      {counter === 3 && <ThreeScene click={click} />}
       {counter === 4 && <FourScene click={click} />}*/}

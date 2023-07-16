@@ -3,17 +3,17 @@ import {
   Animated,
   SafeAreaView,
   StyleSheet,
-  Text,
+  Text, View,
 } from "react-native";
+import {Video} from "expo-av";
+import * as React from "react";
+import Intro from "../Intro";
 
 export default function OneScene({ click }) {
-  const fadeAnimScale = useRef(new Animated.Value(1)).current;
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
-  const titleImg = require('../../assets/image/title.jpg');
   const animOpacity = () => {
     useEffect(() => {
-      animScale();
       animOpacity();
     }, [click]);
 
@@ -24,43 +24,21 @@ export default function OneScene({ click }) {
         useNativeDriver: false,
       }).start();
     }
-
-    function animScale() {
-      // Will change fadeAnim value to 1 in 5 seconds
-      Animated.sequence([
-        Animated.timing(fadeAnimScale, {
-          toValue: 3,
-          duration: 10000,
-          delay: 500,
-          useNativeDriver: false,
-        }),
-        Animated.timing(fadeAnimScale, {
-          toValue: 1,
-          duration: 5000,
-          useNativeDriver: false,
-        }),
-      ]).start((event) => {
-        if (event.finished) animScale();
-      });
-    }
+    //
+    const video = React.useRef(null);
+    const [status, setStatus] = React.useState({});
+    useEffect(() => {
+      video.current.playAsync();
+    })
+    //
 
     return (
         <SafeAreaView style={styles.wrapper}>
           <Animated.View style={[styles.container, {opacity: fadeAnimOpacity}]}>
-            <Animated.Image
-                style={[
-                  styles.backgroundImg,
-                  {transform: [{scale: fadeAnimScale}]},
-                ]}
-                source={require("../../assets/scene/1/1.png")}
-
-            />
-            <Text style={styles.dialog}>
-              МНЕ СНЯТСЯ СЧАСТЛИВЫЕ СНЫ. В НИХ НЕБО ЧИСТОЕ И НЕ ЗАПЯТНАНО ГРЯЗНЫМ
-              ДЫХАНИЕМ ГОРОДА.
-            </Text>
+            <Intro />
           </Animated.View>
         </SafeAreaView>
+
     );
   }
 

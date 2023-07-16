@@ -102,9 +102,7 @@ export default function TwoScene({ click }) {
             source={require("../../assets/image/oneseries/twoscene/man.png")}
         />
         { chart && <Chart />}
-        { chart && <Text style={styles.dialog}>
-          Новые технологии
-        </Text>}
+        { chart && <Text style={styles.dialog}>Новые технологии</Text>}
       </Animated.View>
     </SafeAreaView>
   );

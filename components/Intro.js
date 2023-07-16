@@ -28,8 +28,8 @@ export default function Intro (){
                 isLooping
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
             />
-    </View>
-    )
+        </View>
+        )
 }
 const styles = StyleSheet.create({
     container: {
