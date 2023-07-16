@@ -10,9 +10,7 @@ export default function SeriesOnePage() {
   const [click, setClick] = useState(false);
 
   const handleCounter = (value) => {
-
     setClick(true);
-
     setTimeout(() => {
       setClick(false);
       if (value === "inc") {
@@ -35,10 +33,11 @@ export default function SeriesOnePage() {
         style={styles.btnLeft}
         onPress={() => handleCounter("inc")}
       ></TouchableOpacity>
+
       {counter === 1 && <OneScene click={click} />}
       {counter === 2 && <TwoScene click={click} />}
-      {counter === 3 && <ThreeScene click={click} />}
-      {counter === 4 && <FourScene click={click} />}
+{/*      {counter === 3 && <ThreeScene click={click} />}
+      {counter === 4 && <FourScene click={click} />}*/}
     </SafeAreaView>
   );
 }
