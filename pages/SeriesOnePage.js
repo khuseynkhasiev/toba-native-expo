@@ -36,8 +36,8 @@ export default function SeriesOnePage() {
 
       {counter === 1 && <OneScene click={click} />}
       {counter === 2 && <TwoScene click={click} />}
-{/*      {counter === 3 && <ThreeScene click={click} />}
-      {counter === 4 && <FourScene click={click} />}*/}
+      {counter === 3 && <ThreeScene click={click} />}
+      {/*{counter === 4 && <FourScene click={click} />}*/}
     </SafeAreaView>
   );
 }
