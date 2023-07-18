@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 const Chart = () => {
-
     const [redLine, setRedLine] = useState(0);
     const [greenLine, setGreenLine] = useState(30);
     const [blueLine, setBlueLine] = useState(15);
@@ -17,7 +16,7 @@ const Chart = () => {
             for (let i=0; i < 100; i++){
                 setTimeout(() => {
                     setRedLine(redLine + 1);
-                }, 30)
+                }, 20)
             }
         }
     }
@@ -35,33 +34,39 @@ const Chart = () => {
             for (let i=0; i < 100; i++){
                 setTimeout(() => {
                     setBlueLine(blueLine + 1);
-                }, 80)
+                }, 60)
             }
         }
     }
 
     return (
-        <View style={styles.chartContainer}>
-            <View style={[styles.segment, styles.blueSegment , {height: blueLine}]} />
-            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{blueLine}</Text>
-            <View style={[styles.segment, styles.redSegment, {height: redLine}]} />
-            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{redLine}</Text>
-            <View style={[styles.segment, styles.greenSegment, {height: greenLine}]} />
-            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{greenLine}</Text>
-            <View style={[styles.segment, styles.blueSegment , {height: blueLine}]} />
-            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{blueLine}</Text>
-            <View style={[styles.segment, styles.redSegment, {height: redLine}]} />
-            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{redLine}</Text>
-            <View style={[styles.segment, styles.greenSegment, {height: greenLine}]} />
-            <Text style={[{fontSize: 13}, {color: 'white'}, {width: 30}]}>{greenLine}</Text>
+        <View style={styles.chart__container}>
+            <View style={[styles.segment, styles.chart__blueSegment , {height: blueLine}]} />
+            <Text style={styles.chart__text}>{blueLine}</Text>
+            <View style={[styles.segment, styles.chart__redSegment, {height: redLine}]} />
+            <Text style={styles.chart__text}>{redLine}</Text>
+            <View style={[styles.segment, styles.chart__greenSegment, {height: greenLine}]} />
+            <Text style={styles.chart__text}>{greenLine}</Text>
+            <View style={[styles.segment, styles.chart__blueSegment , {height: blueLine}]} />
+            <Text style={styles.chart__text}>{blueLine}</Text>
+            <View style={[styles.segment, styles.chart__redSegment, {height: redLine}]} />
+            <Text style={styles.chart__text}>{redLine}</Text>
+            <View style={[styles.segment, styles.chart__greenSegment, {height: greenLine}]} />
+            <Text style={styles.chart__text}>{greenLine}</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    chartContainer: {
+    chart__text: {
+        fontSize: 13,
+        color: 'white',
+        width: 30
+    },
+    chart__container: {
         width: '40%',
         height: 110,
+        fontWeight: 'bold',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'flex-end',
@@ -73,30 +78,33 @@ const styles = StyleSheet.create({
         position: "absolute",
         zIndex: 1
     },
-    segment: {
+    chart__segment: {
         flex: 1,
         marginHorizontal: 5,
         borderRadius: 2,
     },
-    blueSegment: {
-        //backgroundColor: 'blue',
+    chart__blueSegment: {
+        backgroundColor: 'blue',
         width: 10,
-        borderColor: 'blue',
-        borderWidth: 3
+        /*borderColor: 'blue',
+        borderWidth: 3*/
+        borderRadius: 2
         //height: blueLine
     },
-    redSegment: {
-        //backgroundColor: 'red',
+    chart__redSegment: {
+        backgroundColor: 'red',
         width: 10,
-        borderColor: 'red',
-        borderWidth: 3
+        /*borderColor: 'red',
+        borderWidth: 3*/
+        borderRadius: 2
         //height: redLine
     },
-    greenSegment: {
-        //backgroundColor: 'green',
+    chart__greenSegment: {
+        backgroundColor: 'green',
         width: 10,
-        borderColor: 'green',
-        borderWidth: 3
+        /*borderColor: 'green',
+        borderWidth: 3*/
+        borderRadius: 2
         //height: greenLine
     },
 });

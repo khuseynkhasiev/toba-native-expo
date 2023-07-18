@@ -54,18 +54,18 @@ export default function TwoScene({ click }) {
   function startTwoBack(){
     setTimeout(() => {
       setTwoBack(true)
-    }, 2000)
+    }, 1000)
   }
   function startManBack(){
     setTimeout(() => {
       setMan(true);
       fadeIn();
-    }, 1800)
+    }, 1000)
   }
   function startChartBack(){
     setTimeout(() => {
       setChart(true)
-    }, 4450)
+    }, 3650)
   }
 
   function animOpacity(){
@@ -79,7 +79,7 @@ export default function TwoScene({ click }) {
   return (
     <SafeAreaView style={styles.wrapper}>
       <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
-        {circleChart && <Image
+        {chart && <Image
             style={styles.twoScene__circleImg}
             source={require("../../assets/image/oneseries/twoscene/circrle-chart.png")}
         />}
