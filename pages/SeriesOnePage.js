@@ -14,18 +14,16 @@ export default function SeriesOnePage() {
     setTimeout(() => {
       setClick(false);
       if (value === "inc") {
-        setCounter(counter + 1)
-      }
-      else if (value === "dec" && counter > 1)
-        {
+        setCounter(counter + 1);
+      } else if (value === "dec" && counter > 1) {
         setCounter(counter - 1);
-        }
+      }
     }, 1000);
   };
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
-          disabled={counter <= 1}
+        disabled={counter <= 1}
         style={styles.btnRight}
         onPress={() => handleCounter("dec")}
       ></TouchableOpacity>

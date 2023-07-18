@@ -1,61 +1,79 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, Dimensions } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  Dimensions,
+  Animated,
+} from "react-native";
 import LottieView from "lottie-react-native";
 
-const { width, height} = Dimensions.get('window')
+const { width, height } = Dimensions.get("window");
 
 export default function OneScene({ click }) {
-    const [animationLoaded, setAnimationLoaded] = useState(false);
+  const [animationLoaded, setAnimationLoaded] = useState(false);
+  const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
-    useEffect(() => {
-        setAnimationLoaded(true);
-    }, []);
+  const animOpacity = () => {
+    Animated.timing(fadeAnimOpacity, {
+      toValue: click ? 0 : 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  };
 
-    return (
-        <SafeAreaView style={styles.container}>
-                {animationLoaded ? (
-                    <LottieView
-                        source={require("../../assets/animated/three-scene/vzriv.json")}
-                        autoPlay
-                        loop
-                        style={{
-                            width: width,
-                            aspectRatio: width / height,
-                            flexGrow: 1,
-                            alignSelf: 'center',
-                        }}
-                        resizeMode="cover"
-                    />
-                ) : (
-                    <Text>Загрузка ...</Text>
-                )}
-            <Text style={styles.dialog}>Новые технологии</Text>
-        </SafeAreaView>
-    );
+  useEffect(() => {
+    setAnimationLoaded(true);
+    animOpacity();
+  }, [click]);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Animated.View style={{ opacity: fadeAnimOpacity }}>
+        {animationLoaded ? (
+          <LottieView
+            source={require("../../assets/animated/one-scene/one.json")}
+            autoPlay
+            loop
+            style={{
+              width: width,
+              aspectRatio: width / height,
+              flexGrow: 1,
+              alignSelf: "center",
+            }}
+            resizeMode="cover"
+          />
+        ) : (
+          <Text>Загрузка ...</Text>
+        )}
+        <Text style={styles.dialog}>Новые технологии</Text>
+      </Animated.View>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'blue',
-        flex: 1,
-        alignItems: 'center'
-    },
-    animation: {
-        width: width,
-        aspectRatio: width / height,
-        flexGrow: 1,
-        alignSelf: 'center',
-        resizeMode: 'cover'
-    },
-    dialog: {
-        top: "5%",
-        right: "10%",
-        width: "25%",
-        position: "absolute",
-        backgroundColor: "white",
-        textAlign: "center",
-        borderRadius: 5,
-        zIndex: 3,
-        padding: 10,
-    },
+  wrapper: {
+    width: "100%",
+    height: "100%",
+    overflow: "hidden",
+  },
+  container: {
+    width: "100%",
+    height: "100%",
+  },
+  dialog: {
+    top: "20%",
+    left: "35%",
+    width: "30%",
+    position: "absolute",
+    backgroundColor: "white",
+    textAlign: "center",
+    borderRadius: 5,
+    padding: 10,
+  },
+  backgroundImg: {
+    width: "100%",
+    height: "100%",
+  },
 });
