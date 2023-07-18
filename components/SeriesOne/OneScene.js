@@ -1,17 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  Dimensions,
-  Animated,
-} from "react-native";
-import LottieView from "lottie-react-native";
+import { StyleSheet, View, Text, Animated } from "react-native";
+import React, { useRef } from "react";
 
-const { width, height } = Dimensions.get("window");
+import { Video } from "expo-av";
+import { useEffect } from "react";
 
-export default function OneScene({ click }) {
-  const [animationLoaded, setAnimationLoaded] = useState(false);
+export default function OneScene({click}) {
+  const video = React.useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
   const animOpacity = () => {
@@ -21,46 +15,38 @@ export default function OneScene({ click }) {
       useNativeDriver: false,
     }).start();
   };
-
+  const [status, setStatus] = React.useState({});
   useEffect(() => {
-    setAnimationLoaded(true);
+    video.current.playAsync();
     animOpacity();
   }, [click]);
-
   return (
-    <SafeAreaView style={styles.container}>
-      <Animated.View style={{ opacity: fadeAnimOpacity }}>
-        {animationLoaded ? (
-          <LottieView
-            source={require("../../assets/animated/one-scene/one.json")}
-            autoPlay
-            loop
-            style={{
-              width: width,
-              aspectRatio: width / height,
-              flexGrow: 1,
-              alignSelf: "center",
-            }}
-            resizeMode="cover"
-          />
-        ) : (
-          <Text>Загрузка ...</Text>
-        )}
-        <Text style={styles.dialog}>Новые технологии</Text>
-      </Animated.View>
-    </SafeAreaView>
+    <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
+      <Video
+        ref={video}
+        style={styles.backgroundVideo}
+        source={require("../../assets/video/one.mp4")}
+        useNativeControls={false}
+        autoPlay={true}
+        resizeMode="cover"
+        isLooping
+        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+      />
+      <View style={styles.dialog}>
+        <Text>Тут начался бой</Text>
+      </View>
+    </Animated.View>
   );
 }
-
 const styles = StyleSheet.create({
-  wrapper: {
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-  },
   container: {
-    width: "100%",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backgroundVideo: {
     height: "100%",
+    width: "100%",
   },
   dialog: {
     top: "20%",
@@ -71,9 +57,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderRadius: 5,
     padding: 10,
-  },
-  backgroundImg: {
-    width: "100%",
-    height: "100%",
   },
 });
