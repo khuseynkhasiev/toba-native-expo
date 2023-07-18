@@ -14,18 +14,16 @@ export default function SeriesOnePage() {
     setTimeout(() => {
       setClick(false);
       if (value === "inc") {
-        setCounter(counter + 1)
-      }
-      else if (value === "dec" && counter > 1)
-        {
+        setCounter(counter + 1);
+      } else if (value === "dec" && counter > 1) {
         setCounter(counter - 1);
-        }
+      }
     }, 1000);
   };
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
-          disabled={counter <= 1}
+        disabled={counter <= 1}
         style={styles.btnRight}
         onPress={() => handleCounter("dec")}
       ></TouchableOpacity>
@@ -36,7 +34,7 @@ export default function SeriesOnePage() {
 
       {counter === 1 && <OneScene click={click} />}
       {counter === 2 && <TwoScene click={click} />}
-{/*      {counter === 3 && <ThreeScene click={click} />}
+      {/*      {counter === 3 && <ThreeScene click={click} />}
       {counter === 4 && <FourScene click={click} />}*/}
     </SafeAreaView>
   );
