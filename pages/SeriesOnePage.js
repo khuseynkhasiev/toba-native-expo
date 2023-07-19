@@ -4,6 +4,8 @@ import OneScene from "../components/SeriesOne/OneScene";
 import TwoScene from "../components/SeriesOne/TwoScene";
 import ThreeScene from "../components/SeriesOne/ThreeScene";
 import FourScene from "../components/SeriesOne/FourScene";
+import FiveScene from  "../components/SeriesOne/FiveScene";
+import SixScene from "../components/SeriesOne/SixScene";
 
 export default function SeriesOnePage() {
   const [counter, setCounter] = useState(1);
@@ -35,7 +37,9 @@ export default function SeriesOnePage() {
       {counter === 1 && <OneScene click={click} />}
       {counter === 2 && <TwoScene click={click} />}
       {counter === 3 && <ThreeScene click={click} />}
-      {/*{counter === 4 && <FourScene click={click} />}*/}
+      {counter === 4 && <FourScene click={click} />}
+      {counter === 5 && <FiveScene click={click} counter={setCounter} />}
+      {counter === 6 && <SixScene click={click} />}
     </SafeAreaView>
   );
 }

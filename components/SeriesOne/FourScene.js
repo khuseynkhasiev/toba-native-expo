@@ -1,103 +1,82 @@
-import {useEffect, useRef, useState} from "react";
-import {
-    Animated,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-} from "react-native";
+import {StyleSheet, Animated, Text} from "react-native";
+import React, {useRef, useEffect, useState} from "react";
 
-export default function FourScene ({ click }) {
-    const open = require("../../assets/scene/4/2.png");
-    const close = require("../../assets/scene/4/1.png");
-    const fadeAnimScale = useRef(new Animated.Value(1)).current;
+import { Video } from "expo-av";
+
+export default function FourScene({ click }) {
+    const [isActiveDialog, setIsActiveDialog] = useState(false)
+    const video = useRef(null);
     const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
-    const [back, setBack] = useState(close);
-    const [time, setTime] = useState(false);
 
-    useEffect(() => {
-        animScale();
-        animOpacity();
-        setTimeout(() => {
-            setTime(true);
-        }, 2000)
-        setTimeout(() => {
-            setBack(open);
-        }, 3500)
-    }, [click, time]);
-
-    function animScale(){
-        Animated.sequence([
-            Animated.timing(fadeAnimScale, {
-                toValue: 3,
-                duration: 1800,
-                delay: 500,
-                useNativeDriver: false,
-            }),
-        ]).start();
-    }
-    function animOpacity (){
+    const animOpacity = () => {
         Animated.timing(fadeAnimOpacity, {
-            toValue: time ? 0 : 1,
+            toValue: click ? 0 : 1,
             duration: 1000,
             useNativeDriver: false,
         }).start();
-    }
+    };
+
+    const [status, setStatus] = React.useState({});
+
+    useEffect(() => {
+        const prepare = async () => {
+            try {
+                await video.current?.playAsync();
+                animOpacity();
+            } catch (error) {
+                console.warn(error);
+            }
+        };
+        prepare();
+
+        setTimeout(() => {
+            setIsActiveDialog(true);
+        }, 8100)
+    }, [click]);
 
     return (
-        <SafeAreaView style={styles.wrapper}>
-            <Animated.View style={[styles.container_one, { opacity: fadeAnimOpacity }]}>
-                <Animated.Image
-                    style={[
-                        styles.backgroundImg,
-                        { transform: [{ scale: fadeAnimScale }] },
-                    ]}
-                    source={require("../../assets/scene/4/people.png")}
-                />
-            </Animated.View>
+        <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
+            <Video
+                ref={video}
+                style={styles.backgroundVideo}
+                source={require("../../assets/video/cosmos.mp4")}
+                useNativeControls={false}
+                resizeMode="cover"
+                isLooping={false}
+                onPlaybackStatusUpdate={(status) => setStatus(status)}
+            />
             {
-                time &&
-                <Animated.View style={styles.container}>
-                    <Animated.Image
-                        style={styles.backgroundImg}
-                        source={back}
-                    />
-                    <Text style={styles.dialog}>
-                        В МОИХ СНАХ МАМА ВСЁ ЕЩЕ ЖИВА.
-                    </Text>
-                </Animated.View>
+                isActiveDialog && <Text style={styles.dialog}>Новые технологии</Text>
             }
-        </SafeAreaView>
+        </Animated.View>
     );
 }
 
 const styles = StyleSheet.create({
-    container_one: {
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        zIndex: 1,
-    },
-    wrapper: {
-        width: "100%",
-        height: "100%",
-        overflow: "hidden",
-    },
     container: {
-        width: "100%",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    backgroundVideo: {
+        position: "absolute",
         height: "100%",
+        width: "100%",
+    },
+    twoScene__titleImg: {
+        position: "absolute",
+        height: "100%",
+        width: "100%",
     },
     dialog: {
-        top: "20%",
-        left: "35%",
-        width: "30%",
+        top: "10%",
+        right: "10%",
+        width: "25%",
         position: "absolute",
         backgroundColor: "white",
         textAlign: "center",
         borderRadius: 5,
+        //zIndex: 3,
         padding: 10,
-    },
-    backgroundImg: {
-        width: "100%",
-        height: "100%",
     },
 });

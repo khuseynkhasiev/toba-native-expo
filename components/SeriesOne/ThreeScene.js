@@ -1,9 +1,10 @@
-import { StyleSheet, Animated } from "react-native";
-import React, { useRef, useEffect } from "react";
+import {StyleSheet, Animated, Text} from "react-native";
+import React, { useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
 
 export default function ThreeScene({ click }) {
+  const [isActiveDialog, setIsActiveDialog] = useState(false);
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
@@ -27,6 +28,10 @@ export default function ThreeScene({ click }) {
       }
     };
     prepare();
+
+    setTimeout(() => {
+      setIsActiveDialog(true);
+    }, 3500)
   }, [click]);
 
   return (
@@ -34,12 +39,16 @@ export default function ThreeScene({ click }) {
         <Video
             ref={video}
             style={styles.backgroundVideo}
-            source={require("../../assets/video/vzriv.mp4")}
+            source={require("../../assets/video/bio.mp4")}
             useNativeControls={false}
             resizeMode="cover"
             isLooping
+            rate={1.5}
             onPlaybackStatusUpdate={(status) => setStatus(status)}
         />
+        {
+            isActiveDialog && <Text style={styles.dialog}>Новые технологии</Text>
+        }
       </Animated.View>
   );
 }
