@@ -1,60 +1,58 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, View, Text, Dimensions } from "react-native";
-import LottieView from "lottie-react-native";
+import { StyleSheet, Animated } from "react-native";
+import React, { useRef, useEffect } from "react";
 
-const { width, height} = Dimensions.get('window')
+import { Video } from "expo-av";
 
-export default function OneScene({ click }) {
-  const [animationLoaded, setAnimationLoaded] = useState(false);
+export default function ThreeScene({ click }) {
+  const video = useRef(null);
+  const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
+
+  const animOpacity = () => {
+    Animated.timing(fadeAnimOpacity, {
+      toValue: click ? 0 : 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const [status, setStatus] = React.useState({});
 
   useEffect(() => {
-    setAnimationLoaded(true);
-  }, []);
+    const prepare = async () => {
+      try {
+        await video.current?.playAsync();
+        animOpacity();
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+    prepare();
+  }, [click]);
 
   return (
-      <SafeAreaView style={styles.container}>
-        {animationLoaded ? (
-            <LottieView
-                source={require("../../assets/animated/three-scene/vzriv.json")}
-                autoPlay
-                loop
-                style={{
-                  width: width,
-                  aspectRatio: width / height,
-                  flexGrow: 1,
-                  alignSelf: 'center',
-                }}
-                resizeMode="cover"
-            />
-        ) : (
-            <Text>Загрузка ...</Text>
-        )}
-        <Text style={styles.dialog}>Бдддж... Взрыв ядерной бомбы</Text>
-      </SafeAreaView>
+      <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
+        <Video
+            ref={video}
+            style={styles.backgroundVideo}
+            source={require("../../assets/video/vzriv.mp4")}
+            useNativeControls={false}
+            resizeMode="cover"
+            isLooping
+            onPlaybackStatusUpdate={(status) => setStatus(status)}
+        />
+      </Animated.View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'blue',
     flex: 1,
-    alignItems: 'center'
+    alignItems: "center",
+    justifyContent: "center",
   },
-  animation: {
-    width: width,
-    aspectRatio: width / height,
-    flexGrow: 1,
-    alignSelf: 'center',
-    resizeMode: 'cover'
-  },
-  dialog: {
-    top: "5%",
-    right: "10%",
-    width: "25%",
+  backgroundVideo: {
     position: "absolute",
-    backgroundColor: "white",
-    textAlign: "center",
-    borderRadius: 5,
-    zIndex: 3,
-    padding: 10,
+    height: "100%",
+    width: "100%",
   },
 });

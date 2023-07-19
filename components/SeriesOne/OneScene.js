@@ -1,11 +1,10 @@
 import { StyleSheet, View, Text, Animated } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 
 import { Video } from "expo-av";
-import { useEffect } from "react";
 
-export default function OneScene({click}) {
-  const video = React.useRef(null);
+export default function OneScene({ click }) {
+  const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
   const animOpacity = () => {
@@ -15,29 +14,37 @@ export default function OneScene({click}) {
       useNativeDriver: false,
     }).start();
   };
+
   const [status, setStatus] = React.useState({});
+
   useEffect(() => {
-    video.current.playAsync();
-    animOpacity();
+    const prepare = async () => {
+      try {
+        await video.current?.playAsync();
+        animOpacity();
+      } catch (error) {
+        console.warn(error);
+      }
+    };
+
+    prepare();
   }, [click]);
+
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
-      <Video
-        ref={video}
-        style={styles.backgroundVideo}
-        source={require("../../assets/video/one.mp4")}
-        useNativeControls={false}
-        autoPlay={true}
-        resizeMode="cover"
-        isLooping
-        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-      />
-      <View style={styles.dialog}>
-        <Text>Тут начался бой</Text>
-      </View>
-    </Animated.View>
+      <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
+        <Video
+            ref={video}
+            style={styles.backgroundVideo}
+            source={require("../../assets/video/one.mp4")}
+            useNativeControls={false}
+            resizeMode="cover"
+            isLooping
+            onPlaybackStatusUpdate={(status) => setStatus(status)}
+        />
+      </Animated.View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -45,17 +52,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   backgroundVideo: {
+    position: "absolute",
     height: "100%",
     width: "100%",
-  },
-  dialog: {
-    top: "20%",
-    left: "35%",
-    width: "30%",
-    position: "absolute",
-    backgroundColor: "white",
-    textAlign: "center",
-    borderRadius: 5,
-    padding: 10,
   },
 });
