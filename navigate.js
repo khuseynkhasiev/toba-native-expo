@@ -11,6 +11,12 @@ import SeriesOnePage from "./pages/SeriesOnePage";
 import LibraryPage from "./pages/LibraryPage";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import OneScene from "./components/SeriesOne/OneScene";
+import TwoScene from "./components/SeriesOne/TwoScene";
+import ThreeScene from "./components/SeriesOne/ThreeScene";
+import FourScene from "./components/SeriesOne/FourScene";
+import FiveScene from "./components/SeriesOne/FiveScene";
+import SixScene from "./components/SeriesOne/SixScene";
 
 const Stack = createStackNavigator();
 
@@ -67,11 +73,11 @@ export default function Navigate() {
           component={SeriesTitle}
           options={{
             title: "Все серии",
-              headerShown: false,
+            headerShown: false,
             headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
             headerTitleStyle: { fontWeight: "bold" },
             cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid,
+            CardStyleInterpolators.forFadeFromBottomAndroid,
           }}
         />
           <Stack.Screen
@@ -86,7 +92,7 @@ export default function Navigate() {
                   CardStyleInterpolators.forFadeFromBottomAndroid,
               }}
           />
-        <Stack.Screen
+{/*        <Stack.Screen
           name="SeriesOne"
           component={SeriesOnePage}
           options={{
@@ -97,7 +103,80 @@ export default function Navigate() {
             cardStyleInterpolator:
               CardStyleInterpolators.forFadeFromBottomAndroid,
           }}
-        />
+        />*/}
+            {/*start*/}
+          <Stack.Screen
+              name="OneScene"
+              component={OneScene}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="TwoScene"
+              component={TwoScene}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="ThreeScene"
+              component={ThreeScene}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="FourScene"
+              component={FourScene}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="FiveScene"
+              component={FiveScene}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="SixScene"
+              component={SixScene}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,16 +1,19 @@
-import {StyleSheet, Animated, Text} from "react-native";
+import {StyleSheet, Animated, Text, TouchableOpacity} from "react-native";
 import React, {useRef, useEffect, useState} from "react";
 
 import { Video } from "expo-av";
+import {useNavigation} from "@react-navigation/native";
+import TouchScreen from "../TouchScreen";
 
-export default function ThreeScene({ click }) {
+export default function TwoScene({ click, navigation }) {
   const [isActiveDialog, setIsActiveDialog] = useState(false)
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
-      toValue: click ? 0 : 1,
+      //toValue: click ? 0 : 1,
+      toValue: 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
@@ -32,7 +35,13 @@ export default function ThreeScene({ click }) {
     setTimeout(() => {
       setIsActiveDialog(true);
     }, 4550)
-  }, [click]);
+  }, []);
+
+  //const navigation = useNavigation();
+
+  const backScene = () => navigation.navigate('OneScene');
+  const nextScene = () => navigation.navigate('ThreeScene');
+
 
   return (
       <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
@@ -46,8 +55,9 @@ export default function ThreeScene({ click }) {
                 onPlaybackStatusUpdate={(status) => setStatus(status)}
             />
         {
-            isActiveDialog && <Text style={styles.dialog}>Новые технологии</Text>
+            isActiveDialog && <Text style={styles.dialog}>2 сцена</Text>
         }
+        <TouchScreen touchBack={backScene} touchNext={nextScene} />
       </Animated.View>
   );
 }

@@ -1,17 +1,19 @@
 import {StyleSheet, Animated, Text} from "react-native";
-import React, {useRef, useEffect, useState} from "react";
+import React, {useRef, useEffect} from "react";
 
 import { Video } from "expo-av";
+import TouchScreen from "../TouchScreen";
 
-export default function SixScene({ click }) {
-    const [isActiveDialog, setIsActiveDialog] = useState(false);
+export default function SixScene({ navigation }) {
+    //const [isActiveDialog, setIsActiveDialog] = useState(false);
     //const [isActive, setIsActive] = useState(true);
     const video = useRef(null);
     const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
     const animOpacity = () => {
         Animated.timing(fadeAnimOpacity, {
-            toValue: click ? 0 : 1,
+            //toValue: click ? 0 : 1,
+            toValue: 1,
             duration: 1000,
             useNativeDriver: false,
         }).start();
@@ -30,10 +32,10 @@ export default function SixScene({ click }) {
         };
         prepare();
 
-        setTimeout(() => {
-            setIsActiveDialog(true);
-        }, 8100)
-    }, [click]);
+    }, []);
+
+    const backScene = () => navigation.navigate('FiveScene');
+    const nextScene = () => navigation.navigate('Series');
 
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
@@ -46,9 +48,8 @@ export default function SixScene({ click }) {
                     isLooping
                     onPlaybackStatusUpdate={(status) => setStatus(status)}
                 />
-            {
-                isActiveDialog && <Text style={styles.dialog}>Новые технологии</Text>
-            }
+            <Text style={styles.dialog}>6 сцена</Text>
+            <TouchScreen touchBack={backScene} touchNext={nextScene} />
         </Animated.View>
     );
 }

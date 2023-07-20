@@ -1,15 +1,19 @@
-import { StyleSheet, View, Text, Animated } from "react-native";
-import React, { useRef, useEffect } from "react";
+import {StyleSheet, Animated, Text, TouchableOpacity } from "react-native";
+import React, {useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
+import TouchScreen from "../TouchScreen";
 
-export default function OneScene({ click }) {
+export default function OneScene({ navigation }) {
+
+  //const [isActiveDialog, setIsActiveDialog] = useState(false)
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
-      toValue: click ? 0 : 1,
+      //toValue: click ? 0 : 1,
+      toValue: 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
@@ -26,9 +30,11 @@ export default function OneScene({ click }) {
         console.warn(error);
       }
     };
-
     prepare();
-  }, [click]);
+  }, []);
+
+  const backScene = () => navigation.navigate('Series');
+  const nextScene = () => navigation.navigate('TwoScene');
 
   return (
       <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
@@ -38,11 +44,13 @@ export default function OneScene({ click }) {
             source={require("../../assets/video/one.mp4")}
             useNativeControls={false}
             resizeMode="cover"
-            isLooping
+            isLooping={false}
             onPlaybackStatusUpdate={(status) => setStatus(status)}
         />
+        <Text style={styles.dialog}>1 сцена</Text>
+        <TouchScreen touchNext={nextScene} touchBack={backScene}/>
       </Animated.View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
@@ -55,5 +63,21 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: "100%",
     width: "100%",
+  },
+  twoScene__titleImg: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+  },
+  dialog: {
+    top: "10%",
+    right: "10%",
+    width: "25%",
+    position: "absolute",
+    backgroundColor: "white",
+    textAlign: "center",
+    borderRadius: 5,
+    //zIndex: 3,
+    padding: 10,
   },
 });

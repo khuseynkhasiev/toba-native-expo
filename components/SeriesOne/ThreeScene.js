@@ -1,16 +1,18 @@
-import {StyleSheet, Animated, Text} from "react-native";
+import {StyleSheet, Animated, Text, TouchableOpacity} from "react-native";
 import React, { useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
+import TouchScreen from "../TouchScreen";
 
-export default function ThreeScene({ click }) {
+export default function ThreeScene({ click, navigation }) {
   const [isActiveDialog, setIsActiveDialog] = useState(false);
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
-      toValue: click ? 0 : 1,
+      //toValue: click ? 0 : 1,
+      toValue: 1,
       duration: 1000,
       useNativeDriver: false,
     }).start();
@@ -31,9 +33,11 @@ export default function ThreeScene({ click }) {
 
     setTimeout(() => {
       setIsActiveDialog(true);
-    }, 3500)
-  }, [click]);
+    }, 0)
+  }, []);
 
+  const backScene = () => navigation.navigate('TwoScene');
+  const nextScene = () => navigation.navigate('FourScene');
   return (
       <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
         <Video
@@ -42,13 +46,14 @@ export default function ThreeScene({ click }) {
             source={require("../../assets/video/bio.mp4")}
             useNativeControls={false}
             resizeMode="cover"
-            isLooping
+            isLooping={false}
             rate={1.5}
             onPlaybackStatusUpdate={(status) => setStatus(status)}
         />
         {
-            isActiveDialog && <Text style={styles.dialog}>Новые технологии</Text>
+            isActiveDialog && <Text style={styles.dialog}>3 сцена</Text>
         }
+        <TouchScreen touchBack={backScene} touchNext={nextScene} />
       </Animated.View>
   );
 }
@@ -63,5 +68,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     height: "100%",
     width: "100%",
+  },
+  dialog: {
+    bottom: "15%",
+    left: "20%",
+    width: "25%",
+    position: "absolute",
+    backgroundColor: "white",
+    textAlign: "center",
+    borderRadius: 5,
+    //zIndex: 3,
+    padding: 10,
   },
 });

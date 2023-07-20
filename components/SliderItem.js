@@ -13,7 +13,8 @@ export default function SliderItem({item}) {
     function handleClick(){
         // логика связки клика с запуском соотвествующей серии
         if (item.id === 1) {
-            navigation.navigate('SeriesOne')
+            //navigation.navigate('SeriesOne')
+            navigation.navigate('OneScene')
         }
         // отключение фоновой музыки при запуски серии
         PlayBackgroundMusic.offPlay();

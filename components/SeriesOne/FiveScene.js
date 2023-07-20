@@ -1,23 +1,23 @@
-import {StyleSheet, Animated, Text} from "react-native";
+import {StyleSheet, Animated, Text, TouchableOpacity} from "react-native";
 import React, {useRef, useEffect, useState} from "react";
 
 import { Video } from "expo-av";
+import TouchScreen from "../TouchScreen";
 
-export default function FiveScene({ click, counter }) {
+export default function FiveScene({ navigation }) {
     const [isActiveDialog, setIsActiveDialog] = useState(false);
-    const [isActive, setIsActive] = useState(true);
     const video = useRef(null);
     const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
+    const [status, setStatus] = React.useState({});
 
     const animOpacity = () => {
         Animated.timing(fadeAnimOpacity, {
-            toValue: click ? 0 : 1,
+            //toValue: click ? 0 : 1,
+            toValue: 1,
             duration: 1000,
             useNativeDriver: false,
         }).start();
     };
-
-    const [status, setStatus] = React.useState({});
 
     useEffect(() => {
         const prepare = async () => {
@@ -29,43 +29,24 @@ export default function FiveScene({ click, counter }) {
             }
         };
         prepare();
+    }, []);
 
-        setTimeout(() => {
-            setIsActiveDialog(true);
-        }, 8100)
-        setTimeout(() => {
-            setIsActive(false);
-        }, 10000)
-    }, [click]);
-
-    if (!isActive) {
-        counter((state) => state + 1);
-    }
+    const backScene = () => navigation.navigate('FourScene');
+    const nextScene = () => navigation.navigate('SixScene');
 
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
-            {isActive &&
-                <Video
-                    ref={video}
-                    style={styles.backgroundVideo}
-                    source={require("../../assets/video/vzriv.mp4")}
-                    useNativeControls={false}
-                    resizeMode="cover"
-                    isLooping={false}
-                    onPlaybackStatusUpdate={(status) => setStatus(status)}
-                />
-            }
-            {!isActive &&
-                <Video
-                    ref={video}
-                    style={styles.backgroundVideo}
-                    source={require("../../assets/video/vzriv-two-scene.mp4")}
-                    useNativeControls={false}
-                    resizeMode="cover"
-                    isLooping
-                    onPlaybackStatusUpdate={(status) => setStatus(status)}
-                />
-            }
+            <Video
+                ref={video}
+                style={styles.backgroundVideo}
+                source={require("../../assets/video/one.mp4")}
+                useNativeControls={false}
+                resizeMode="cover"
+                isLooping
+                onPlaybackStatusUpdate={(status) => setStatus(status)}
+            />
+            <Text style={styles.dialog}>5 сцена</Text>
+            <TouchScreen touchBack={backScene} touchNext={nextScene} />
         </Animated.View>
     );
 }

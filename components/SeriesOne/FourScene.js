@@ -1,16 +1,18 @@
-import {StyleSheet, Animated, Text} from "react-native";
+import {StyleSheet, Animated, Text, TouchableOpacity} from "react-native";
 import React, {useRef, useEffect, useState} from "react";
 
 import { Video } from "expo-av";
+import TouchScreen from "../TouchScreen";
 
-export default function FourScene({ click }) {
+export default function FourScene({ navigation }) {
     const [isActiveDialog, setIsActiveDialog] = useState(false)
     const video = useRef(null);
     const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
     const animOpacity = () => {
         Animated.timing(fadeAnimOpacity, {
-            toValue: click ? 0 : 1,
+            //toValue: click ? 0 : 1,
+            toValue: 1,
             duration: 1000,
             useNativeDriver: false,
         }).start();
@@ -28,11 +30,13 @@ export default function FourScene({ click }) {
             }
         };
         prepare();
-
         setTimeout(() => {
             setIsActiveDialog(true);
         }, 8100)
-    }, [click]);
+    }, []);
+
+    const backScene = () => navigation.navigate('ThreeScene');
+    const nextScene = () => navigation.navigate('FiveScene');
 
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
@@ -46,8 +50,9 @@ export default function FourScene({ click }) {
                 onPlaybackStatusUpdate={(status) => setStatus(status)}
             />
             {
-                isActiveDialog && <Text style={styles.dialog}>Новые технологии</Text>
+                isActiveDialog && <Text style={styles.dialog}>4 сцена</Text>
             }
+            <TouchScreen touchBack={backScene} touchNext={nextScene} />
         </Animated.View>
     );
 }
