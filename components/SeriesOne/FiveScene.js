@@ -1,52 +1,65 @@
-import {StyleSheet, Animated, Text, TouchableOpacity} from "react-native";
-import React, {useRef, useEffect, useState} from "react";
+import { StyleSheet, Animated, Text } from "react-native";
+import React, { useRef, useEffect } from "react";
 
 import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
 
 export default function FiveScene({ navigation }) {
-    const [isActiveDialog, setIsActiveDialog] = useState(false);
+    const [status, setStatus] = React.useState({});
     const video = useRef(null);
     const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
-    const [status, setStatus] = React.useState({});
 
     const animOpacity = () => {
         Animated.timing(fadeAnimOpacity, {
-            //toValue: click ? 0 : 1,
             toValue: 1,
             duration: 1000,
             useNativeDriver: false,
         }).start();
     };
 
-    useEffect(() => {
-        const prepare = async () => {
-            try {
-                await video.current?.playAsync();
-                animOpacity();
-            } catch (error) {
-                console.warn(error);
-            }
-        };
-        prepare();
-    }, []);
+    const prepare = async () => {
+        try {
+            await video.current?.loadAsync(require("../../assets/video/vzriv.mp4"));
+            await video.current?.playAsync();
+            animOpacity();
+        } catch (error) {
+            console.warn(error);
+        }
+    };
 
-    const backScene = () => navigation.navigate('FourScene');
-    const nextScene = () => navigation.navigate('SixScene');
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            // Запуск видео при фокусе на компоненте
+            prepare();
+        });
+
+        // Остановка видео при размонтировании компонента
+        return () => {
+            unsubscribe();
+            video.current?.stopAsync();
+        };
+    }, [navigation]);
+
+    const backScene = () => {
+        navigation.navigate('FourScene');
+    };
+    const nextScene = () => {
+        navigation.navigate('Series');
+    };
 
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
             <Video
                 ref={video}
                 style={styles.backgroundVideo}
-                source={require("../../assets/video/one.mp4")}
+                //source={require("../../assets/video/one.mp4")}
                 useNativeControls={false}
                 resizeMode="cover"
-                isLooping
+                isLooping={false}
                 onPlaybackStatusUpdate={(status) => setStatus(status)}
             />
             <Text style={styles.dialog}>5 сцена</Text>
-            <TouchScreen touchBack={backScene} touchNext={nextScene} />
+            <TouchScreen touchNext={nextScene} touchBack={backScene} />
         </Animated.View>
     );
 }
@@ -62,11 +75,6 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
     },
-    twoScene__titleImg: {
-        position: "absolute",
-        height: "100%",
-        width: "100%",
-    },
     dialog: {
         top: "10%",
         right: "10%",
@@ -75,7 +83,6 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         textAlign: "center",
         borderRadius: 5,
-        //zIndex: 3,
         padding: 10,
     },
 });

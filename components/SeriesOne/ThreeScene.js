@@ -5,6 +5,7 @@ import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
 
 export default function ThreeScene({ click, navigation }) {
+  const [status, setStatus] = React.useState({});
   const [isActiveDialog, setIsActiveDialog] = useState(false);
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
@@ -18,23 +19,28 @@ export default function ThreeScene({ click, navigation }) {
     }).start();
   };
 
-  const [status, setStatus] = React.useState({});
+  const prepare = async () => {
+    try {
+      await video.current?.loadAsync(require("../../assets/video/bio.mp4"));
+      await video.current?.playAsync();
+      animOpacity();
+    } catch (error) {
+      console.warn(error);
+    }
+  };
 
   useEffect(() => {
-    const prepare = async () => {
-      try {
-        await video.current?.playAsync();
-        animOpacity();
-      } catch (error) {
-        console.warn(error);
-      }
-    };
-    prepare();
+    const unsubscribe = navigation.addListener('focus', () => {
+      // Запуск видео при фокусе на компоненте
+      prepare();
+    });
 
-    setTimeout(() => {
-      setIsActiveDialog(true);
-    }, 0)
-  }, []);
+    // Остановка видео при размонтировании компонента
+    return () => {
+      unsubscribe();
+      video.current?.stopAsync();
+    };
+  }, [navigation]);
 
   const backScene = () => navigation.navigate('TwoScene');
   const nextScene = () => navigation.navigate('FourScene');
@@ -43,7 +49,7 @@ export default function ThreeScene({ click, navigation }) {
         <Video
             ref={video}
             style={styles.backgroundVideo}
-            source={require("../../assets/video/bio.mp4")}
+            //source={require("../../assets/video/bio.mp4")}
             useNativeControls={false}
             resizeMode="cover"
             isLooping={false}

@@ -5,6 +5,7 @@ import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
 
 export default function FourScene({ navigation }) {
+    const [status, setStatus] = React.useState({});
     const [isActiveDialog, setIsActiveDialog] = useState(false)
     const video = useRef(null);
     const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
@@ -18,22 +19,28 @@ export default function FourScene({ navigation }) {
         }).start();
     };
 
-    const [status, setStatus] = React.useState({});
+    const prepare = async () => {
+        try {
+            await video.current?.loadAsync(require("../../assets/video/cosmos.mp4"));
+            await video.current?.playAsync();
+            animOpacity();
+        } catch (error) {
+            console.warn(error);
+        }
+    };
 
     useEffect(() => {
-        const prepare = async () => {
-            try {
-                await video.current?.playAsync();
-                animOpacity();
-            } catch (error) {
-                console.warn(error);
-            }
+        const unsubscribe = navigation.addListener('focus', () => {
+            // Запуск видео при фокусе на компоненте
+            prepare();
+        });
+
+        // Остановка видео при размонтировании компонента
+        return () => {
+            unsubscribe();
+            video.current?.stopAsync();
         };
-        prepare();
-        setTimeout(() => {
-            setIsActiveDialog(true);
-        }, 8100)
-    }, []);
+    }, [navigation]);
 
     const backScene = () => navigation.navigate('ThreeScene');
     const nextScene = () => navigation.navigate('FiveScene');
@@ -43,7 +50,7 @@ export default function FourScene({ navigation }) {
             <Video
                 ref={video}
                 style={styles.backgroundVideo}
-                source={require("../../assets/video/cosmos.mp4")}
+                //source={require("../../assets/video/cosmos.mp4")}
                 useNativeControls={false}
                 resizeMode="cover"
                 isLooping={false}
