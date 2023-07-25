@@ -18,37 +18,56 @@ export default function TwoScene({ navigation }) {
       useNativeDriver: false,
     }).start();
   };
-
   const prepare = async () => {
     try {
-      await video.current?.loadAsync(require("../../assets/video/two-scene.mp4"));
-      await video.current?.playAsync();
+      await video.current.loadAsync(require("../../assets/video/two-scene.mp4"));
+      await video.current.playAsync();
       animOpacity();
     } catch (error) {
       console.warn(error);
     }
   };
-
+  const resetIsActiveDialog = () => {
+    setIsActiveDialog(false);
+  };
+  const stopVideo = async () => {
+    try {
+      if (video.current) {
+        await video.current.stopAsync();
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       // Запуск видео при фокусе на компоненте
       prepare();
     });
-
+    setTimeout(() => {
+      setIsActiveDialog(true)
+    }, 4500)
     // Остановка видео при размонтировании компонента
-    return () => {
-      unsubscribe();
-      video.current?.stopAsync();
-    };
+/*    return () => {
+      //unsubscribe();
+      stopVideo();
+      //video.current.stopAsync();
+    };*/
   }, [navigation]);
-
+  useEffect(() => {
+    return () => {
+      stopVideo();
+      video.current = null; // Очистка референса при размонтировании компонента
+    };
+  }, []);
   const backScene = () => {
-    navigation.navigate('OneScene');
+    resetIsActiveDialog()
+    navigation.navigate('NewYear');
   };
   const nextScene = () => {
-    navigation.navigate('ThreeScene');
+    resetIsActiveDialog()
+    navigation.navigate('Bio');
   };
-
 
   return (
       <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
@@ -61,7 +80,7 @@ export default function TwoScene({ navigation }) {
             isLooping={false}
             onPlaybackStatusUpdate={(status) => setStatus(status)}
         />
-        {isActiveDialog && <Text style={styles.dialog}>2 сцена</Text>}
+        {isActiveDialog && <Text style={styles.dialog}>Новые технологии...</Text>}
         <TouchScreen touchBack={backScene} touchNext={nextScene} />
       </Animated.View>
   );
@@ -89,4 +108,3 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-

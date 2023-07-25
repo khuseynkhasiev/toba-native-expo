@@ -58,7 +58,7 @@ export default function FiveScene({ navigation }) {
                 isLooping={false}
                 onPlaybackStatusUpdate={(status) => setStatus(status)}
             />
-            <Text style={styles.dialog}>5 сцена</Text>
+            <Text style={styles.dialog}>Эту сцену поменяем</Text>
             <TouchScreen touchNext={nextScene} touchBack={backScene} />
         </Animated.View>
     );

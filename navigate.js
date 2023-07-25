@@ -11,12 +11,15 @@ import SeriesOnePage from "./pages/SeriesOnePage";
 import LibraryPage from "./pages/LibraryPage";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
-import OneScene from "./components/SeriesOne/OneScene";
+import NewYear from "./components/SeriesOne/NewYear";
 import TwoScene from "./components/SeriesOne/TwoScene";
-import ThreeScene from "./components/SeriesOne/ThreeScene";
+import Bio from "./components/SeriesOne/Bio";
 import FourScene from "./components/SeriesOne/FourScene";
 import FiveScene from "./components/SeriesOne/FiveScene";
 import SixScene from "./components/SeriesOne/SixScene";
+import RobotOneScene from "./components/SeriesOne/RobotOneScene";
+import RobotTwoScene from "./components/SeriesOne/RobotTwoScene";
+import RobotThreeScene from "./components/SeriesOne/RobotThreeScene";
 
 const Stack = createStackNavigator();
 
@@ -92,22 +95,9 @@ export default function Navigate() {
                   CardStyleInterpolators.forFadeFromBottomAndroid,
               }}
           />
-{/*        <Stack.Screen
-          name="SeriesOne"
-          component={SeriesOnePage}
-          options={{
-            title: "1 серия",
-              headerShown: false,
-            headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
-            headerTitleStyle: { fontWeight: "bold" },
-            cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid,
-          }}
-        />*/}
-            {/*start*/}
           <Stack.Screen
-              name="OneScene"
-              component={OneScene}
+              name="NewYear"
+              component={NewYear}
               options={{
                   title: "1 серия",
                   headerShown: false,
@@ -130,8 +120,44 @@ export default function Navigate() {
               }}
           />
           <Stack.Screen
-              name="ThreeScene"
-              component={ThreeScene}
+              name="Bio"
+              component={Bio}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="RobotOneScene"
+              component={RobotOneScene}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="RobotTwoScene"
+              component={RobotTwoScene}
+              options={{
+                  title: "1 серия",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="RobotThreeScene"
+              component={RobotThreeScene}
               options={{
                   title: "1 серия",
                   headerShown: false,

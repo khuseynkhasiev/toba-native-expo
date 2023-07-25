@@ -34,7 +34,9 @@ export default function FourScene({ navigation }) {
             // Запуск видео при фокусе на компоненте
             prepare();
         });
-
+        setTimeout(() => {
+            setIsActiveDialog(true)
+        }, 8400)
         // Остановка видео при размонтировании компонента
         return () => {
             unsubscribe();
@@ -42,7 +44,7 @@ export default function FourScene({ navigation }) {
         };
     }, [navigation]);
 
-    const backScene = () => navigation.navigate('ThreeScene');
+    const backScene = () => navigation.navigate('Bio');
     const nextScene = () => navigation.navigate('FiveScene');
 
     return (
@@ -57,7 +59,7 @@ export default function FourScene({ navigation }) {
                 onPlaybackStatusUpdate={(status) => setStatus(status)}
             />
             {
-                isActiveDialog && <Text style={styles.dialog}>4 сцена</Text>
+                isActiveDialog && <Text style={styles.dialog}>И колонизация других планет</Text>
             }
             <TouchScreen touchBack={backScene} touchNext={nextScene} />
         </Animated.View>
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     },
     dialog: {
         top: "10%",
-        right: "10%",
+        right: "5%",
         width: "25%",
         position: "absolute",
         backgroundColor: "white",
