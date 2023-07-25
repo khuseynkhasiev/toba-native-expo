@@ -40,6 +40,7 @@ export default function NewYear({ navigation }) {
       // Запуск видео при фокусе на компоненте
       prepare();
     });
+
 /*    // Остановка видео при размонтировании компонента
     return () => {
       //unsubscribe();
@@ -66,7 +67,7 @@ export default function NewYear({ navigation }) {
             ref={video}
             style={styles.backgroundVideo}
             //source={require("../../assets/video/new-year.mp4")}
-            useNativeControls={false}
+            useNativeControls={true}
             resizeMode="cover"
             isLooping={false}
             onPlaybackStatusUpdate={(status) => setStatus(status)}
