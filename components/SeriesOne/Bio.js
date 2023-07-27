@@ -96,7 +96,7 @@ export default function Bio({ navigation }) {
             }}
         />
         {
-            isActiveDialog && <Text style={styles.dialog}>Прорыв в области медицины, где люди жили бы намного дольше</Text>
+            isActiveDialog && <Text style={styles.dialog}>Медицину которая бы вылечила все болезни...</Text>
         }
         <TouchScreen touchBack={backScene} touchNext={nextScene} />
       </Animated.View>

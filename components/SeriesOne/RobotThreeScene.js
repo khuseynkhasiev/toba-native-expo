@@ -91,7 +91,7 @@ export default function RobotThreeScene({ navigation }) {
                 }}
             />
             {
-                isActiveDialog && <Text style={styles.dialog}>Прорыв в области медицины, где люди жили бы намного дольше</Text>
+                isActiveDialog && <Text style={styles.dialog}>Которые помогали бы нам во всех сферах деятельности</Text>
             }
             <TouchScreen touchBack={backScene} touchNext={nextScene} />
         </Animated.View>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     },
     dialog: {
         bottom: "10%",
-        left: "28%",
+        left: "35%",
         width: "30%",
         position: "absolute",
         backgroundColor: "white",

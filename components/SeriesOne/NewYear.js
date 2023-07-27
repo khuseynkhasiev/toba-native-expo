@@ -8,6 +8,7 @@ export default function NewYear({ navigation }) {
   const [status, setStatus] = React.useState({});
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
+  const [isActiveDialog, setIsActiveDialog] = useState(false);
 
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
@@ -25,6 +26,10 @@ export default function NewYear({ navigation }) {
     } catch (error) {
       console.warn(error);
     }
+  };
+
+  const resetIsActiveDialog = () => {
+    setIsActiveDialog(false);
   };
   const stopVideo = async () => {
     try {
@@ -50,7 +55,9 @@ export default function NewYear({ navigation }) {
       // Запуск видео при фокусе на компоненте
       prepare();
     });
-
+    setTimeout(() => {
+      setIsActiveDialog(true);
+    }, 8150);
     return () => {
       stopVideo();
       unloadVideo();
@@ -82,7 +89,7 @@ export default function NewYear({ navigation }) {
               }
             }}
         />
-        <Text style={styles.dialog}>Человечество ждало от 21 века</Text>
+        {isActiveDialog && <Text style={styles.dialog}>Человечество ждало от 21 века...</Text>}
         <TouchScreen touchNext={nextScene} touchBack={backScene} />
       </Animated.View>
   );
@@ -100,9 +107,9 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   dialog: {
-    top: "10%",
-    right: "10%",
-    width: "25%",
+    top: "40%",
+    right: "38%",
+    width: "24%",
     position: "absolute",
     backgroundColor: "white",
     textAlign: "center",

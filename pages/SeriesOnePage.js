@@ -1,11 +1,6 @@
 import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import NewYear from "../components/SeriesOne/./NewYear";
-import TwoScene from "../components/SeriesOne/ChartMan";
-import Bio from "../components/SeriesOne/Bio";
-import FourScene from "../components/SeriesOne/FourScene";
-import FiveScene from  "../components/SeriesOne/FiveScene";
-import SixScene from "../components/SeriesOne/SixScene";
 import TouchScreen from "../components/TouchScreen";
 import ChartMan from "../components/SeriesOne/ChartMan";
 

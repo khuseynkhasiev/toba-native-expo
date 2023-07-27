@@ -55,7 +55,7 @@ export default function RobotOneScene({ navigation }) {
         });
         setTimeout(() => {
             setIsActiveDialog(true);
-        }, 7000);
+        }, 7100);
         return () => {
             //resetIsActiveDialog();
             stopVideo();
@@ -91,7 +91,7 @@ export default function RobotOneScene({ navigation }) {
                 }}
             />
             {
-                isActiveDialog && <Text style={styles.dialog}>Прорыв в области медицины, где люди жили бы намного дольше</Text>
+                isActiveDialog && <Text style={styles.dialog}>Создание роботов</Text>
             }
             <TouchScreen touchBack={backScene} touchNext={nextScene} />
         </Animated.View>
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     dialog: {
-        bottom: "10%",
-        left: "28%",
+        bottom: "3%",
+        left: "35%",
         width: "30%",
         position: "absolute",
         backgroundColor: "white",

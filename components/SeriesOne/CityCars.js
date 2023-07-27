@@ -55,7 +55,7 @@ export default function CityCars({ navigation }) {
         });
         setTimeout(() => {
             setIsActiveDialog(true);
-        }, 7000);
+        }, 7500);
         return () => {
             //resetIsActiveDialog();
             stopVideo();
@@ -72,7 +72,7 @@ export default function CityCars({ navigation }) {
     const nextScene = () => {
         //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('Series');
+        navigation.navigate('CosmosScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
@@ -91,7 +91,7 @@ export default function CityCars({ navigation }) {
                 }}
             />
             {
-                isActiveDialog && <Text style={styles.dialog}>Прорыв в области медицины, где люди жили бы намного дольше</Text>
+                isActiveDialog && <Text style={styles.dialog}>Города Оазисы</Text>
             }
             <TouchScreen touchBack={backScene} touchNext={nextScene} />
         </Animated.View>
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     dialog: {
-        bottom: "10%",
-        left: "28%",
+        top: "10%",
+        left: "25%",
         width: "30%",
         position: "absolute",
         backgroundColor: "white",

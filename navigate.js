@@ -14,13 +14,18 @@ import Settings from "./pages/Settings";
 import NewYear from "./components/SeriesOne/NewYear";
 import ChartMan from "./components/SeriesOne/ChartMan";
 import Bio from "./components/SeriesOne/Bio";
-import FourScene from "./components/SeriesOne/FourScene";
-import FiveScene from "./components/SeriesOne/FiveScene";
-import SixScene from "./components/SeriesOne/SixScene";
 import RobotOneScene from "./components/SeriesOne/RobotOneScene";
 import RobotTwoScene from "./components/SeriesOne/RobotTwoScene";
 import RobotThreeScene from "./components/SeriesOne/RobotThreeScene";
 import CityCars from "./components/SeriesOne/CityCars";
+import CosmosScene from "./components/SeriesOne/CosmosScene";
+import GirlRunScene from "./components/SeriesOne/GirlRunScene";
+import GirlRunTwoScene from "./components/SeriesOne/GirlRunTwoScene";
+import BoomScene from "./components/SeriesOne/BoomScene";
+import BoomTwoScene from "./components/SeriesOne/BoomTwoScene";
+import RegenerationScene from "./components/SeriesOne/RegenerationScene";
+import NewCityScene from "./components/SeriesOne/NewCityScene";
+import PeopleRunStreetsScene from "./components/SeriesOne/PeopleRunStreetsScene";
 
 const Stack = createStackNavigator();
 
@@ -193,10 +198,10 @@ export default function Navigate() {
               }}
           />
           <Stack.Screen
-              name="FiveScene"
-              component={FiveScene}
+              name="CosmosScene"
+              component={CosmosScene}
               options={{
-                  title: "FiveScene",
+                  title: "CosmosScene",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -205,10 +210,82 @@ export default function Navigate() {
               }}
           />
           <Stack.Screen
-              name="SixScene"
-              component={SixScene}
+              name="GirlRunScene"
+              component={GirlRunScene}
               options={{
-                  title: "SixScene",
+                  title: "GirlRunScene",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="GirlRunTwoScene"
+              component={GirlRunTwoScene}
+              options={{
+                  title: "GirlRunTwoScene",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="BoomScene"
+              component={BoomScene}
+              options={{
+                  title: "BoomScene",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="BoomTwoScene"
+              component={BoomTwoScene}
+              options={{
+                  title: "BoomTwoScene",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="RegenerationScene"
+              component={RegenerationScene}
+              options={{
+                  title: "RegenerationScene",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="NewCityScene"
+              component={NewCityScene}
+              options={{
+                  title: "NewCityScene",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="PeopleRunStreetsScene"
+              component={PeopleRunStreetsScene}
+              options={{
+                  title: "PeopleRunStreetsScene",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
