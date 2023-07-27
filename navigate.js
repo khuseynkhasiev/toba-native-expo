@@ -12,7 +12,7 @@ import LibraryPage from "./pages/LibraryPage";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import NewYear from "./components/SeriesOne/NewYear";
-import TwoScene from "./components/SeriesOne/TwoScene";
+import ChartMan from "./components/SeriesOne/ChartMan";
 import Bio from "./components/SeriesOne/Bio";
 import FourScene from "./components/SeriesOne/FourScene";
 import FiveScene from "./components/SeriesOne/FiveScene";
@@ -20,6 +20,7 @@ import SixScene from "./components/SeriesOne/SixScene";
 import RobotOneScene from "./components/SeriesOne/RobotOneScene";
 import RobotTwoScene from "./components/SeriesOne/RobotTwoScene";
 import RobotThreeScene from "./components/SeriesOne/RobotThreeScene";
+import CityCars from "./components/SeriesOne/CityCars";
 
 const Stack = createStackNavigator();
 
@@ -84,6 +85,18 @@ export default function Navigate() {
           }}
         />
           <Stack.Screen
+              name="SeriesOnePage"
+              component={SeriesOnePage}
+              options={{
+                  title: "SixScene",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
               name="Settings"
               component={Settings}
               options={{
@@ -99,7 +112,7 @@ export default function Navigate() {
               name="NewYear"
               component={NewYear}
               options={{
-                  title: "1 серия",
+                  title: "NewYear",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -108,10 +121,10 @@ export default function Navigate() {
               }}
           />
           <Stack.Screen
-              name="TwoScene"
-              component={TwoScene}
+              name="ChartMan"
+              component={ChartMan}
               options={{
-                  title: "1 серия",
+                  title: "ChartMan",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -123,7 +136,7 @@ export default function Navigate() {
               name="Bio"
               component={Bio}
               options={{
-                  title: "1 серия",
+                  title: "Bio",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -135,7 +148,7 @@ export default function Navigate() {
               name="RobotOneScene"
               component={RobotOneScene}
               options={{
-                  title: "1 серия",
+                  title: "RobotOneScene",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -147,7 +160,7 @@ export default function Navigate() {
               name="RobotTwoScene"
               component={RobotTwoScene}
               options={{
-                  title: "1 серия",
+                  title: "RobotTwoScene",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -159,7 +172,7 @@ export default function Navigate() {
               name="RobotThreeScene"
               component={RobotThreeScene}
               options={{
-                  title: "1 серия",
+                  title: "RobotThreeScene",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -168,10 +181,10 @@ export default function Navigate() {
               }}
           />
           <Stack.Screen
-              name="FourScene"
-              component={FourScene}
+              name="CityCars"
+              component={CityCars}
               options={{
-                  title: "1 серия",
+                  title: "CityCars",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -183,7 +196,7 @@ export default function Navigate() {
               name="FiveScene"
               component={FiveScene}
               options={{
-                  title: "1 серия",
+                  title: "FiveScene",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
@@ -195,7 +208,7 @@ export default function Navigate() {
               name="SixScene"
               component={SixScene}
               options={{
-                  title: "1 серия",
+                  title: "SixScene",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },

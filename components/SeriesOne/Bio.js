@@ -39,34 +39,44 @@ export default function Bio({ navigation }) {
       console.warn(error);
     }
   };
+  const unloadVideo = async () => {
+    try {
+      if (video.current) {
+        await video.current.unloadAsync();
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       // Запуск видео при фокусе на компоненте
       prepare();
     });
+
+    return () => {
+      stopVideo();
+      unloadVideo();
+      //video.current = null; // Очистка референса при размонтировании компонента
+    };
+  }, [navigation]);
+
+  useEffect(() => {
     setTimeout(() => {
       setIsActiveDialog(true);
-    }, 7000)
-/*    // Остановка видео при размонтировании компонента
-    return () => {
-      //unsubscribe();
-      stopVideo();
-      //video.current.stopAsync();
-    };*/
-  }, [navigation]);
-  useEffect(() => {
-    return () => {
-      stopVideo();
-      video.current = null; // Очистка референса при размонтировании компонента
-    };
+    }, 7000);
   }, []);
 
   const backScene = () => {
-    resetIsActiveDialog()
-    navigation.navigate('TwoScene');
+    //resetIsActiveDialog();
+    unloadVideo();
+
+    navigation.navigate('ChartMan');
   };
   const nextScene = () => {
-    resetIsActiveDialog()
+    //resetIsActiveDialog();
+    unloadVideo();
+
     navigation.navigate('RobotOneScene');
   };
   return (
@@ -74,12 +84,16 @@ export default function Bio({ navigation }) {
         <Video
             ref={video}
             style={styles.backgroundVideo}
-            //source={require("../../assets/video/bio.mp4")}
-            useNativeControls={false}
+            //source={require("../../assets/video/new-year.mp4")}
+            useNativeControls={true}
             resizeMode="cover"
             isLooping={false}
-            rate={1.5}
-            onPlaybackStatusUpdate={(status) => setStatus(status)}
+            onPlaybackStatusUpdate={(status) => {
+              setStatus(status);
+              if (status.didJustFinish) {
+                unloadVideo(); // Выгрузка видео после окончания воспроизведения
+              }
+            }}
         />
         {
             isActiveDialog && <Text style={styles.dialog}>Прорыв в области медицины, где люди жили бы намного дольше</Text>

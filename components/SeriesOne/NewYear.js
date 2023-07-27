@@ -1,5 +1,5 @@
 import { StyleSheet, Animated, Text } from "react-native";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
@@ -35,31 +35,36 @@ export default function NewYear({ navigation }) {
       console.warn(error);
     }
   };
+  const unloadVideo = async () => {
+    try {
+      if (video.current) {
+        await video.current.unloadAsync();
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       // Запуск видео при фокусе на компоненте
       prepare();
     });
 
-/*    // Остановка видео при размонтировании компонента
-    return () => {
-      //unsubscribe();
-      stopVideo();
-      //video.current.stopAsync();
-    };*/
-  }, [navigation]);
-  useEffect(() => {
     return () => {
       stopVideo();
-      video.current = null; // Очистка референса при размонтировании компонента
+      unloadVideo();
+      //video.current = null; // Очистка референса при размонтировании компонента
     };
-  }, []);
+  }, [navigation]);
 
   const backScene = () => {
+    unloadVideo();
     navigation.navigate('Series');
   };
   const nextScene = () => {
-    navigation.navigate('TwoScene');
+    unloadVideo();
+    navigation.navigate('ChartMan');
   };
   return (
       <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
@@ -70,7 +75,12 @@ export default function NewYear({ navigation }) {
             useNativeControls={true}
             resizeMode="cover"
             isLooping={false}
-            onPlaybackStatusUpdate={(status) => setStatus(status)}
+            onPlaybackStatusUpdate={(status) => {
+              setStatus(status);
+              if (status.didJustFinish) {
+                unloadVideo(); // Выгрузка видео после окончания воспроизведения
+              }
+            }}
         />
         <Text style={styles.dialog}>Человечество ждало от 21 века</Text>
         <TouchScreen touchNext={nextScene} touchBack={backScene} />
