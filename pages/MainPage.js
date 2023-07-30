@@ -15,7 +15,7 @@ import {observer} from "mobx-react-lite";
 const MainPage = observer(({ navigation }) => {
     const [sound, setSound] = useState(null);
 
-/*    // запуск фоновой музыки
+    // запуск фоновой музыки
     useEffect(() => {
         const playSound = async () => {
             try {
@@ -44,7 +44,7 @@ const MainPage = observer(({ navigation }) => {
         } else {
             stopSound();
         }
-    }, [PlayBackgroundMusic.play]);*/
+    }, [PlayBackgroundMusic.play]);
     return (
         <SafeAreaView style={styles.main}>
             <View style={styles.main__textContainer}>

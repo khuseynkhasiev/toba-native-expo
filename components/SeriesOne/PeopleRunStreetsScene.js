@@ -72,7 +72,7 @@ export default function PeopleRunStreetsScene({ navigation }) {
     const nextScene = () => {
         //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('Series');
+        navigation.navigate('SystemSlavesScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

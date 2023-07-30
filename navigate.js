@@ -26,6 +26,7 @@ import BoomTwoScene from "./components/SeriesOne/BoomTwoScene";
 import RegenerationScene from "./components/SeriesOne/RegenerationScene";
 import NewCityScene from "./components/SeriesOne/NewCityScene";
 import PeopleRunStreetsScene from "./components/SeriesOne/PeopleRunStreetsScene";
+import SystemSlavesScene from "./components/SeriesOne/SystemSlavesScene";
 
 const Stack = createStackNavigator();
 
@@ -286,6 +287,18 @@ export default function Navigate() {
               component={PeopleRunStreetsScene}
               options={{
                   title: "PeopleRunStreetsScene",
+                  headerShown: false,
+                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                  headerTitleStyle: { fontWeight: "bold" },
+                  cardStyleInterpolator:
+                  CardStyleInterpolators.forFadeFromBottomAndroid,
+              }}
+          />
+          <Stack.Screen
+              name="SystemSlavesScene"
+              component={SystemSlavesScene}
+              options={{
+                  title: "SystemSlavesScene",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
