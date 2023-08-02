@@ -66,13 +66,11 @@ export default function RobotOneScene({ navigation }) {
 
     const backScene = () => {
         unloadVideo();
-        //resetIsActiveDialog();
-        navigation.navigate('Bio');
+        navigation.replace('Bio');
     };
     const nextScene = () => {
         unloadVideo();
-        //resetIsActiveDialog();
-        navigation.navigate('RobotTwoScene');
+        navigation.replace('RobotTwoScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

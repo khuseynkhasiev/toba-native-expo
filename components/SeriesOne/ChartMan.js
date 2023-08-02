@@ -1,15 +1,23 @@
-import { StyleSheet, Animated, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Animated, Text } from "react-native";
 import React, { useRef, useEffect, useState } from "react";
-
 import { Video } from "expo-av";
-import { useNavigation } from "@react-navigation/native";
 import TouchScreen from "../TouchScreen";
+
+/*
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
+*/
 
 export default function ChartMan({ navigation }) {
   const [status, setStatus] = React.useState({});
   const [isActiveDialog, setIsActiveDialog] = useState(false);
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
+
+/*  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
+  // Имя текущего экрана (маршрута)
+  const currentScreenName = route.name;*/
 
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
@@ -27,9 +35,7 @@ export default function ChartMan({ navigation }) {
       console.warn(error);
     }
   };
-  const resetIsActiveDialog = () => {
-    setIsActiveDialog(false);
-  };
+
   const stopVideo = async () => {
     try {
       if (video.current) {
@@ -48,7 +54,22 @@ export default function ChartMan({ navigation }) {
       console.warn(error);
     }
   };
-
+/*  useEffect(() => {
+    if(isFocused){
+      const unsubscribe = navigation.addListener("focus", () => {
+        // Запуск видео при фокусе на компоненте
+        prepare();
+      });
+      setTimeout(() => {
+        setIsActiveDialog(true);
+      }, 4200);
+    }
+    return () => {
+      stopVideo();
+      unloadVideo();
+      //video.current = null; // Очистка референса при размонтировании компонента
+    };
+  }, [navigation, isFocused])*/
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // Запуск видео при фокусе на компоненте
@@ -58,7 +79,6 @@ export default function ChartMan({ navigation }) {
       setIsActiveDialog(true);
     }, 4200);
     return () => {
-      //resetIsActiveDialog();
       stopVideo();
       unloadVideo();
       //video.current = null; // Очистка референса при размонтировании компонента
@@ -66,14 +86,12 @@ export default function ChartMan({ navigation }) {
   }, [navigation]);
 
   const backScene = () => {
-    //resetIsActiveDialog();
     unloadVideo();
-    navigation.navigate('NewYear');
+    navigation.replace('NewYear');
   };
   const nextScene = () => {
-    //resetIsActiveDialog();
     unloadVideo();
-    navigation.navigate('Bio');
+    navigation.replace('Bio');
   };
 
   return (

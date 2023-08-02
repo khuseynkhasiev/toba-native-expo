@@ -3,12 +3,21 @@ import React, { useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
+/*
+import {useIsFocused, useNavigation, useRoute} from "@react-navigation/native";
+*/
 
 export default function Bio({ navigation }) {
   const [status, setStatus] = React.useState({});
   const [isActiveDialog, setIsActiveDialog] = useState(false);
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
+
+/*  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
+  // Имя текущего экрана (маршрута)
+  const currentScreenName = route.name;*/
 
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
@@ -27,9 +36,7 @@ export default function Bio({ navigation }) {
       console.warn(error);
     }
   };
-  const resetIsActiveDialog = () => {
-    setIsActiveDialog(false);
-  };
+
   const stopVideo = async () => {
     try {
       if (video.current) {
@@ -48,12 +55,30 @@ export default function Bio({ navigation }) {
       console.warn(error);
     }
   };
+/*  useEffect(() => {
+    if(isFocused){
+      const unsubscribe = navigation.addListener("focus", () => {
+        // Запуск видео при фокусе на компоненте
+        prepare();
+      });
+      setTimeout(() => {
+        setIsActiveDialog(true);
+      }, 7000);
+    }
+    return () => {
+      stopVideo();
+      unloadVideo();
+      //video.current = null; // Очистка референса при размонтировании компонента
+    };
+  }, [navigation, isFocused])*/
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // Запуск видео при фокусе на компоненте
       prepare();
     });
-
+    setTimeout(() => {
+      setIsActiveDialog(true);
+    }, 7000);
     return () => {
       stopVideo();
       unloadVideo();
@@ -61,23 +86,13 @@ export default function Bio({ navigation }) {
     };
   }, [navigation]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsActiveDialog(true);
-    }, 7000);
-  }, []);
-
   const backScene = () => {
-    //resetIsActiveDialog();
     unloadVideo();
-
-    navigation.navigate('ChartMan');
+    navigation.replace('ChartMan');
   };
   const nextScene = () => {
-    //resetIsActiveDialog();
     unloadVideo();
-
-    navigation.navigate('RobotOneScene');
+    navigation.replace('RobotOneScene');
   };
   return (
       <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

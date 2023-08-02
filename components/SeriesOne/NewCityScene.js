@@ -27,9 +27,6 @@ export default function NewCityScene({ navigation }) {
             console.warn(error);
         }
     };
-    const resetIsActiveDialog = () => {
-        setIsActiveDialog(false);
-    };
     const stopVideo = async () => {
         try {
             if (video.current) {
@@ -57,7 +54,6 @@ export default function NewCityScene({ navigation }) {
             setIsActiveDialog(true);
         }, 8800);
         return () => {
-            //resetIsActiveDialog();
             stopVideo();
             unloadVideo();
             //video.current = null; // Очистка референса при размонтировании компонента
@@ -65,14 +61,12 @@ export default function NewCityScene({ navigation }) {
     }, [navigation]);
 
     const backScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('RegenerationScene');
+        navigation.replace('RegenerationScene');
     };
     const nextScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('PeopleRunStreetsScene');
+        navigation.replace('PeopleRunStreetsScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

@@ -57,7 +57,6 @@ export default function SystemSlavesScene({ navigation }) {
             setIsActiveDialog(true);
         }, 8000);
         return () => {
-            //resetIsActiveDialog();
             stopVideo();
             unloadVideo();
             //video.current = null; // Очистка референса при размонтировании компонента
@@ -65,14 +64,12 @@ export default function SystemSlavesScene({ navigation }) {
     }, [navigation]);
 
     const backScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('PeopleRunStreetsScene');
+        navigation.replace('PeopleRunStreetsScene');
     };
     const nextScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('Series');
+        navigation.goBack();
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

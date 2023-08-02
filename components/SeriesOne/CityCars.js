@@ -27,9 +27,6 @@ export default function CityCars({ navigation }) {
             console.warn(error);
         }
     };
-    const resetIsActiveDialog = () => {
-        setIsActiveDialog(false);
-    };
     const stopVideo = async () => {
         try {
             if (video.current) {
@@ -65,14 +62,12 @@ export default function CityCars({ navigation }) {
     }, [navigation]);
 
     const backScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('RobotThreeScene');
+        navigation.replace('RobotThreeScene');
     };
     const nextScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('CosmosScene');
+        navigation.replace('CosmosScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

@@ -27,9 +27,6 @@ export default function RobotTwoScene({ navigation }) {
             console.warn(error);
         }
     };
-    const resetIsActiveDialog = () => {
-        setIsActiveDialog(false);
-    };
     const stopVideo = async () => {
         try {
             if (video.current) {
@@ -66,13 +63,11 @@ export default function RobotTwoScene({ navigation }) {
 
     const backScene = () => {
         unloadVideo();
-        //resetIsActiveDialog();
-        navigation.navigate('RobotOneScene');
+        navigation.replace('RobotOneScene');
     };
     const nextScene = () => {
         unloadVideo();
-        //resetIsActiveDialog();
-        navigation.navigate('RobotThreeScene');
+        navigation.replace('RobotThreeScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

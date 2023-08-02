@@ -27,9 +27,6 @@ export default function CosmosScene({ navigation }) {
             console.warn(error);
         }
     };
-    const resetIsActiveDialog = () => {
-        setIsActiveDialog(false);
-    };
     const stopVideo = async () => {
         try {
             if (video.current) {
@@ -57,7 +54,6 @@ export default function CosmosScene({ navigation }) {
             setIsActiveDialog(true);
         }, 8400);
         return () => {
-            //resetIsActiveDialog();
             stopVideo();
             unloadVideo();
             //video.current = null; // Очистка референса при размонтировании компонента
@@ -65,14 +61,12 @@ export default function CosmosScene({ navigation }) {
     }, [navigation]);
 
     const backScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('CityCars');
+        navigation.replace('CityCars');
     };
     const nextScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('GirlRunScene');
+        navigation.replace('GirlRunScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

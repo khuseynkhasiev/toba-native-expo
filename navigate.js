@@ -90,18 +90,18 @@ export default function Navigate() {
             CardStyleInterpolators.forFadeFromBottomAndroid,
           }}
         />
-          <Stack.Screen
+{/*          <Stack.Screen
               name="SeriesOnePage"
               component={SeriesOnePage}
               options={{
-                  title: "SixScene",
+                  title: "SeriesOnePage",
                   headerShown: false,
                   headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                   headerTitleStyle: { fontWeight: "bold" },
                   cardStyleInterpolator:
                   CardStyleInterpolators.forFadeFromBottomAndroid,
               }}
-          />
+          />*/}
           <Stack.Screen
               name="Settings"
               component={Settings}

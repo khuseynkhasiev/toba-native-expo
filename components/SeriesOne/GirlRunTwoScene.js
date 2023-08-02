@@ -57,7 +57,6 @@ export default function GirlRunTwoScene({ navigation }) {
             setIsActiveDialog(true);
         }, 5200);
         return () => {
-            //resetIsActiveDialog();
             stopVideo();
             unloadVideo();
             //video.current = null; // Очистка референса при размонтировании компонента
@@ -65,14 +64,12 @@ export default function GirlRunTwoScene({ navigation }) {
     }, [navigation]);
 
     const backScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('GirlRunScene');
+        navigation.replace('GirlRunScene');
     };
     const nextScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('BoomScene');
+        navigation.replace('BoomScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

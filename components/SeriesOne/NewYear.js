@@ -3,12 +3,19 @@ import React, { useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
+/*import {useNavigation, useRoute, useIsFocused } from "@react-navigation/native";*/
 
 export default function NewYear({ navigation }) {
   const [status, setStatus] = React.useState({});
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
   const [isActiveDialog, setIsActiveDialog] = useState(false);
+
+/*  const navigation = useNavigation();
+  const route = useRoute();
+  const isFocused = useIsFocused();
+  // Имя текущего экрана (маршрута)
+  const currentScreenName = route.name;*/
 
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
@@ -28,9 +35,6 @@ export default function NewYear({ navigation }) {
     }
   };
 
-  const resetIsActiveDialog = () => {
-    setIsActiveDialog(false);
-  };
   const stopVideo = async () => {
     try {
       if (video.current) {
@@ -50,6 +54,22 @@ export default function NewYear({ navigation }) {
     }
   };
 
+/*  useEffect(() => {
+    if(isFocused){
+      const unsubscribe = navigation.addListener("focus", () => {
+        // Запуск видео при фокусе на компоненте
+        prepare();
+      });
+      setTimeout(() => {
+        setIsActiveDialog(true);
+      }, 8150);
+    }
+    return () => {
+      stopVideo();
+      unloadVideo();
+      //video.current = null; // Очистка референса при размонтировании компонента
+    };
+  }, [navigation, isFocused])*/
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // Запуск видео при фокусе на компоненте
@@ -67,11 +87,11 @@ export default function NewYear({ navigation }) {
 
   const backScene = () => {
     unloadVideo();
-    navigation.navigate('Series');
+    navigation.goBack();
   };
   const nextScene = () => {
     unloadVideo();
-    navigation.navigate('ChartMan');
+    navigation.replace('ChartMan');
   };
   return (
       <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>

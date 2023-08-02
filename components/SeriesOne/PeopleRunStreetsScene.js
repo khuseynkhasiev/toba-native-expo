@@ -27,9 +27,6 @@ export default function PeopleRunStreetsScene({ navigation }) {
             console.warn(error);
         }
     };
-    const resetIsActiveDialog = () => {
-        setIsActiveDialog(false);
-    };
     const stopVideo = async () => {
         try {
             if (video.current) {
@@ -57,7 +54,6 @@ export default function PeopleRunStreetsScene({ navigation }) {
             setIsActiveDialog(true);
         }, 8300);
         return () => {
-            //resetIsActiveDialog();
             stopVideo();
             unloadVideo();
             //video.current = null; // Очистка референса при размонтировании компонента
@@ -65,14 +61,12 @@ export default function PeopleRunStreetsScene({ navigation }) {
     }, [navigation]);
 
     const backScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('NewCityScene');
+        navigation.replace('NewCityScene');
     };
     const nextScene = () => {
-        //resetIsActiveDialog();
         unloadVideo();
-        navigation.navigate('SystemSlavesScene');
+        navigation.replace('SystemSlavesScene');
     };
     return (
         <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
