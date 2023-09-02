@@ -41,15 +41,15 @@ export default function App() {
 
     if (font) {
         return (
-/*                        <>
-                {onActive && <Intro/>}
+            <>
+                {onActive && <Intro setIsActive={setIsActive}/>}
                 {!onActive && <MainStack/>}
                 <StatusBar hidden />
-            </>*/
-            <>
+            </>
+/*            <>
                 <MainStack />
                 <StatusBar hidden />
-            </>
+            </>*/
             )
     } else {
         return null; // Возвращаем `null` во время загрузки шрифтов, экран загрузки управляется `expo-splash-screen`

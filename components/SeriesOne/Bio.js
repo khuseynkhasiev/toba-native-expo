@@ -13,12 +13,6 @@ export default function Bio({ navigation }) {
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
 
-/*  const navigation = useNavigation();
-  const route = useRoute();
-  const isFocused = useIsFocused();
-  // Имя текущего экрана (маршрута)
-  const currentScreenName = route.name;*/
-
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
       //toValue: click  0 : 1,
@@ -55,22 +49,7 @@ export default function Bio({ navigation }) {
       console.warn(error);
     }
   };
-/*  useEffect(() => {
-    if(isFocused){
-      const unsubscribe = navigation.addListener("focus", () => {
-        // Запуск видео при фокусе на компоненте
-        prepare();
-      });
-      setTimeout(() => {
-        setIsActiveDialog(true);
-      }, 7000);
-    }
-    return () => {
-      stopVideo();
-      unloadVideo();
-      //video.current = null; // Очистка референса при размонтировании компонента
-    };
-  }, [navigation, isFocused])*/
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // Запуск видео при фокусе на компоненте
@@ -123,6 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    //backgroundColor: 'black'
   },
   backgroundVideo: {
     position: "absolute",
