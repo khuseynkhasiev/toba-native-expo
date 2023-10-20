@@ -10,9 +10,12 @@ import {
 import { Audio } from 'expo-av';
 import {useEffect, useState} from "react";
 import PlayBackgroundMusic from '../components/store/PlayBackgroundMusic';
+
 import {observer} from "mobx-react-lite";
 
+
 const MainPage = observer(({ navigation }) => {
+
     const [sound, setSound] = useState(null);
 
     // запуск фоновой музыки
