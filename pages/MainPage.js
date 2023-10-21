@@ -8,6 +8,8 @@ import {
     View,
 } from 'react-native';
 import { Audio } from 'expo-av';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {useEffect, useState} from "react";
 import PlayBackgroundMusic from '../components/store/PlayBackgroundMusic';
 
@@ -18,8 +20,22 @@ const MainPage = observer(({ navigation }) => {
 
     const [sound, setSound] = useState(null);
 
+
+    const getUserToken = async () => {
+        try {
+            const value = await AsyncStorage.getItem('userToken');
+            if (value !== null) {
+                console.log('Значение из AsyncStorage: ', value);
+            } else {
+                console.log('Значение по указанному ключу не найдено.');
+            }
+        } catch (error) {
+            console.error('Ошибка при получении из AsyncStorage: ', error);
+        }
+    };
     // запуск фоновой музыки
     useEffect(() => {
+        getUserToken();
         const playSound = async () => {
             try {
                 const { sound } = await Audio.Sound.createAsync(
@@ -31,6 +47,8 @@ const MainPage = observer(({ navigation }) => {
                 console.warn('Error playing sound: ', error);
             }
         };
+
+
 
         const stopSound = async () => {
             if (sound) {

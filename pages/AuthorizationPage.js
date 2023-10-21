@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Image
 } from "react-native";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import * as React from "react";
 import * as api from "../utils/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,7 +23,7 @@ const Authorization = observer(({ navigation }) => {
     const [password, setPassword] = useState('');
 
     // переключение между авторизацией и регистрацией
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(true);
 
     // Для регистрации
     const [name, setName] = useState('');
@@ -41,6 +41,25 @@ const Authorization = observer(({ navigation }) => {
     const [popupRegisterText, setPopupRegisterText] = useState('');
     const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(false);
     const [popupRegisterIsError, setPopupRegisterIsError] = useState(false);
+
+    useEffect(() => {
+        getUserToken();
+    }, [])
+
+    // проверка токена, если есть то переход на главную страницу
+    const getUserToken = async () => {
+        try {
+            const value = await AsyncStorage.getItem('userToken');
+            if (value !== null) {
+                console.log('Значение из AsyncStorage: ', value);
+                navigation.navigate('Main');
+            } else {
+                console.log('Значение по указанному ключу не найдено.');
+            }
+        } catch (error) {
+            console.error('Ошибка при получении из AsyncStorage: ', error);
+        }
+    };
 
     // Или изменять данные
     function updateNewUserDataStore (key, value){
@@ -86,7 +105,6 @@ const Authorization = observer(({ navigation }) => {
         }
     }
 
-
     // проверка логина на уникальность
     function handleUniqueLogin(){
         return api.checkUniqueLogin(login)
@@ -94,8 +112,9 @@ const Authorization = observer(({ navigation }) => {
                 setPopupRegisterIsActive(false);
                 setPopupRegisterIsError(false);
                 setLoginIsError(false);
+/*
                 console.log(isLogin); // проверка существует ли логин, если не существует возвращает false
-
+*/
                 updateNewUserDataStore('name', name);
                 updateNewUserDataStore('surname', surname);
                 updateNewUserDataStore('login', login);
@@ -122,10 +141,18 @@ const Authorization = observer(({ navigation }) => {
             })
     }
 
-
     // переключение между авторизацией и регистрацией
     const handleIsActive = () => {
         setIsActive(!isActive);
+    }
+
+    function handleClickAuthorization(){
+        return api.authorization(email, password)
+            .then((data) => {
+                console.log(data);
+            }).catch((err) => {
+                console.log(`${err} ошибка`)
+            })
     }
 
     return (
@@ -159,7 +186,7 @@ const Authorization = observer(({ navigation }) => {
                                         value={password}
                                         secureTextEntry={true} // Скрывает введенный текст (пароль)
                                     />
-                                    <TouchableOpacity style={styles.authorization__btnContainer} title="Войти">
+                                    <TouchableOpacity style={styles.authorization__btnContainer} title="Войти" onPress={() => handleClickAuthorization()}>
                                         <Text style={styles.authorization__textBtn}>ВОЙТИ</Text>
                                     </TouchableOpacity>
                                 </>

@@ -4,6 +4,16 @@ const getResponse = (res) => {
     return res.ok ? res.json() : Promise.reject(res);
 }
 
+const authorization = (email, password) => {
+    return fetch(`${BASE_URL}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, password})
+    }).then((res) => getResponse(res))
+}
+
 const sendMessageSupportEmail = ({email, name, message}) => {
     return fetch(`${BASE_URL}/support`, {
         method: 'POST',
@@ -98,4 +108,4 @@ const registerSocial = ({
         .then((res) => res.ok ? res.json() : Promise.reject(res));
 }
 
-export { register, checkUniqueLogin, checkUniqueEmail, sendMessageSupportEmail, registerSocial }
+export { register, checkUniqueLogin, checkUniqueEmail, sendMessageSupportEmail, registerSocial, authorization }

@@ -35,8 +35,6 @@ const RegisterPageTwo = observer(({ navigation }) => {
     const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(false);
     const [popupRegisterIsError, setPopupRegisterIsError] = useState(false);
 
-    const [isActive, setIsActive] = useState(false);
-
     const validateEmail = (email) => {
         // Регулярное выражение для проверки валидности email.
         const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -66,13 +64,15 @@ const RegisterPageTwo = observer(({ navigation }) => {
     function handleCheckUniqueEmail(){
         return api.checkUniqueEmail(email)
             .then((isEmail) => {
+                setPopupRegisterIsActive(false);
+                setPopupRegisterIsError(false);
+
                 setEmailIsError(false);
                 setEmailErrorInputText('');
                 if(!isEmail){
                     updateNewUserDataStore('email', email);
                     updateNewUserDataStore('password', password);
                     updateNewUserDataStore('password_confirmation', passwordRepeat);
-                    console.log(newUserDataStore.userData);
                     navigation.navigate('RegisterFinishPage');
                 } else {
                     setEmailIsError(true);
@@ -129,11 +129,13 @@ const RegisterPageTwo = observer(({ navigation }) => {
         if(password === passwordRepeat){
             setPasswordRepeatIsError(false);
             setPasswordIsError(false);
+            return true;
         } else {
             setPasswordRepeatIsError(true);
             setPasswordIsError(true);
             setPasswordRepeatErrorInputText('Пароли не совпадают');
             setPasswordErrorInputText('Пароли не совпадают');
+            return false
         }
     }
 
@@ -141,15 +143,12 @@ const RegisterPageTwo = observer(({ navigation }) => {
         return /[A-Z]/.test(str) && /[a-z0-9]/.test(str);
     }
 
-    const handleIsActive = () => {
-        navigation.navigate('Authorization');
-        setIsActive(!isActive);
-    }
-
     function handleClickNextPage () {
-        comparePasswords();
-        if(!emailIsError && !passwordIsError && !passwordRepeatIsError){
-            handleCheckUniqueEmail();
+        const isNextPage = comparePasswords();
+        if(isNextPage){
+            if(!emailIsError){
+                handleCheckUniqueEmail();
+            }
         }
     }
 
@@ -160,12 +159,12 @@ const RegisterPageTwo = observer(({ navigation }) => {
                     <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
                         <View style={styles.authorization__formContainer}>
                             <View style={styles.authorization__headerBlock}>
-                                <TouchableOpacity style={[styles.authorization__headerTextBlockLeft, isActive ? styles.authorization__headerTextBlockLeft_active : '']} onPress={() => handleIsActive()}>
+                                <View style={styles.authorization__headerTextBlockLeft}>
                                     <Text style={styles.authorization__headerTextLeft}>АВТОРИЗАЦИЯ</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.authorization__headerTextBlockRight, !isActive ? styles.authorization__headerTextBlockLeft_active : '']} onPress={() => handleIsActive()}>
+                                </View>
+                                <View style={[styles.authorization__headerTextBlockRight, styles.authorization__headerTextBlockLeft_active]}>
                                     <Text style={styles.authorization__headerTextRight}>СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ</Text>
-                                </TouchableOpacity>
+                                </View>
                             </View>
                                 <TextInput
                                     style={[styles.input, {color: emailIsError ? 'red' : '#FFF'}]}

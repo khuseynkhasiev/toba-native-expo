@@ -4,7 +4,6 @@ import * as React from "react";
 
 export default function PopupRegister({setPopupRegisterIsActive, popupRegisterText, popupRegisterIsError}){
 
-
     return (
         <TouchableOpacity style={styles.popupRegister} onPress={() => setPopupRegisterIsActive(false)}>
                 <View style={styles.popupRegister__container}>

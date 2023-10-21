@@ -106,6 +106,7 @@ export default function Navigate() {
                     component={MainPage}
                     options={{
                         title: "Главная",
+                        headerLeft: null,
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: {
@@ -119,26 +120,6 @@ export default function Navigate() {
                         },
                     }}
                 />
-                {/*          <Stack.Screen
-              name="Main"
-              component={MainPage}
-              options={{
-                  title: "Главная",
-                  headerShown: false,
-                  headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
-                  headerTitleStyle: {
-                      fontWeight: "bold",
-                      alignItems: "center",
-                      justifyContent: "center",
-                  },
-                  headerTitleAlign: {
-                      alignItems: "center",
-                      justifyContent: "center",
-                  },
-                  cardStyleInterpolator:
-                  CardStyleInterpolators.forFadeFromBottomAndroid,
-              }}
-          />*/}
                 <Stack.Screen
                     name="Library"
                     component={LibraryPage}

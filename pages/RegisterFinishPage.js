@@ -7,40 +7,88 @@ import {
     TouchableOpacity,
     Image,
 } from "react-native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState} from "react";
 import * as React from "react";
+import * as api from "../utils/api";
 import RegisterUserDate from "../components/RegisterUserDate";
 import { CheckBox } from 'react-native-elements';
 import PopupRegister from "../components/popupRegister";
+import newUserDataStore from "../components/store/createUserDataStore";
 
 const RegisterFinishPage = ({ navigation }) => {
-
     const [date, setDate] = useState('');
-    const [isChecked, setChecked] = useState(false);
+    console.log(date);
+
+    const [dateErrorText, setDateErrorText] = useState('Вам должно быть 14+ лет');
+    const [dateIsError, setDateIsError] = useState(false);
+
 
     const [agreement, setAgreement] = useState(false);
+    const [agreementIsError, setAgreementIsError] = useState(false);
+    const [agreementErrorText, setAgreementErrorText] = useState('Необходимо принять пользовательское соглашение')
+
     const [consent, setConsent] = useState(false);
 
-    const [isError, setIsError] = useState(true);
-
-    const [popupRegisterText, setPopupRegisterText] = useState('Текст ошибки');
-    const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(true);
+    const [popupRegisterText, setPopupRegisterText] = useState('');
+    const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(false);
     const [popupRegisterIsError, setPopupRegisterIsError] = useState(false);
 
-
-    // Функция для обработки выбора даты
-    const handleDateChange = (newDate) => {
-        setSelectedDate(newDate);
-    };
+    function handleCheckIsAgreement(){
+        if(!agreement){
+            setAgreementIsError(true);
+        } else {
+            setAgreementIsError(false);
+        }
+    }
 
     function handleClickFinishRegister(){
-        if(agreement){
+        handleCheckIsAgreement();
+        updateNewUserDataStore('agreement', agreement);
+        updateNewUserDataStore('consent', consent);
+        updateNewUserDataStore('date', date);
+        const user = newUserDataStore.userData;
+        console.log(user);
+        handleRegister(user);
+    }
+
+    function updateNewUserDataStore (key, value){
+        newUserDataStore.updateUserData(key, value);
+    }
+
+    const saveUserToken = async (token) => {
+        try {
+            await AsyncStorage.setItem('userToken', token);
+            console.log('Значение успешно сохранено в AsyncStorage');
             navigation.navigate('Main');
-        } else {
-            setIsError(true);
-            setErrorText('Необходимо принять пользовательское соглашение')
+        } catch (error) {
+            console.error('Ошибка при сохранении в AsyncStorage: ', error);
         }
+    };
+
+    function handleRegister(user) {
+        return api.register(user)
+            .then((data) => {
+                setPopupRegisterText('Для завершения регистрации Вам необходимо подтвердить электронный адрес. Письмо мы отправили, ожидайте.')
+                setPopupRegisterIsActive(true);
+                setPopupRegisterIsError(false);
+                console.log(data.message);
+                saveUserToken(data.message);
+            })
+            .catch((err) => {
+                // нужен всплывающий попап
+                setPopupRegisterIsActive(true);
+                setPopupRegisterIsError(true);
+                // нужен всплывающий попап
+                if (err instanceof TypeError && err.message === 'Failed to fetch') {
+                    // Обработка ошибки, если нет интернет-соединения
+                    console.error('Нет интернет-соединения');
+                    setPopupRegisterText('Нет интернет-соединения')
+                } else {
+                    console.error('Необработанная ошибка:', err);
+                    setPopupRegisterText('Что то не так, попробуйте позже...')
+                }
+            });
     }
 
     return (
@@ -60,8 +108,9 @@ const RegisterFinishPage = ({ navigation }) => {
                             <Text style={styles.authorization__text}>
                                 Когда Вы родились?
                             </Text>
-                            <View>
-                                <RegisterUserDate userDate={setDate}/>
+                            <View style={styles.registerFinish__userDate}>
+                                <RegisterUserDate userDate={date} setUserDate={setDate} setDateIsError={setDateIsError}/>
+                                {dateIsError && <Text style={[styles.paragraph, {color: 'red'}]}>{dateErrorText}</Text>}
                             </View>
                             <View style={styles.registerUserDate__containerCheck}>
                                 <View style={styles.section}>
@@ -83,6 +132,8 @@ const RegisterFinishPage = ({ navigation }) => {
                                     <Text style={styles.paragraph}>даю согласие на то, чтобы получать оповещения и рассылки</Text>
                                 </View>
                             </View>
+                            {agreementIsError && <Text style={[styles.paragraph, {color: 'red'}]}>{agreementErrorText}</Text>}
+
                             <View style={styles.authorization__containerBtn}>
                                 <TouchableOpacity style={styles.authorization__btnContainer} title="НАЗАД" onPress={() => navigation.navigate('RegisterPageTwo')}>
                                     <Text style={styles.authorization__textBtn}>НАЗАД</Text>
@@ -108,6 +159,11 @@ const RegisterFinishPage = ({ navigation }) => {
     )
 }
 const styles = StyleSheet.create({
+    registerFinish__userDate: {
+        flexDirection: 'row',
+        columnGap: 40,
+        alignItems: 'center'
+    },
     footer__container: {
         justifyContent: 'center',
         alignContent: 'center',
