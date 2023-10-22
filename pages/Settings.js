@@ -18,6 +18,13 @@ const Settings = ({ navigation }) => {
             PlayBackgroundMusic.onPlay()
         }
     }
+/*    const handleClickPlayBackgroundMusic = () => {
+        if(PlayBackgroundMusic.play) {
+            PlayBackgroundMusic.offPlay()
+        } else {
+            PlayBackgroundMusic.onPlay()
+        }
+    }*/
 
     return (
         <SafeAreaView style={styles.settings}>

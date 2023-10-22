@@ -11,7 +11,15 @@ const authorization = (email, password) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({email, password})
-    }).then((res) => getResponse(res))
+    }).then((res) => {
+        if (res.ok) {
+            return res.json(); // В случае успешного ответа возвращаем JSON
+        } else {
+            return res.json().then((errorData) => {
+                throw errorData.message; // В случае ошибки выбрасываем сообщение об ошибке
+            });
+        }
+    });
 }
 
 const sendMessageSupportEmail = ({email, name, message}) => {

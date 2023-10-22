@@ -20,7 +20,12 @@ const Authorization = observer(({ navigation }) => {
 
     // Для авторизации
     const [email, setEmail] = useState('');
+    const [emailIsError, setEmailIsError] = useState(false);
+    const [emailErrorInputText, setEmailErrorInputText] = useState('');
+
     const [password, setPassword] = useState('');
+    const [passwordIsError, setPasswordIsError] = useState(false);
+    const [passwordErrorInputText, setPasswordErrorInputText] = useState('Пароль состоит минимум из 8 символов');
 
     // переключение между авторизацией и регистрацией
     const [isActive, setIsActive] = useState(true);
@@ -42,9 +47,10 @@ const Authorization = observer(({ navigation }) => {
     const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(false);
     const [popupRegisterIsError, setPopupRegisterIsError] = useState(false);
 
-    useEffect(() => {
-        getUserToken();
-    }, [])
+    // переключение между авторизацией и регистрацией
+    const handleIsActive = () => {
+        setIsActive(!isActive);
+    }
 
     // проверка токена, если есть то переход на главную страницу
     const getUserToken = async () => {
@@ -61,6 +67,119 @@ const Authorization = observer(({ navigation }) => {
         }
     };
 
+    useEffect(() => {
+        getUserToken();
+    }, [])
+
+
+    // АВТОРИЗАЦИЯ
+
+    const saveUserToken = async (token) => {
+        try {
+            await AsyncStorage.setItem('userToken', token);
+            console.log('Значение успешно сохранено в AsyncStorage');
+            navigation.navigate('Main');
+        } catch (error) {
+            console.error('Ошибка при сохранении в AsyncStorage: ', error);
+        }
+    };
+    function handleCheckUniqueEmail(){
+        return api.checkUniqueEmail(email)
+            .then((isEmail) => {
+                setPopupRegisterIsActive(false);
+                setPopupRegisterIsError(false);
+
+                if(!isEmail){
+                    setEmailIsError(true);
+                    setEmailErrorInputText('На этой почте не зарегистрирован аккаунт');
+                } else {
+                    setEmailIsError(false);
+                    handleAuthorization();
+                }
+            })
+            .catch((err) => {
+                // нужен всплывающий попап
+                setPopupRegisterIsActive(true);
+                setPopupRegisterIsError(true);
+                // нужен всплывающий попап
+                if (err instanceof TypeError && err.message === 'Failed to fetch') {
+                    // Обработка ошибки, если нет интернет-соединения
+                    console.error('Нет интернет-соединения');
+                    setPopupRegisterText('Нет интернет-соединения')
+                } else {
+                    console.error('Необработанная ошибка:', err);
+                    setPopupRegisterText('Что то не так, попробуйте позже...')
+                }
+            })
+    }
+
+    function handleAuthorization(){
+        return api.authorization(email, password)
+            .then((data) => {
+                setPopupRegisterIsActive(false);
+                setPopupRegisterIsError(false);
+                saveUserToken(data.message)
+                console.log(data.message);
+            }).catch((err) => {
+                console.error(err);
+                setPopupRegisterText(err);
+                // нужен всплывающий попап
+                setPopupRegisterIsActive(true);
+                setPopupRegisterIsError(true);
+                // нужен всплывающий попап
+            })
+    }
+
+    function handleClickAuthorization(){
+
+        const isEmail = handleBlurInputEmail();
+        const isPassword = handleBlurInputPassword();
+
+        if (!isEmail && !isPassword) {
+            handleCheckUniqueEmail();
+        }
+    }
+
+    function validateEmail(email){
+        // Регулярное выражение для проверки валидности email.
+        const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+        const valid = emailPattern.test(email);
+        setEmailIsError(!valid);
+        //false
+        if(!valid){
+            setEmailErrorInputText('Введите корректную почту');
+        } else {
+        }
+        return !valid;
+    }
+
+    function handleValidationEmail(){
+        if (email.length < 1){
+            setEmailIsError(true);
+            setEmailErrorInputText('Обязательное поле')
+            return true;
+        } else {
+            return validateEmail(email);
+        }
+    }
+
+    function handleBlurInputEmail(){
+        return handleValidationEmail();
+    }
+
+    function handleBlurInputPassword(){
+        if (password.length < 8){
+            setPasswordIsError(true);
+            return true;
+        } else {
+            setPasswordIsError(false);
+            return false;
+        }
+    }
+
+    // РЕГИСТРАЦИЯ
+
     // Или изменять данные
     function updateNewUserDataStore (key, value){
         newUserDataStore.updateUserData(key, value);
@@ -76,6 +195,8 @@ const Authorization = observer(({ navigation }) => {
             return false;
         }
     }
+
+
     function handleBlurInputSurname(){
         if (surname.length < 1){
             setSurnameIsError(true);
@@ -141,19 +262,7 @@ const Authorization = observer(({ navigation }) => {
             })
     }
 
-    // переключение между авторизацией и регистрацией
-    const handleIsActive = () => {
-        setIsActive(!isActive);
-    }
 
-    function handleClickAuthorization(){
-        return api.authorization(email, password)
-            .then((data) => {
-                console.log(data);
-            }).catch((err) => {
-                console.log(`${err} ошибка`)
-            })
-    }
 
     return (
         <SafeAreaView style={styles.authorization}>
@@ -172,19 +281,23 @@ const Authorization = observer(({ navigation }) => {
                             {isActive ?
                                 <>
                                     <TextInput
-                                        style={styles.input}
+                                        style={[styles.input, {color: emailIsError ? 'red' : '#FFF'}]}
                                         placeholder="Электронный адрес"
                                         placeholderTextColor="#FFF" // Установите цвет текста placeholder
                                         onChangeText={(text) => setEmail(text)}
-                                        value={email}
+                                        value={emailIsError ? emailErrorInputText : email}
+                                        onFocus={() => setEmailIsError(false)}
+                                        onBlur={() => handleBlurInputEmail()}
                                     />
                                     <TextInput
-                                        style={styles.input}
+                                        style={[styles.input, {color: passwordIsError ? 'red' : '#FFF'}]}
                                         placeholder="Пароль"
                                         placeholderTextColor="#FFF" // Установите цвет текста placeholder
                                         onChangeText={(text) => setPassword(text)}
-                                        value={password}
-                                        secureTextEntry={true} // Скрывает введенный текст (пароль)
+                                        value={passwordIsError ? passwordErrorInputText : password}
+                                        secureTextEntry={!passwordIsError} // Скрывает введенный текст (пароль)
+                                        onFocus={() => setPasswordIsError(false)}
+                                        onBlur={() => handleBlurInputPassword()}
                                     />
                                     <TouchableOpacity style={styles.authorization__btnContainer} title="Войти" onPress={() => handleClickAuthorization()}>
                                         <Text style={styles.authorization__textBtn}>ВОЙТИ</Text>

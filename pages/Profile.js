@@ -7,8 +7,38 @@ import {
     TouchableOpacity, View,
 } from 'react-native';
 import * as React from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import PlayBackgroundMusic from "../components/store/PlayBackgroundMusic";
 
 export default function Profile({ navigation }) {
+
+    const handleClickPlayBackgroundMusic = () => {
+        if(PlayBackgroundMusic.play) {
+            PlayBackgroundMusic.offPlay()
+        } else {
+            PlayBackgroundMusic.onPlay()
+        }
+    }
+
+    function deleteProfileToken() {
+        handleClickPlayBackgroundMusic();
+        try {
+            AsyncStorage.removeItem('userToken')
+                .then(() => {
+                    navigation.navigate('Authorization');
+                    console.log('Значение успешно удалено из AsyncStorage');
+                })
+                .catch((error) => {
+                    console.error('Ошибка удаления в AsyncStorage: ', error);
+                });
+        } catch (error) {
+            console.error('Ошибка удаления в AsyncStorage: ', error);
+        }
+    }
+
+    function handleExitProfile(){
+        deleteProfileToken();
+    }
     return (
         <SafeAreaView style={styles.profile}>
             <Text style={styles.profile__title}>PROFILE</Text>
@@ -16,6 +46,10 @@ export default function Profile({ navigation }) {
                 <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')} />
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
                     <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.profile__exitBtn} onPress={handleExitProfile}>
+                    <Text style={styles.profile__text}>Выйти из профиля</Text>
                 </TouchableOpacity>
 {/*                <TouchableOpacity style={styles.profile__libraryBtn} onPress={() => navigation.navigate('Library')}>
                     <Image style={styles.profile__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
@@ -54,6 +88,11 @@ const styles = StyleSheet.create({
     profile__menuBtn: {
         position: "absolute",
         top: 10,
+        left: 30,
+    },
+    profile__exitBtn: {
+        position: "absolute",
+        top: 100,
         left: 30,
     },
     profile__menuIcon: {

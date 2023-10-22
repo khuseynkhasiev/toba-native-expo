@@ -48,8 +48,6 @@ const MainPage = observer(({ navigation }) => {
             }
         };
 
-
-
         const stopSound = async () => {
             if (sound) {
                 await sound.stopAsync();
