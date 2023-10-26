@@ -8,20 +8,10 @@ import {
 } from 'react-native';
 import * as React from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import PlayBackgroundMusic from "../components/store/PlayBackgroundMusic";
 
 export default function Profile({ navigation }) {
 
-    const handleClickPlayBackgroundMusic = () => {
-        if(PlayBackgroundMusic.play) {
-            PlayBackgroundMusic.offPlay()
-        } else {
-            PlayBackgroundMusic.onPlay()
-        }
-    }
-
     function deleteProfileToken() {
-        handleClickPlayBackgroundMusic();
         try {
             AsyncStorage.removeItem('userToken')
                 .then(() => {
