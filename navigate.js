@@ -118,6 +118,7 @@ export default function Navigate() {
                             alignItems: "center",
                             justifyContent: "center",
                         },
+                        gestureEnabled: false,
                     }}
                 />
                 <Stack.Screen

@@ -12,11 +12,13 @@ import {useEffect, useState} from "react";
 import * as React from "react";
 import * as api from "../utils/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {observer} from "mobx-react-lite";
 import newUserDataStore from "../components/store/createUserDataStore";
 import PopupRegister from "../components/popupRegister";
+import {useNavigation} from "@react-navigation/native";
+import { observer } from 'mobx-react';
+import BackgroundMusicStore from '../components/store/BackgroundMusicStore';
 
-const Authorization = observer(({ navigation }) => {
+const Authorization = ({ navigation }) => {
 
     // Для авторизации
     const [email, setEmail] = useState('');
@@ -47,6 +49,8 @@ const Authorization = observer(({ navigation }) => {
     const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(false);
     const [popupRegisterIsError, setPopupRegisterIsError] = useState(false);
 
+    const navigationNative = useNavigation();
+
     // переключение между авторизацией и регистрацией
     const handleIsActive = () => {
         setIsActive(!isActive);
@@ -71,14 +75,34 @@ const Authorization = observer(({ navigation }) => {
         getUserToken();
     }, [])
 
+    // запуск фоновой музыки
+    useEffect(() => {
+        if (BackgroundMusicStore.isPlaying) {
+            BackgroundMusicStore.playMusic();
+        } else {
+            BackgroundMusicStore.stopMusic();
 
+        }
+    }, [BackgroundMusicStore.isPlaying])
+
+    const handleClickPlayBackgroundMusic = () => {
+        if (BackgroundMusicStore.isPlaying) {
+            BackgroundMusicStore.stopMusic();
+        } else {
+            BackgroundMusicStore.playMusic();
+        }
+    }
     // АВТОРИЗАЦИЯ
-
     const saveUserToken = async (token) => {
         try {
             await AsyncStorage.setItem('userToken', token);
             console.log('Значение успешно сохранено в AsyncStorage');
-            navigation.navigate('Main');
+            /*navigation.navigate('Main');*/
+            // сбрасываем навигационный стек и ставим Main на первое место
+            navigationNative.reset({
+                index: 0,
+                routes: [{ name: 'Main' }], // Переход на экран "Main"
+            });
         } catch (error) {
             console.error('Ошибка при сохранении в AsyncStorage: ', error);
         }
@@ -262,8 +286,6 @@ const Authorization = observer(({ navigation }) => {
             })
     }
 
-
-
     return (
         <SafeAreaView style={styles.authorization}>
             <ImageBackground style={styles.authorization__background} source={require('../assets/image/RegisterBg.png')}>
@@ -377,16 +399,31 @@ const Authorization = observer(({ navigation }) => {
                         setPopupRegisterIsActive={setPopupRegisterIsActive}
                         popupRegisterText={popupRegisterText}/>
                 }
+                <TouchableOpacity style={styles.soundIcon} onPress={() => handleClickPlayBackgroundMusic()}>
+                    <ImageBackground style={styles.soundActiveIcon} source={require('../assets/image/soundActiveIcon.png')}/>
+                </TouchableOpacity>
             </ImageBackground>
         </SafeAreaView>
     )
-})
+}
 const styles = StyleSheet.create({
+    soundIcon: {
+        position: "absolute",
+        right: 10,
+        top: 10,
+        zIndex: 2,
+
+    },
+    soundActiveIcon: {
+        height: 40,
+        width: 40,
+    },
     authorization: {
         width: '100%',
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
+        position: "relative"
     },
     authorization__background: {
         width: '100%',
@@ -472,14 +509,14 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 'bold',
     },
-    input__loginError:{
+/*    input__loginError:{
         color: '#000',
         textAlign: 'center',
         fontFamily: 'Montserrat',
         fontSize: 14,
         fontStyle: 'normal',
         fontWeight: 'bold',
-    },
+    },*/
     authorization__containerBtn: {
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
@@ -553,4 +590,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Authorization;
+export default observer(Authorization);

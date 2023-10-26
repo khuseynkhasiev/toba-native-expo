@@ -15,6 +15,7 @@ import RegisterUserDate from "../components/RegisterUserDate";
 import { CheckBox } from 'react-native-elements';
 import PopupRegister from "../components/popupRegister";
 import newUserDataStore from "../components/store/createUserDataStore";
+import {useNavigation} from "@react-navigation/native";
 
 const RegisterFinishPage = ({ navigation }) => {
     const [date, setDate] = useState('');
@@ -55,12 +56,18 @@ const RegisterFinishPage = ({ navigation }) => {
     function updateNewUserDataStore (key, value){
         newUserDataStore.updateUserData(key, value);
     }
+    const navigationNative = useNavigation();
 
     const saveUserToken = async (token) => {
         try {
             await AsyncStorage.setItem('userToken', token);
             console.log('Значение успешно сохранено в AsyncStorage');
-            navigation.navigate('Main');
+            /*navigation.navigate('Main');*/
+            // сбрасываем навигационный стек и ставим Main на первое место
+            navigationNative.reset({
+                index: 0,
+                routes: [{ name: 'Main' }], // Переход на экран "Main"
+            });
         } catch (error) {
             console.error('Ошибка при сохранении в AsyncStorage: ', error);
         }

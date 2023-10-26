@@ -13,11 +13,12 @@ import PlayBackgroundMusic from "../components/store/PlayBackgroundMusic";
 export default function Profile({ navigation }) {
 
     const handleClickPlayBackgroundMusic = () => {
-        if(PlayBackgroundMusic.play) {
+/*        if(PlayBackgroundMusic.play) {
             PlayBackgroundMusic.offPlay()
         } else {
             PlayBackgroundMusic.onPlay()
-        }
+        }*/
+        PlayBackgroundMusic.offPlay()
     }
 
     function deleteProfileToken() {

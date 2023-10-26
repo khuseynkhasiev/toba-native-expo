@@ -8,30 +8,38 @@ import {
 } from 'react-native';
 import * as React from 'react';
 
+import { observer } from 'mobx-react';
+import BackgroundMusicStore from '../components/store/BackgroundMusicStore';
+
 import PlayBackgroundMusic from '../components/store/PlayBackgroundMusic';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useEffect, useState} from "react";
+import {Audio} from "expo-av";
 
 const Settings = ({ navigation }) => {
-    const handleClickPlayBackgroundMusic = () => {
-        if(PlayBackgroundMusic.play) {
-            PlayBackgroundMusic.offPlay()
+    // запуск фоновой музыки
+    useEffect(() => {
+        if (BackgroundMusicStore.isPlaying) {
+            BackgroundMusicStore.playMusic();
         } else {
-            PlayBackgroundMusic.onPlay()
+            BackgroundMusicStore.stopMusic();
+        }
+    }, [BackgroundMusicStore.isPlaying])
+
+    const handleClickPlayBackgroundMusic = () => {
+        if (BackgroundMusicStore.isPlaying) {
+            BackgroundMusicStore.stopMusic();
+        } else {
+            BackgroundMusicStore.playMusic();
         }
     }
-/*    const handleClickPlayBackgroundMusic = () => {
-        if(PlayBackgroundMusic.play) {
-            PlayBackgroundMusic.offPlay()
-        } else {
-            PlayBackgroundMusic.onPlay()
-        }
-    }*/
 
     return (
         <SafeAreaView style={styles.settings}>
             <Text style={styles.settings__title}>SETTINGS</Text>
             <View style={styles.settings__container}>
                 <ImageBackground style={styles.settings__background} source={require('../assets/image/settingBackground.png')} />
-                <TouchableOpacity style={styles.settings__controlBtn} onPress={handleClickPlayBackgroundMusic}>
+                <TouchableOpacity style={styles.settings__controlBtn} onPress={() => handleClickPlayBackgroundMusic()}>
                     <Text style={styles.settings__textForm}>Фоновая музыка (вкл/выкл)</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.settings__menuBtn} onPress={() => navigation.navigate('Main')}>
@@ -132,4 +140,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Settings;
+export default observer(Settings);

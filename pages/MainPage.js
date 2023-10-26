@@ -7,63 +7,11 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { Audio } from 'expo-av';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import {useEffect, useState} from "react";
-import PlayBackgroundMusic from '../components/store/PlayBackgroundMusic';
 
 import {observer} from "mobx-react-lite";
 
-
 const MainPage = observer(({ navigation }) => {
 
-    const [sound, setSound] = useState(null);
-
-
-    const getUserToken = async () => {
-        try {
-            const value = await AsyncStorage.getItem('userToken');
-            if (value !== null) {
-                console.log('Значение из AsyncStorage: ', value);
-            } else {
-                console.log('Значение по указанному ключу не найдено.');
-            }
-        } catch (error) {
-            console.error('Ошибка при получении из AsyncStorage: ', error);
-        }
-    };
-    // запуск фоновой музыки
-    useEffect(() => {
-        getUserToken();
-        const playSound = async () => {
-            try {
-                const { sound } = await Audio.Sound.createAsync(
-                    require('../assets/music/baraban-background.mp3'),
-                    { shouldPlay: true, isLooping: true }
-                );
-                setSound(sound);
-            } catch (error) {
-                console.warn('Error playing sound: ', error);
-            }
-        };
-
-        const stopSound = async () => {
-            if (sound) {
-                await sound.stopAsync();
-                sound.unloadAsync();
-                setSound(null);
-            }
-        };
-
-        if (PlayBackgroundMusic.play) {
-            if (!sound) {
-                playSound();
-            }
-        } else {
-            stopSound();
-        }
-    }, [PlayBackgroundMusic.play]);
     return (
         <SafeAreaView style={styles.main}>
             <View style={styles.main__textContainer}>
