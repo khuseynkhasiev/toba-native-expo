@@ -28,11 +28,12 @@ import NewCityScene from "./components/SeriesOne/NewCityScene";
 import PeopleRunStreetsScene from "./components/SeriesOne/PeopleRunStreetsScene";
 import SystemSlavesScene from "./components/SeriesOne/SystemSlavesScene";
 import AuthorizationPage from "./pages/AuthorizationPage";
-import RegisterPageOne from "./pages/RegisterPageOne";
 import RegisterPageTwo from "./pages/RegisterPageTwo";
 import RegisterFinishPage from "./pages/RegisterFinishPage";
 import { Provider } from 'mobx-react';
 import newUserDataStore from "./components/store/createUserDataStore";
+import ProfileEdit from "./pages/ProfileEdit";
+import ProfileEditPassword from "./pages/ProfileEditPassword";
 
 const Stack = createStackNavigator();
 
@@ -138,6 +139,30 @@ export default function Navigate() {
                     component={Profile}
                     options={{
                         title: "Профиль",
+                        headerShown: false,
+                        headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                        headerTitleStyle: { fontWeight: "bold" },
+                        cardStyleInterpolator:
+                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                    }}
+                />
+                <Stack.Screen
+                    name="ProfileEdit"
+                    component={ProfileEdit}
+                    options={{
+                        title: "Редактирование профиля",
+                        headerShown: false,
+                        headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                        headerTitleStyle: { fontWeight: "bold" },
+                        cardStyleInterpolator:
+                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                    }}
+                />
+                <Stack.Screen
+                    name="ProfileEditPassword"
+                    component={ProfileEditPassword}
+                    options={{
+                        title: "Редактирование профиля",
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },

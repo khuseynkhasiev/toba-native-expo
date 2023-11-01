@@ -19,8 +19,6 @@ import {useNavigation} from "@react-navigation/native";
 
 const RegisterFinishPage = ({ navigation }) => {
     const [date, setDate] = useState('');
-    console.log(date);
-
     const [dateErrorText, setDateErrorText] = useState('Вам должно быть 14+ лет');
     const [dateIsError, setDateIsError] = useState(false);
 
@@ -212,6 +210,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
+        borderRadius: 35,
+        overflow: 'hidden'
     },
     authorization__form: {
         alignItems: 'center',

@@ -61,7 +61,7 @@ const Authorization = ({ navigation }) => {
         try {
             const value = await AsyncStorage.getItem('userToken');
             if (value !== null) {
-                console.log('Значение из AsyncStorage: ', value);
+                /*console.log('Значение из AsyncStorage: ', value);*/
                 navigation.navigate('Main');
             } else {
                 console.log('Значение по указанному ключу не найдено.');
@@ -143,7 +143,7 @@ const Authorization = ({ navigation }) => {
                 setPopupRegisterIsActive(false);
                 setPopupRegisterIsError(false);
                 saveUserToken(data.message)
-                console.log(data.message);
+                /*console.log(data.message);*/
             }).catch((err) => {
                 console.error(err);
                 setPopupRegisterText(err);
@@ -438,6 +438,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
+        borderRadius: 35,
+        overflow: 'hidden'
     },
     authorization__form: {
         alignItems: 'center',

@@ -250,6 +250,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center',
+        borderRadius: 35,
+        overflow: 'hidden'
     },
     authorization__form: {
         alignItems: 'center',

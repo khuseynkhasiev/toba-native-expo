@@ -7,10 +7,36 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
+import newGetUserDataStore from '../components/store/getUserDateStore';
 
 import {observer} from "mobx-react-lite";
+import {useEffect, useState} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as api from "../utils/api";
+import { toJS } from 'mobx';
+
 
 const MainPage = observer(({ navigation }) => {
+
+    const getUserDate = async () => {
+        const token = await AsyncStorage.getItem('userToken');
+        api.getUser(token)
+            .then((userData) => {
+                newGetUserDataStore.updateUserData(userData.data);
+
+                console.log(userData.data);
+                console.log(newGetUserDataStore.userData);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        getUserDate();
+    },[newGetUserDataStore.userData])
+
+
 
     return (
         <SafeAreaView style={styles.main}>

@@ -22,6 +22,23 @@ const authorization = (email, password) => {
     });
 }
 
+const getUser = (token) => {
+    return fetch(`${BASE_URL}/user`, {
+        method: 'GET',
+        headers: {
+            'Authorization' : `Bearer ${token}`
+        }
+    }).then((res) => {
+        if (res.ok) {
+            return res.json(); // В случае успешного ответа возвращаем JSON
+        } else {
+            return res.json().then((errorData) => {
+                throw errorData.message; // В случае ошибки выбрасываем сообщение об ошибке
+            });
+        }
+    })
+}
+
 const sendMessageSupportEmail = ({email, name, message}) => {
     return fetch(`${BASE_URL}/support`, {
         method: 'POST',
@@ -116,4 +133,4 @@ const registerSocial = ({
         .then((res) => res.ok ? res.json() : Promise.reject(res));
 }
 
-export { register, checkUniqueLogin, checkUniqueEmail, sendMessageSupportEmail, registerSocial, authorization }
+export { register, checkUniqueLogin, checkUniqueEmail, sendMessageSupportEmail, registerSocial, authorization, getUser }
