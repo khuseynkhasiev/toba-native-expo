@@ -2,7 +2,7 @@ import { observable, action } from 'mobx';
 
 function getUserDataStoreStore() {
     let userData = observable({
-        id: '',
+        id: "",
         login: "",
         name: "",
         avatar: null,
@@ -12,9 +12,7 @@ function getUserDataStoreStore() {
         email_verified_at: null,
         agreement: false,
         consent: false,
-/*
         phone: '',
-*/
     });
 
     const updateUserDataValue = action((key, value) => {
@@ -22,7 +20,7 @@ function getUserDataStoreStore() {
     });
 
     const updateUserData = action((
-        { id, login, name, avatar, surname, email, birthday, email_verified_at, agreement, consent }
+        { id, login, name, avatar, surname, email, birthday, email_verified_at, agreement, consent, phone }
     ) => {
         userData.id = id;
         userData.login = login;
@@ -34,6 +32,7 @@ function getUserDataStoreStore() {
         userData.email_verified_at = email_verified_at;
         userData.agreement = agreement;
         userData.consent = consent;
+        userData.phone = phone;
     });
 
 

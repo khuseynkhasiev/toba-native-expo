@@ -10,7 +10,7 @@ import * as React from 'react';
 import * as api from '../utils/api';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useEffect, useState} from "react";
-import newGetUserDataStore from "../components/store/getUserDateStore";
+import newGetUserDataStore from "../components/store/getUserDataStore";
 import EditUserDate from "../components/EditUserDate";
 import * as ImagePicker from 'expo-image-picker';
 
@@ -24,7 +24,7 @@ export default function ProfileEdit({ navigation }) {
     const [nameTextIsError, setNameTextIsError] = useState('Обязательное поле');
     const [nameIsError, setNameIsError] = useState(false);
 
-    const [surnameInput, setSurnameInput] = useState('');
+    const [surnameInput, setSurnameInput] = useState(surname);
     const [surnameTextIsError, setSurnameTextIsError] = useState('Обязательное поле');
     const [surnameIsError, setSurnameIsError] = useState(false);
 
@@ -36,11 +36,14 @@ export default function ProfileEdit({ navigation }) {
     const [loginTextIsError, setLoginTextIsError] = useState('Обязательное поле');
     const [loginIsError, setLoginIsError] = useState(false);
 
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(birthday);
     const [dateErrorText, setDateErrorText] = useState('Вам должно быть 14+ лет');
     const [dateIsError, setDateIsError] = useState(false);
 
     const [token, setToken] = useState('');
+    const [avatarValue, setAvatarValue] = useState(avatar);
+
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const getUserToken = async () => {
         setToken(await AsyncStorage.getItem('userToken'));
@@ -49,6 +52,7 @@ export default function ProfileEdit({ navigation }) {
     useEffect(() => {
         getUserToken();
     }, [])
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -58,12 +62,11 @@ export default function ProfileEdit({ navigation }) {
         });
 
         if (!result.cancelled) {
+            const uri = result.assets[0].uri;
             // Здесь вы можете отправить изображение на сервер или обработать его дальше
-            console.log(result.uri);
+            // Теперь `selectedImage` хранит путь к выбранной фотографии.
+            setSelectedImage(uri);
         }
-        const uri = result.assets[0].uri;
-        console.log(uri)
-        uploadPhotoToServer(uri);
     };
 
     async function uploadPhotoToServer(photoUri) {
@@ -84,10 +87,6 @@ export default function ProfileEdit({ navigation }) {
                 name: 'photo.png', // Имя файла на сервере
             });
 
-            // Если у вас есть дополнительные параметры для отправки на сервер, добавьте их сюда
-            // formData.append('param1', 'value1');
-            // formData.append('param2', 'value2');
-
             const response = await fetch('https://animics.ru/api/user/edit', {
                 method: 'POST',
                 headers: {
@@ -96,10 +95,10 @@ export default function ProfileEdit({ navigation }) {
                 },
                 body: formData,
             });
-
             if (response.status === 200) {
                 const data = await response.json();
                 console.log('Фотография успешно загружена', data);
+                return data.data.avatar;
             } else {
                 console.log('Ошибка при загрузке фотографии', response.status, response.statusText);
             }
@@ -153,6 +152,56 @@ export default function ProfileEdit({ navigation }) {
             return false;
         }
     }
+    const updateUserStore = (avatar) => {
+        newGetUserDataStore.updateUserDataValue('name', nameInput);
+        newGetUserDataStore.updateUserDataValue('login', loginInput);
+        newGetUserDataStore.updateUserDataValue('birthday', date);
+        newGetUserDataStore.updateUserDataValue('surname', surnameInput);
+        newGetUserDataStore.updateUserDataValue('phone', phoneInput);
+        newGetUserDataStore.updateUserDataValue('avatar', avatar);
+    }
+
+    const submitFormEditUser = async () => {
+        const avatar = await uploadPhotoToServer(selectedImage);
+
+        if (login === loginInput) {
+            if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
+                api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
+                    .then((userData) => {
+                        updateUserStore(avatar);
+                        prevScreenProfile();
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
+            }
+        } else {
+            api.checkUniqueLogin(loginInput)
+                .then((isUnique) => {
+                    console.log(isUnique);
+                    if(isUnique) {
+                        setLoginIsError(true);
+                        setLoginTextIsError('Такой логин уже существует');
+                    } else {
+                        setLoginIsError(false);
+                        setLoginTextIsError('Обязательное поле');
+                    }
+                }).then(() => {
+                if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
+                    api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
+                        .then(() => {
+                            updateUserStore(avatar);
+                            prevScreenProfile();
+                        }).catch((err) => {
+                        console.error(err)
+                    })
+                }
+            })
+        }
+    }
+    function prevScreenProfile(){
+        navigation.navigate('Profile');
+    }
 
     return (
         <SafeAreaView style={styles.profile}>
@@ -165,9 +214,21 @@ export default function ProfileEdit({ navigation }) {
                     <ImageBackground style={styles.profile__formBackground} source={require('../assets/image/profileBgForm.png')}>
                         <View style={styles.profile__formTopBlock}>
                             <TouchableOpacity style={styles.profile__userImageTop} onPress={() => pickImage()}>
-                                <ImageBackground style={styles.profile__image} source={require('../assets/image/profileCircLeImage.png')}>
-                                    <Text style={styles.profile__imageText}>фото профиля</Text>
-                                </ImageBackground>
+                                { avatar === null
+                                    ?
+                                    <ImageBackground style={styles.profile__image} source={require('../assets/image/profileCircLeImage.png')}>
+                                        <Text style={styles.profile__imageText}>фото профиля</Text>
+                                    </ImageBackground>
+                                    :
+/*
+                                    <Image style={styles.profile__image} source={{ uri: `https://animics.ru/storage/${avatarValue.substring(avatarValue.indexOf("avatars/"))}` }}/>
+*/
+                                    <Image
+                                        style={styles.profile__image}
+                                        source={selectedImage ? { uri: selectedImage } : {uri: `https://animics.ru/storage/${avatarValue.substring(avatarValue.indexOf("avatars/"))}`} }
+                                    />
+
+                                }
                             </TouchableOpacity>
                             <View style={styles.profile__userInfoTop}>
                                 <TextInput
@@ -179,11 +240,8 @@ export default function ProfileEdit({ navigation }) {
                                     onFocus={() => setLoginIsError(false)}
                                     onBlur={() => handleBlurInputLogin()}
                                 />
-{/*
-                                <Text style={styles.profile__dateText}>ДД.ММ.ГГГГ</Text>
-*/}
                                 <View style={styles.profile__dateContainer}>
-                                    <EditUserDate userDate={date} setUserDate={setDate} setDateIsError={setDateIsError}/>
+                                    <EditUserDate date={date} setDate={setDate} setDateIsError={setDateIsError}/>
                                     {dateIsError && <Text style={[styles.paragraph, {color: 'red'}]}>{dateErrorText}</Text>}
                                 </View>
                                 <TouchableOpacity onPress={() => navigation.navigate('ProfileEditPassword')}>
@@ -257,7 +315,7 @@ export default function ProfileEdit({ navigation }) {
                             </View>
                         </View>
                     </ImageBackground>
-                    <TouchableOpacity style={styles.profile__saveBtn}>
+                    <TouchableOpacity style={styles.profile__saveBtn} onPress={() => submitFormEditUser()}>
                         <View style={styles.profile__saveBtnContainer}>
                             <Text style={styles.profile__saveBtnText}>СОХРАНИТЬ ИЗМЕНЕНИЯ</Text>
                         </View>
@@ -311,7 +369,7 @@ const styles = StyleSheet.create({
     },
     input__login:{
         color: '#FFF',
-        width: '80%',
+        width: '100%',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#FFF',
@@ -398,7 +456,9 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 50,
+        overflow: 'hidden'
     },
     profile__imageText:{
         color: '#FFF',

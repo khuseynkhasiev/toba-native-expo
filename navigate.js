@@ -138,6 +138,7 @@ export default function Navigate() {
                     name="Profile"
                     component={Profile}
                     options={{
+                        unmountOnBlur: true,
                         title: "Профиль",
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },

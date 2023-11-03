@@ -142,8 +142,7 @@ const Authorization = ({ navigation }) => {
             .then((data) => {
                 setPopupRegisterIsActive(false);
                 setPopupRegisterIsError(false);
-                saveUserToken(data.message)
-                /*console.log(data.message);*/
+                saveUserToken(data.message);
             }).catch((err) => {
                 console.error(err);
                 setPopupRegisterText(err);

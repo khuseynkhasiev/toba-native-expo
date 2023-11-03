@@ -2,8 +2,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import {useEffect, useState} from "react";
 
-const EditUserDate = ({setUserDate, userDate, setDateIsError}) => {
-    const [date, setDate] = useState('');
+const EditUserDate = ({date, setDate, setDateIsError}) => {
     const [show, setShow] = useState(false);
     const [onDate, setOnDate] = useState(false);
 
@@ -13,12 +12,12 @@ const EditUserDate = ({setUserDate, userDate, setDateIsError}) => {
     const currentDay = currentDate.getDate();
 
     useEffect(() => {
-        if(userDate){
+        if(date){
             setOnDate(true);
         } else {
             setOnDate(false);
         }
-    }, [userDate])
+    }, [date])
 
     function checkUserDate(year, month, day){
         if (year > currentYear ) {
@@ -51,7 +50,7 @@ const EditUserDate = ({setUserDate, userDate, setDateIsError}) => {
         const newDate = `${year}-${month}-${day}`
         /*console.log(newDate);*/
         checkUserDate(year, month, day);
-        setUserDate(newDate);
+        setDate(newDate);
     };
 
     const showMode = (currentMode) => {
@@ -65,7 +64,7 @@ const EditUserDate = ({setUserDate, userDate, setDateIsError}) => {
         <>
             <TouchableOpacity style={styles.registerUserDate__btn} onPress={showDatepicker}>
                 <Text style={styles.registerUserDate__btnText}>
-                    {onDate ? userDate.split('-').reverse().join('.') : 'ДД.ММ.ГГГГ'}
+                    {onDate ? date.split('-').reverse().join('.') : 'ДД.ММ.ГГГГ'}
                 </Text>
             </TouchableOpacity>
             {show && (

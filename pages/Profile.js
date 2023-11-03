@@ -3,24 +3,47 @@ import {
     ImageBackground,
     SafeAreaView,
     StyleSheet,
-    Text, TextInput,
+    Text,
     TouchableOpacity, View,
 } from 'react-native';
 import * as React from 'react';
 import * as api from '../utils/api';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useEffect, useState} from "react";
-import newGetUserDataStore from '../components/store/getUserDateStore';
-
+import newGetUserDataStore from '../components/store/getUserDataStore';
+import PopupExit from "../components/PopupExit";
+import PopupVerify from "../components/PopupVerify";
+import {useIsFocused} from '@react-navigation/native';
 
 export default function Profile({ navigation }) {
-    const [popupIsActive, setPopupIsActive] = useState(false);
 
-    console.log(newGetUserDataStore.userData);
 
-    const {
-        id, login, name, avatar, surname, email, birthday, email_verified_at, agreement, consent, phone
-    } = newGetUserDataStore.userData;
+    const [popupExitIsActive, setPopupExitIsActive] = useState(false);
+    const [popupVerifyIsActive, setPopupVerifyIsActive] = useState(false);
+    const [popupVerifyMessage, setPopupVerifyMessage] = useState('');
+
+    const [token, setToken] = useState('');
+
+    const [userData, setUserData] = useState(newGetUserDataStore.userData);
+
+    // для перерисовки при возвращение по навагации назад, обычный способ не работает, т.к. экран сохраняется в кэш
+    const isFocused = useIsFocused();
+    useEffect(() => {
+        const updateStateUserDate = async () => {
+            if (isFocused) {
+                setUserData(await newGetUserDataStore.userData);
+            }
+        }
+        updateStateUserDate();
+    }, [isFocused]);
+
+    const getUserToken = async () => {
+        setToken(await AsyncStorage.getItem('userToken'));
+    }
+    useEffect(() => {
+        getUserToken();
+    }, [])
+
     function deleteProfileToken() {
         try {
             AsyncStorage.removeItem('userToken')
@@ -39,6 +62,21 @@ export default function Profile({ navigation }) {
     function handleExitProfile(){
         deleteProfileToken();
     }
+
+    function handleEmailVerify(){
+        api.emailVerify(token)
+            .then((message) => {
+                console.log(message);
+                setPopupVerifyMessage(message);
+                setPopupVerifyIsActive(true);
+
+            })
+            .catch((err) => {
+                console.log(err);
+                setPopupVerifyMessage(err);
+                setPopupVerifyIsActive(true);
+            })
+    }
     return (
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
@@ -50,58 +88,56 @@ export default function Profile({ navigation }) {
                     <ImageBackground style={styles.profile__formBackground} source={require('../assets/image/profileBgForm.png')}>
                         <View style={styles.profile__formTopBlock}>
                             <View style={styles.profile__userImageTop}>
-                                { avatar === null
+                                {userData.avatar === null
                                     ?
                                     <ImageBackground style={styles.profile__image} source={require('../assets/image/profileCircLeImage.png')}>
                                         <Text style={styles.profile__imageText}>фото профиля</Text>
                                     </ImageBackground>
-                                    : ''
-/*                                    <ImageBackground style={styles.profile__image} source={{ uri: 'https://animics.ru/api/' + avatar }}>>
-                                        <Text style={styles.profile__imageText}>фото профиля</Text>
-                                    </ImageBackground>*/
+                                    :
+                                    <Image style={styles.profile__image} source={{ uri: `https://animics.ru/storage/${userData.avatar.substring(userData.avatar.indexOf("avatars/"))}` }}/>
                                 }
 
                             </View>
                             <View style={styles.profile__userInfoTop}>
-                                <Text style={styles.profile__loginText}>{login}</Text>
+                                <Text style={styles.profile__loginText}>{userData.login}</Text>
                                 <Text style={styles.profile__dateText}>
-                                    {birthday.split('-').reverse().join('.')}
+                                    {userData.birthday.split('-').reverse().join('.')}
                                 </Text>
                             </View>
                         </View>
                         <View style={styles.profile__formBottomBlock}>
                             <View style={styles.profile__firstLine}>
                                 <View style={styles.profile__textContainer}>
-                                    <Text style={styles.profile__text}>{name}</Text>
+                                    <Text style={styles.profile__text}>{userData.name}</Text>
                                     <View style={styles.profile__line}/>
                                 </View>
                                 <View style={styles.profile__textContainer}>
-                                    <Text style={styles.profile__text}>{surname}</Text>
+                                    <Text style={styles.profile__text}>{userData.surname}</Text>
                                     <View style={styles.profile__line}/>
                                 </View>
                             </View>
                             <View style={styles.profile__firstLine}>
                                 <View style={styles.profile__textContainer}>
                                     <View style={styles.profile__emailLine}>
-                                        <Text style={styles.profile__text}>{email}</Text>
-                                        {email_verified_at === null
+                                        <Text style={styles.profile__text}>{userData.email}</Text>
+                                        {userData.email_verified_at === null
                                             ? <Image style={styles.profile__cancelIcon} source={require('../assets/image/profileCancelIcon.png')}/>
                                             : <Image style={styles.profile__cancelIcon} source={require('../assets/image/profileTrueIcon.png')}/>
                                         }
                                     </View>
                                     <View style={styles.profile__line}/>
-                                    {email_verified_at === null
+                                    {userData.email_verified_at === null
                                         &&
                                         <View style={styles.profile__lineBlock}>
                                             <Text style={styles.profile__textLine}>*нет подтверждения/ </Text>
-                                            <TouchableOpacity>
+                                            <TouchableOpacity onPress={() => handleEmailVerify()}>
                                                 <Text style={styles.profile__textLine_underline}>отправить повторно?</Text>
                                             </TouchableOpacity>
                                         </View>
                                     }
                                 </View>
                                 <View style={styles.profile__textContainer}>
-                                    <Text style={styles.profile__text}>phone</Text>
+                                    <Text style={styles.profile__text}>{userData.phone === null ? 'Номер телефона не указан' : userData.phone}</Text>
                                     <View style={styles.profile__line}/>
                                 </View>
                             </View>
@@ -110,11 +146,8 @@ export default function Profile({ navigation }) {
                     <TouchableOpacity style={styles.profile__editBtn}  onPress={() => navigation.navigate('ProfileEdit')}>
                         <Image style={styles.profile__editUserIcon} source={require('../assets/image/profileEditUser.png')}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile__exitBtn} onPress={() => setPopupIsActive(true)}>
+                    <TouchableOpacity style={styles.profile__exitBtn} onPress={() => setPopupExitIsActive(true)}>
                         <ImageBackground style={styles.profile__exitImageBg} source={require('../assets/image/popupExitIcon.png')}>
-{/*
-                            <Image style={styles.profile__exitIcon} source={require('../assets/image/profileExitIcon.png')}/>
-*/}
                         </ImageBackground>
                     </TouchableOpacity>
                 </View>
@@ -124,107 +157,18 @@ export default function Profile({ navigation }) {
                 </TouchableOpacity>
 
             </ImageBackground>
-            {popupIsActive
+            {popupExitIsActive
                 &&
-                <View style={styles.profile__popupExit}>
-                    <Image style={styles.popup__exitIcon} source={require('../assets/image/popupExitIcon.png')}/>
-                    <Text style={styles.popup__text}>Вы действительно хотите выйти из аккаунта?</Text>
-                    <View style={styles.popup__btnContainer}>
-                        <TouchableOpacity style={styles.popup__btnYes} onPress={() => handleExitProfile()}>
-                            <View style={styles.popup__btnViewYes}>
-                                <Text style={styles.popup__btnTextYes}>ДА</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.popup__btnNo}>
-                            <View style={styles.popup__btnViewNo}>
-                                <Text style={styles.popup__btnTextNo} onPress={() => setPopupIsActive(false)}>НЕТ</Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                <PopupExit handleExitProfile={handleExitProfile} setPopupExitIsActive={setPopupExitIsActive}/>
+            }
+            {popupVerifyIsActive &&
+                <PopupVerify message={popupVerifyMessage} setPopupVerifyIsActive={setPopupVerifyIsActive}/>
             }
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    popup__btnTextYes: {
-        color: '#FFF',
-        textAlign: 'center',
-        fontFamily: 'Montserrat',
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 700,
-    },
-    popup__btnTextNo: {
-        color: '#000',
-        textAlign: 'center',
-        fontFamily: 'Montserrat',
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 700,
-    },
-    popup__btnContainer: {
-        flexDirection: 'row',
-        columnGap: 224,
-        marginTop: 30,
-    },
-    popup__btnNo:{
-        borderRadius: 10, // border-radius
-        backgroundColor: 'rgba(255, 255, 255, 0.50)',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    popup__btnViewNo: {
-        width: 80,
-        height: 30,
-        borderRadius: 10, // border-radius
-        backgroundColor: 'rgba(255, 255, 255, 0.50)',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    popup__btnViewYes:{
-        width: 80,
-        height: 30,
-        borderRadius: 10, // border-radius
-        backgroundColor: 'rgba(6, 6, 6, 0.50);',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    popup__btnYes:{
-        width: 80,
-        height: 30,
-        borderRadius: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.50)',
-
-
-        /*        borderRadius: 10, // border-radius
-                backgroundColor: 'rgba(255, 255, 255, 0.5)'*/
-    },
-    popup__text: {
-        color: '#FFF',
-        textAlign: 'center',
-        fontFamily: 'Montserrat',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 500,
-    },
-    popup__exitIcon:{
-        width: 80,
-        height: 80,
-    },
-    profile__popupExit:{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-        backgroundColor: '#000',
-        opacity: 0.9,
-        zIndex: 2,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     profile__cancelIcon:{
         width: 20,
         height: 20,
@@ -269,11 +213,21 @@ const styles = StyleSheet.create({
         height: 100,
         position: "relative"
     },
+    profile__imageContainer:{
+        width: 100,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 100,
+        overflow: 'hidden'
+    },
     profile__image:{
         width: 100,
         height: 100,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 50,
+        overflow: 'hidden'
     },
     profile__imageText:{
         color: '#FFF',
