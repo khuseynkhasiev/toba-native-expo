@@ -33,7 +33,7 @@ const Settings = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.settings}>
-            <Text style={styles.settings__title}>SETTINGS</Text>
+            <Text style={styles.settings__title}>НАСТРОЙКИ</Text>
             <View style={styles.settings__container}>
                 <ImageBackground style={styles.settings__background} source={require('../assets/image/settingBackground.png')} />
                 <TouchableOpacity style={styles.settings__controlBtn} onPress={() => handleClickPlayBackgroundMusic()}>
@@ -58,15 +58,15 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     settings__title: {
-        color: 'rgba(207, 207, 207, 0.80)',
+        color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
-        fontSize: 40,
-        fontFamily: 'space-armor',
+        fontSize: 38,
+        fontFamily: 'Comics Toba',
         fontStyle: 'normal',
         fontWeight: 400,
         position: "absolute",
-        top: 50,
-        right: 30,
+        top: 25,
+        left: 75,
         zIndex: 1,
     },
     settings__container: {

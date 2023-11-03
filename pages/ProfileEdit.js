@@ -541,14 +541,14 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     },
     profile__title: {
-        color: 'rgba(207, 207, 207, 0.80)',
+        color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
-        fontSize: 40,
-        fontFamily: 'space-armor',
+        fontSize: 38,
+        fontFamily: 'Comics Toba',
         fontStyle: 'normal',
         fontWeight: 400,
         position: "absolute",
-        top: 20,
+        top: 25,
         left: 75,
         zIndex: 1,
     },

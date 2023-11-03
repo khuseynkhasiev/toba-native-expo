@@ -32,8 +32,8 @@ const MainPage = observer(({ navigation }) => {
     return (
         <SafeAreaView style={styles.main}>
             <View style={styles.main__textContainer}>
-                <Text style={styles.main__title}>TOBA</Text>
-                <Text style={styles.main__subtitle}> ANIMICS</Text>
+                <Text style={styles.main__title}>ТОБА</Text>
+                <Text style={styles.main__subtitle}>ANIMICS</Text>
             </View>
             <View style={styles.main__container}>
                 <ImageBackground style={styles.main__background} source={require('../assets/image/mainPage.png')} />
@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     main__title: {
-        fontFamily: 'space-armor',
-        color: 'rgba(207, 207, 207, 0.80)',
+        fontFamily: 'Comics Toba',
+        color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
-        fontSize: 96,
+        fontSize: 128,
         fontStyle: 'normal',
         fontWeight: 400,
         textAlign: 'center',
