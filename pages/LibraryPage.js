@@ -6,6 +6,7 @@ import {
     Text,
     TouchableOpacity, View,
 } from 'react-native';
+import {MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
 
 export default function LibraryPage({ navigation }) {
     return (
@@ -14,10 +15,16 @@ export default function LibraryPage({ navigation }) {
             <View style={styles.library__container}>
                 <ImageBackground style={styles.library__background} source={require('../assets/image/libraryBackground.png')} />
                 <TouchableOpacity style={styles.library__menuBtn} onPress={() => navigation.navigate('Main')}>
+{/*
                     <Image style={styles.library__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
+*/}
+                    <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.library__profileBtn} onPress={() => navigation.navigate('Profile')}>
+{/*
                     <Image style={styles.library__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
+*/}
+                    <ProfileSvgIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>
                     <Text style={styles.library__text}>ЧИТАТЬ</Text>
@@ -40,7 +47,8 @@ const styles = StyleSheet.create({
         color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
         fontSize: 38,
-        fontFamily: 'Comics Toba',
+        fontFamily: 'comics-toba',
+        /*fontFamily: 'Montserrat',*/
         fontStyle: 'normal',
         fontWeight: 400,
         position: "absolute",
@@ -50,8 +58,8 @@ const styles = StyleSheet.create({
     },
     library__menuBtn: {
         position: "absolute",
-        top: 10,
-        left: 30,
+        top: 15,
+        left: 15,
     },
     library__menuIcon: {
         width: 30,
@@ -83,8 +91,8 @@ const styles = StyleSheet.create({
     },
     library__profileBtn: {
         position: "absolute",
-        top: 8,
-        right: 28,
+        top: 10,
+        right: 10,
     },
     library__text: {
         fontSize: 15,

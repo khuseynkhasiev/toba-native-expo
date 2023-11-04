@@ -12,6 +12,8 @@ import {observer} from "mobx-react-lite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as api from "../utils/api";
 import {useEffect} from "react";
+import {MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
+import * as React from "react";
 
 const MainPage = observer(({ navigation }) => {
     const getUserDate = async () => {
@@ -37,8 +39,14 @@ const MainPage = observer(({ navigation }) => {
             </View>
             <View style={styles.main__container}>
                 <ImageBackground style={styles.main__background} source={require('../assets/image/mainPage.png')} />
+                <TouchableOpacity style={styles.profile__menuBtn}>
+                    <MenuBackSvgIcon />
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
+{/*
                     <Image style={styles.main__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
+*/}
+                <ProfileSvgIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.main__libraryBtn} onPress={() => navigation.navigate('Library')}>
                     <Image style={styles.main__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
@@ -54,6 +62,11 @@ const MainPage = observer(({ navigation }) => {
 })
 
 const styles = StyleSheet.create({
+    profile__menuBtn: {
+        position: "absolute",
+        top: 15,
+        left: 15,
+    },
     main__container: {
         width: '100%',
         height: '100%',
@@ -71,7 +84,8 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     main__title: {
-        fontFamily: 'Comics Toba',
+        fontFamily: 'comics-toba',
+        /*fontFamily: 'Montserrat',*/
         color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
         fontSize: 128,
@@ -124,8 +138,8 @@ const styles = StyleSheet.create({
     },
     main__profileBtn: {
         position: "absolute",
-        top: 8,
-        right: 28,
+        top: 10,
+        right: 10,
         zIndex: 2,
         color: 'white',
     },

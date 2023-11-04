@@ -1,10 +1,18 @@
-import {Image, Text, TouchableOpacity, View, StyleSheet} from "react-native";
+import {Image, Text, TouchableOpacity, View, StyleSheet, ImageBackground} from "react-native";
 import * as React from "react";
+import {ProfileExitSvgIcon} from "./svg/Svg";
 
 export default function PopupExit({setPopupExitIsActive, handleExitProfile}){
     return (
         <View style={styles.profile__popupExit}>
+{/*
             <Image style={styles.popup__exitIcon} source={require('../assets/image/popupExitIcon.png')}/>
+*/}
+
+
+            <ImageBackground style={styles.popup__exitIcon} source={require('../assets/image/iconEditBtnCircle.png')}>
+                <ProfileExitSvgIcon />
+            </ImageBackground>
             <Text style={styles.popup__text}>Вы действительно хотите выйти из аккаунта?</Text>
             <View style={styles.popup__btnContainer}>
                 <TouchableOpacity style={styles.popup__btnYes} onPress={() => handleExitProfile()}>
@@ -97,7 +105,9 @@ const styles = StyleSheet.create({
         fontWeight: 500,
     },
     popup__exitIcon:{
-        width: 80,
-        height: 80,
+        width: 90,
+        height: 90,
+        justifyContent: 'center',
+        alignItems: "center",
     },
 })

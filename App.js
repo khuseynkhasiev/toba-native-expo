@@ -14,8 +14,8 @@ import {NavigationContainer} from "@react-navigation/native";
 const fonts = () =>
     Font.loadAsync({
         "space-armor": require("./assets/fonts/SpaceArmor-vmlv4.otf"),
-        "Comics Toba": require("./assets/fonts/ComicsToba.otf"),
-        "ComicsTobaTTF": require("./assets/fonts/ComicsToba.ttf"),
+        "comics-toba": require("./assets/fonts/ComicsToba.otf"),
+        /*"ComicsTobaTTF": require("./assets/fonts/ComicsToba.ttf"),*/
         NanumGothicCoding: require("./assets/fonts/NanumGothicCoding-Regular.ttf"),
         NanumGothicCodingBold: require("./assets/fonts/NanumGothicCoding-Bold.ttf"),
         Montserrat: require("./assets/fonts/Montserrat-Regular.ttf"),

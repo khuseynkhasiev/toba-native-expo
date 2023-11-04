@@ -11,6 +11,7 @@ import * as api from '../utils/api';
 import {useState} from "react";
 import newGetUserDataStore from "../components/store/getUserDataStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {MenuBackSvgIcon} from "../components/svg/Svg";
 
 export default function ProfileEditPassword({ navigation }) {
     const {
@@ -111,7 +112,10 @@ export default function ProfileEditPassword({ navigation }) {
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
+{/*
                     <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
+*/}
+                    <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <Text style={styles.profile__title}>ПРОФИЛЬ</Text>
                 <View style={styles.profile__form}>
@@ -215,21 +219,22 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     profile__title: {
-        color: 'rgba(207, 207, 207, 0.80)',
+        color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
-        fontSize: 40,
-        fontFamily: 'space-armor',
+        fontSize: 38,
+        fontFamily: 'comics-toba',
+        /*fontFamily: 'Montserrat',*/
         fontStyle: 'normal',
         fontWeight: 400,
         position: "absolute",
-        top: 20,
+        top: 25,
         left: 75,
         zIndex: 1,
     },
     profile__menuBtn: {
         position: "absolute",
-        top: 10,
-        left: 30,
+        top: 15,
+        left: 15,
     },
     profile__menuIcon: {
         width: 30,

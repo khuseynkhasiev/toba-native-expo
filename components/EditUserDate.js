@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 20,
-        width: 100
+        /*width: 100*/
     },
     registerUserDate__btnText:{
         color: '#FFF',

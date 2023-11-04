@@ -14,6 +14,12 @@ import newGetUserDataStore from '../components/store/getUserDataStore';
 import PopupExit from "../components/PopupExit";
 import PopupVerify from "../components/PopupVerify";
 import {useIsFocused} from '@react-navigation/native';
+import {
+    EmailVerifyYesSvgIcon,
+    MenuBackSvgIcon,
+    ProfileEditSvgIcon,
+    ProfileExitSvgIcon
+} from "../components/svg/Svg";
 
 export default function Profile({ navigation }) {
 
@@ -81,7 +87,10 @@ export default function Profile({ navigation }) {
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
+{/*
                     <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
+*/}
+                <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <Text style={styles.profile__title}>ПРОФИЛЬ</Text>
                 <View style={styles.profile__form}>
@@ -122,7 +131,8 @@ export default function Profile({ navigation }) {
                                         <Text style={styles.profile__text}>{userData.email}</Text>
                                         {userData.email_verified_at === null
                                             ? <Image style={styles.profile__cancelIcon} source={require('../assets/image/profileCancelIcon.png')}/>
-                                            : <Image style={styles.profile__cancelIcon} source={require('../assets/image/profileTrueIcon.png')}/>
+                                            : /*<Image style={styles.profile__cancelIcon} source={require('../assets/image/profileTrueIcon.png')}/>*/
+                                            <EmailVerifyYesSvgIcon />
                                         }
                                     </View>
                                     <View style={styles.profile__line}/>
@@ -144,10 +154,12 @@ export default function Profile({ navigation }) {
                         </View>
                     </ImageBackground>
                     <TouchableOpacity style={styles.profile__editBtn}  onPress={() => navigation.navigate('ProfileEdit')}>
-                        <Image style={styles.profile__editUserIcon} source={require('../assets/image/profileEditUser.png')}/>
+                        {/*<Image style={styles.profile__editUserIcon} source={require('../assets/image/profileEditUser.png')}/>*/}
+                        <ProfileEditSvgIcon />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.profile__exitBtn} onPress={() => setPopupExitIsActive(true)}>
-                        <ImageBackground style={styles.profile__exitImageBg} source={require('../assets/image/popupExitIcon.png')}>
+                        <ImageBackground style={styles.profile__exitImageBg} source={require('../assets/image/iconEditBtnCircle.png')}>
+                            <ProfileExitSvgIcon />
                         </ImageBackground>
                     </TouchableOpacity>
                 </View>
@@ -181,13 +193,13 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     profile__exitBtn:{
-        bottom: 10,
-        right: 10,
+        bottom: 0,
+        right: 0,
         position: "absolute"
     },
     profile__exitImageBg:{
-        width: 70,
-        height: 70,
+        width: 80,
+        height: 80,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -309,7 +321,8 @@ const styles = StyleSheet.create({
         color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
         fontSize: 38,
-        fontFamily: 'Comics Toba',
+        fontFamily: 'comics-toba',
+        /*fontFamily: 'Montserrat',*/
         fontStyle: 'normal',
         fontWeight: 400,
         position: "absolute",
@@ -319,8 +332,8 @@ const styles = StyleSheet.create({
     },
     profile__menuBtn: {
         position: "absolute",
-        top: 10,
-        left: 30,
+        top: 15,
+        left: 15,
     },
     profile__menuIcon: {
         width: 30,

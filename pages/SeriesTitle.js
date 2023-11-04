@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import * as React from "react";
 import SliderSeries from "../components/SliderSeries";
+import {MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
 
 const { width, height} = Dimensions.get('window')
 
@@ -21,10 +22,12 @@ export default function SeriesTitle({ navigation }) {
             />
             <SliderSeries />
             <TouchableOpacity style={styles.series__profileBtn} onPress={() => navigation.navigate('Profile')}>
-                <Image style={styles.series__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
+                {/*<Image style={styles.series__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>*/}
+                <ProfileSvgIcon />
             </TouchableOpacity>
             <TouchableOpacity style={styles.series__menuBtn} onPress={() => navigation.navigate('Main')}>
-                <Image style={styles.series__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
+                {/*<Image style={styles.series__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>*/}
+                <MenuBackSvgIcon />
             </TouchableOpacity>
             <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>
                 <Image style={styles.series__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
@@ -53,13 +56,13 @@ const styles = StyleSheet.create({
     },
     series__profileBtn: {
         position: "absolute",
-        top: 8,
-        right: 28,
+        top: 10,
+        right: 10,
     },
     series__menuBtn: {
         position: "absolute",
-        top: 10,
-        left: 30,
+        top: 15,
+        left: 15,
     },
     series__menuIcon: {
         width: 30,

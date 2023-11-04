@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import newGetUserDataStore from "../components/store/getUserDataStore";
 import EditUserDate from "../components/EditUserDate";
 import * as ImagePicker from 'expo-image-picker';
+import {MenuBackSvgIcon} from "../components/svg/Svg";
 
 
 export default function ProfileEdit({ navigation }) {
@@ -207,7 +208,10 @@ export default function ProfileEdit({ navigation }) {
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
+{/*
                     <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
+*/}
+                    <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <Text style={styles.profile__title}>ПРОФИЛЬ</Text>
                 <View style={styles.profile__form}>
@@ -544,7 +548,8 @@ const styles = StyleSheet.create({
         color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
         fontSize: 38,
-        fontFamily: 'Comics Toba',
+        fontFamily: 'comics-toba',
+        /*fontFamily: 'Montserrat',*/
         fontStyle: 'normal',
         fontWeight: 400,
         position: "absolute",
@@ -554,8 +559,8 @@ const styles = StyleSheet.create({
     },
     profile__menuBtn: {
         position: "absolute",
-        top: 10,
-        left: 30,
+        top: 15,
+        left: 15,
     },
     profile__menuIcon: {
         width: 30,
