@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import {StyleSheet, View, TouchableOpacity, Image, Text, Dimensions, ImageBackground} from 'react-native';
 import * as React from "react";
 import { useNavigation } from '@react-navigation/native';
-import PlayBackgroundMusic from "./store/PlayBackgroundMusic";
+import BackgroundMusicStore from "./store/BackgroundMusicStore";
 
 const { width, height} = Dimensions.get('window');
 const itemWidth = (width - 200 - 44) / 3;
@@ -13,10 +13,11 @@ export default function SliderItem({item}) {
     function handleClick(){
         // логика связки клика с запуском соотвествующей серии
         if (item.id === 1) {
-            navigation.navigate('SeriesOne')
+            //navigation.navigate('SeriesOnePage');
+            navigation.navigate('NewYear');
         }
         // отключение фоновой музыки при запуски серии
-        PlayBackgroundMusic.offPlay();
+        BackgroundMusicStore.stopMusic();
     }
 
     return (

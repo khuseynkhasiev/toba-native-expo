@@ -7,49 +7,33 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { Audio } from 'expo-av';
-import {useEffect, useState} from "react";
-import PlayBackgroundMusic from '../components/store/PlayBackgroundMusic';
+import newGetUserDataStore from '../components/store/getUserDataStore';
 import {observer} from "mobx-react-lite";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as api from "../utils/api";
+import {useEffect} from "react";
 
 const MainPage = observer(({ navigation }) => {
-    const [sound, setSound] = useState(null);
+    const getUserDate = async () => {
+        const token = await AsyncStorage.getItem('userToken');
+        api.getUser(token)
+            .then((userData) => {
+                newGetUserDataStore.updateUserData(userData.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 
-    // запуск фоновой музыки
     useEffect(() => {
-        const playSound = async () => {
-            try {
-                const { sound } = await Audio.Sound.createAsync(
-                    require('../assets/music/baraban-background.mp3'),
-                    { shouldPlay: true, isLooping: true }
-                );
-                setSound(sound);
-            } catch (error) {
-                console.warn('Error playing sound: ', error);
-            }
-        };
+        getUserDate();
+    },[])
 
-        const stopSound = async () => {
-            if (sound) {
-                await sound.stopAsync();
-                sound.unloadAsync();
-                setSound(null);
-            }
-        };
-
-        if (PlayBackgroundMusic.play) {
-            if (!sound) {
-                playSound();
-            }
-        } else {
-            stopSound();
-        }
-    }, [PlayBackgroundMusic.play]);
     return (
         <SafeAreaView style={styles.main}>
             <View style={styles.main__textContainer}>
-                <Text style={styles.main__title}>TOBA</Text>
-                <Text style={styles.main__subtitle}> ANIMICS</Text>
+                <Text style={styles.main__title}>ТОБА</Text>
+                <Text style={styles.main__subtitle}>ANIMICS</Text>
             </View>
             <View style={styles.main__container}>
                 <ImageBackground style={styles.main__background} source={require('../assets/image/mainPage.png')} />
@@ -87,10 +71,10 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     main__title: {
-        fontFamily: 'space-armor',
-        color: 'rgba(207, 207, 207, 0.80)',
+        fontFamily: 'Comics Toba',
+        color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
-        fontSize: 96,
+        fontSize: 128,
         fontStyle: 'normal',
         fontWeight: 400,
         textAlign: 'center',

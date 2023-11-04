@@ -8,12 +8,16 @@ import * as React from 'react';
 import { Video, ResizeMode } from 'expo-av';
 import {useEffect} from "react";
 
-export default function Intro (){
+export default function Intro ({setIsActive}){
     const video = React.useRef(null);
     const [status, setStatus] = React.useState({});
     useEffect(() => {
         video.current.playAsync();
     })
+
+    const handleClick = () => {
+        setIsActive(false);
+    }
     return (
         <View style={styles.container}>
             <Video
@@ -28,6 +32,10 @@ export default function Intro (){
                 isLooping
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
             />
+            <TouchableOpacity
+                style={styles.btnSkip}
+                onPress={handleClick}
+            ></TouchableOpacity>
         </View>
         )
 }
@@ -40,5 +48,15 @@ const styles = StyleSheet.create({
     backgroundVideo: {
         height: '100%',
         width: '100%'
+    },
+    btnSkip: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "1000%",
+        height: "100%",
+        zIndex: 999,
+        //backgroundColor: 'white',
+        backfaceVisibility: "hidden",
     },
 });
