@@ -14,7 +14,6 @@ import * as api from "../utils/api";
 import {useEffect} from "react";
 import {LibraryBooksSvgIcon, MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
 import * as React from "react";
-import {LibraryBtnLinearGradient} from "../components/LinearGradient";
 
 const MainPage = observer(({ navigation }) => {
     const getUserDate = async () => {
