@@ -1,5 +1,4 @@
 import {
-    Image,
     ImageBackground,
     SafeAreaView,
     StyleSheet,
@@ -8,7 +7,7 @@ import {
 } from 'react-native';
 import * as React from 'react';
 import * as api from '../utils/api';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import newGetUserDataStore from "../components/store/getUserDataStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {MenuBackSvgIcon} from "../components/svg/Svg";
@@ -30,23 +29,28 @@ export default function ProfileEditPassword({ navigation }) {
     const [newPasswordRepeat, setNewPasswordRepeat] = useState('');
     const [newPasswordRepeatIsError, setNewPasswordRepeatIsError] = useState(false);
     const [newPasswordRepeatErrorInputText, setNewPasswordRepeatErrorInputText] = useState('');
+    const [token, setToken] = useState('');
 
+    const getUserToken = async () => {
+        setToken(await AsyncStorage.getItem('userToken'));
+    }
+
+    useEffect(() => {
+        getUserToken();
+    }, [])
 
     function handleBlurInputPassword(){
         if (password.length < 1){
             setPasswordIsError(true);
             setPasswordErrorInputText('Обязательное поле');
         } else {
-            console.log(password);
-            if('Qqqqqqqq' === password){
-                setPasswordIsError(false);
-            } else {
-                setPasswordIsError(true);
-                setPasswordErrorInputText('Не верный пароль');
-            }
+            setPasswordIsError(false);
         }
     }
     function handleBlurInputNewPassword(){
+        if(newPasswordRepeatErrorInputText === 'Пароли не совпадают'){
+            setNewPasswordRepeatIsError(false);
+        }
         if (newPassword.length < 1){
             setNewPasswordIsError(true);
             setNewPasswordErrorInputText('Обязательное поле');
@@ -60,6 +64,9 @@ export default function ProfileEditPassword({ navigation }) {
         }
     }
     function handleBlurInputRepeatNewPassword(){
+        if(newPasswordErrorInputText === 'Пароли не совпадают'){
+            setNewPasswordIsError(false);
+        }
         if (newPasswordRepeat.length < 1){
             setNewPasswordRepeatIsError(true);
             setNewPasswordRepeatErrorInputText('Обязательное поле');
@@ -92,10 +99,10 @@ export default function ProfileEditPassword({ navigation }) {
 
     const editUserPassword = async () => {
         const token = await AsyncStorage.getItem('userToken');
-        api.editPasswordUser(newPassword, newPasswordRepeat, token)
+        api.editPasswordUser(newPassword, newPasswordRepeat, token, password)
             .then((userData) => {
-                console.log('пароль успешно изменен!');
-                console.log(newPassword);
+                console.log(userData);
+                navigation.navigate('ProfileEdit');
             })
             .catch((err) => {
                 console.log(err);
@@ -103,18 +110,32 @@ export default function ProfileEditPassword({ navigation }) {
     }
     const submitPasswordUser = () => {
         comparePasswords();
-        if(!setPasswordIsError && !setNewPasswordIsError && !setNewPasswordRepeatIsError) {
-            editUserPassword();
+/*        console.log(passwordIsError);
+        console.log(newPasswordIsError);
+        console.log(newPasswordRepeatIsError);*/
+        if(!passwordIsError && !newPasswordIsError && !newPasswordRepeatIsError) {
+            api.userPasswordCheck(password, token)
+                .then((data) => {
+                    console.log('------');
+                    console.log(data.data);
+                    console.log('------');
+                    if(data.data){
+                        console.log('да');
+                        editUserPassword();
+                    } else {
+                        console.log('нет');
+                        setPasswordIsError(true);
+                        setPasswordErrorInputText('Не верный пароль');
+                    }
+                })
+                .catch((err) => console.log(err))
+                .finally(() => setPasswordIsError(false))
         }
-        /*userPasswordStore.userPassword*/
     }
     return (
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
-{/*
-                    <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
-*/}
                     <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <Text style={styles.profile__title}>ПРОФИЛЬ</Text>

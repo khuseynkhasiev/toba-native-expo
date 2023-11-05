@@ -5,7 +5,6 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Image,
 } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState} from "react";
@@ -15,7 +14,7 @@ import RegisterUserDate from "../components/RegisterUserDate";
 import { CheckBox } from 'react-native-elements';
 import PopupRegister from "../components/popupRegister";
 import newUserDataStore from "../components/store/createUserDataStore";
-import {useNavigation} from "@react-navigation/native";
+import {RegisterIconPageThreeSvgIcon} from "../components/svg/Svg";
 
 const RegisterFinishPage = ({ navigation }) => {
     const [date, setDate] = useState('');
@@ -54,7 +53,6 @@ const RegisterFinishPage = ({ navigation }) => {
     function updateNewUserDataStore (key, value){
         newUserDataStore.updateUserData(key, value);
     }
-    const navigationNative = useNavigation();
 
     const saveUserToken = async (token) => {
         try {
@@ -62,10 +60,10 @@ const RegisterFinishPage = ({ navigation }) => {
             console.log('Значение успешно сохранено в AsyncStorage');
             /*navigation.navigate('Main');*/
             // сбрасываем навигационный стек и ставим Main на первое место
-            navigationNative.reset({
+/*            navigationNative.reset({
                 index: 0,
                 routes: [{ name: 'Main' }], // Переход на экран "Main"
-            });
+            });*/
         } catch (error) {
             console.error('Ошибка при сохранении в AsyncStorage: ', error);
         }
@@ -148,7 +146,7 @@ const RegisterFinishPage = ({ navigation }) => {
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.footer__container}>
-                                <Image style={styles.footer__image} source={require('../assets/footerImage.png')}/>
+                                <RegisterIconPageThreeSvgIcon />
                             </View>
                         </View>
                     </ImageBackground>

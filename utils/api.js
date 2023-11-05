@@ -137,9 +137,10 @@ const editUser = ({
         .then((res) => res.ok ? res.json() : Promise.reject(res));
 }
 const editPasswordUser = ({
-                          newPassword,
-                          newPasswordRepeat,
-                      token
+                              password,
+                              newPassword,
+                              newPasswordRepeat,
+                              token
                   }) => {
     return fetch(`${BASE_URL}/user/edit`, {
         method: 'POST',
@@ -147,7 +148,11 @@ const editPasswordUser = ({
             'Content-Type': 'application/json',
             'Authorization' : `Bearer ${token}`
         },
-        body: JSON.stringify({password: newPassword, password_confirmation: newPasswordRepeat})
+        body: JSON.stringify({
+            old_password: password,
+            password: newPassword,
+            password_confirmation: newPasswordRepeat
+        })
     })
         .then((res) => res.ok ? res.json() : Promise.reject(res));
 }
@@ -184,7 +189,20 @@ const registerSocial = ({
         .then((res) => res.ok ? res.json() : Promise.reject(res));
 }
 
+const userPasswordCheck = (password, token) => {
+    return fetch(`${BASE_URL}/user/profile/password/check`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization' : `Bearer ${token}`
+        },
+        body: JSON.stringify({current_password:password})
+    }).then((res) => res.json())
+        .catch((res) => res.json())
+}
+
 export {
+    userPasswordCheck,
     register,
     checkUniqueLogin,
     checkUniqueEmail,

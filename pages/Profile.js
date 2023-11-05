@@ -18,7 +18,7 @@ import {
     EmailVerifyYesSvgIcon,
     MenuBackSvgIcon,
     ProfileEditSvgIcon,
-    ProfileExitSvgIcon
+    ProfileExitSvgIcon, ProfileVerifyNoSvgIcon
 } from "../components/svg/Svg";
 
 export default function Profile({ navigation }) {
@@ -31,7 +31,6 @@ export default function Profile({ navigation }) {
     const [token, setToken] = useState('');
 
     const [userData, setUserData] = useState(newGetUserDataStore.userData);
-
     // для перерисовки при возвращение по навагации назад, обычный способ не работает, т.к. экран сохраняется в кэш
     const isFocused = useIsFocused();
     useEffect(() => {
@@ -87,9 +86,6 @@ export default function Profile({ navigation }) {
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
-{/*
-                    <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
-*/}
                 <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <Text style={styles.profile__title}>ПРОФИЛЬ</Text>
@@ -99,9 +95,9 @@ export default function Profile({ navigation }) {
                             <View style={styles.profile__userImageTop}>
                                 {userData.avatar === null
                                     ?
-                                    <ImageBackground style={styles.profile__image} source={require('../assets/image/profileCircLeImage.png')}>
+                                    <View style={styles.profile__imageCircle} source={require('../assets/image/profileCircLeImage.png')}>
                                         <Text style={styles.profile__imageText}>фото профиля</Text>
-                                    </ImageBackground>
+                                    </View>
                                     :
                                     <Image style={styles.profile__image} source={{ uri: `https://animics.ru/storage/${userData.avatar.substring(userData.avatar.indexOf("avatars/"))}` }}/>
                                 }
@@ -130,7 +126,8 @@ export default function Profile({ navigation }) {
                                     <View style={styles.profile__emailLine}>
                                         <Text style={styles.profile__text}>{userData.email}</Text>
                                         {userData.email_verified_at === null
-                                            ? <Image style={styles.profile__cancelIcon} source={require('../assets/image/profileCancelIcon.png')}/>
+                                            ? <ProfileVerifyNoSvgIcon />
+                                            /*<Image style={styles.profile__cancelIcon} source={require('../assets/image/profileCancelIcon.png')}/>*/
                                             : /*<Image style={styles.profile__cancelIcon} source={require('../assets/image/profileTrueIcon.png')}/>*/
                                             <EmailVerifyYesSvgIcon />
                                         }
@@ -154,7 +151,6 @@ export default function Profile({ navigation }) {
                         </View>
                     </ImageBackground>
                     <TouchableOpacity style={styles.profile__editBtn}  onPress={() => navigation.navigate('ProfileEdit')}>
-                        {/*<Image style={styles.profile__editUserIcon} source={require('../assets/image/profileEditUser.png')}/>*/}
                         <ProfileEditSvgIcon />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.profile__exitBtn} onPress={() => setPopupExitIsActive(true)}>
@@ -232,6 +228,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 100,
         overflow: 'hidden'
+    },
+    profile__imageCircle: {
+        width: 100,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+        overflow: 'hidden',
+        borderWidth: 2,
+        borderColor: "#FFF"
     },
     profile__image:{
         width: 100,

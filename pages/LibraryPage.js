@@ -15,15 +15,9 @@ export default function LibraryPage({ navigation }) {
             <View style={styles.library__container}>
                 <ImageBackground style={styles.library__background} source={require('../assets/image/libraryBackground.png')} />
                 <TouchableOpacity style={styles.library__menuBtn} onPress={() => navigation.navigate('Main')}>
-{/*
-                    <Image style={styles.library__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
-*/}
                     <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.library__profileBtn} onPress={() => navigation.navigate('Profile')}>
-{/*
-                    <Image style={styles.library__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
-*/}
                     <ProfileSvgIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>

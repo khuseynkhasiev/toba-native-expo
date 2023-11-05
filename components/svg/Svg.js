@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Svg, { Path, Rect, G, Defs, ClipPath, Circle} from 'react-native-svg';
+import Svg, {Path, Rect, G, Defs, ClipPath, Circle, Line} from 'react-native-svg';
 
 const ProfileSvgIcon = () => {
     return (
@@ -64,10 +64,93 @@ const ProfileExitSvgIcon = () => {
     )
 }
 
+const ProfileInputEditSvgIcon = () => {
+    return (
+        <Svg style={{
+            position: 'absolute',
+            top: 15,
+            right: 15,
+        }} xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <G clip-path="url(#clip0_28_186)">
+                <Path d="M9.54551 9.09094H0.45459V10H9.54551V9.09094Z" fill="white" fill-opacity="0.8"/>
+                <Path d="M6.97261 0L1.36353 5.60909V8.18182H3.93626L9.54535 2.57274L6.97261 0ZM3.55898 7.27273H2.27262V5.98637L6.97261 1.28636L8.25897 2.57272L3.55898 7.27273Z" fill="white" fill-opacity="0.8"/>
+            </G>
+            <Defs>
+                <ClipPath id="clip0_28_186">
+                    <Rect width="10" height="10" fill="white"/>
+                </ClipPath>
+            </Defs>
+        </Svg>
+    )
+}
+
+const RegisterIconPageTwoSvgIcon = () => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width="101" height="40" viewBox="0 0 101 40" fill="none">
+            <Circle cx="9" cy="20.0527" r="8.5" stroke="white"/>
+            <G filter="url(#filter0_f_1_217)">
+                <Path d="M58.8103 20C58.8103 25.2634 54.695 29.5 49.6552 29.5C44.6153 29.5 40.5 25.2634 40.5 20C40.5 14.7366 44.6153 10.5 49.6552 10.5C54.695 10.5 58.8103 14.7366 58.8103 20Z" stroke="white"/>
+            </G>
+            <Circle cx="91.7586" cy="20.0527" r="8.5" stroke="white"/>
+            <Circle cx="50" cy="20" r="3" fill="white"/>
+            <Line x1="17.2414" y1="20.0264" x2="41.3793" y2="20.0264" stroke="white"/>
+            <Line x1="58.6207" y1="20.0264" x2="82.7586" y2="20.0264" stroke="white"/>
+        </Svg>
+    )
+}
+const RegisterIconPageThreeSvgIcon = () => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width="111" height="40" viewBox="0 0 111 40" fill="none">
+            <Circle cx="9" cy="20.0527" r="8.5" stroke="white"/>
+            <G filter="url(#filter0_f_1_241)">
+                <Path d="M99.8103 20C99.8103 25.2634 95.695 29.5 90.6552 29.5C85.6153 29.5 81.5 25.2634 81.5 20C81.5 14.7366 85.6153 10.5 90.6552 10.5C95.695 10.5 99.8103 14.7366 99.8103 20Z" stroke="white"/>
+            </G>
+            <Circle cx="50.3793" cy="20.0527" r="8.5" stroke="white"/>
+            <Circle cx="91" cy="20" r="3" fill="white"/>
+            <Line x1="17.2414" y1="20.0264" x2="41.3793" y2="20.0264" stroke="white"/>
+            <Line x1="58.6207" y1="20.0264" x2="82.7586" y2="20.0264" stroke="white"/>
+        </Svg>
+    )
+}
+
+const LibraryBooksSvgIcon = () => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <Path d="M14.7365 5.66125H15.3887V6.31344H14.7365V5.66125Z" fill="white"/>
+            <Path d="M16.0409 5.66125H16.6931V6.31344H16.0409V5.66125Z" fill="white"/>
+            <Path d="M0.866421 16.9852L5.37591 8.0393L7.49064 3.84426L8.33423 2.17078L10.9783 3.50359V2.82922H13.2516V1.41309H18.1522V3.77336V8.20191V17.9348H18.6957V18.587H18.1522H13.9038H13.2516H10.9783H1.30435V17.9348H2.75025L0.866421 16.9852ZM13.9038 17.9348H17.5V8.20191H13.9038V17.9348ZM13.9038 5.18949V7.54977H17.5V4.42555H13.9038V5.18949ZM13.9038 2.82922V3.77332H17.5V2.06527H13.9038V2.82922ZM11.6304 17.9348H13.2516V8.20191V7.72988H11.6304V17.9348ZM11.6304 7.0777H13.2516V5.84164H11.6304V7.0777ZM11.6304 5.18949H13.2516V3.77336V3.48145H11.6304V5.18949ZM6.25189 7.75051L8.19865 8.73184L8.50638 8.12137L9.72622 5.70152L7.77947 4.72016L6.25189 7.75051ZM8.62302 3.04668L8.07298 4.13781L10.0198 5.11918L10.5698 4.02805L8.62302 3.04668ZM10.9783 17.9348V7.72988V5.18949V4.66652L10.6021 5.41273L8.4874 9.60777L4.28986 17.9348H10.9783ZM7.90501 9.31426L5.9583 8.33289L1.74232 16.6964L3.68908 17.6777L7.90501 9.31426Z" fill="white"/>
+            <Path d="M8.09366 5.69591L8.67694 5.98755L7.73289 7.87564L7.14961 7.584L8.09366 5.69591Z" fill="white"/>
+            <Path d="M19.3478 17.9348H20V18.587H19.3478V17.9348Z" fill="white"/>
+            <Path d="M-2.74181e-05 17.9348H0.652161V18.587H-2.74181e-05V17.9348Z" fill="white"/>
+        </Svg>
+    )
+}
+
+const ProfileVerifyNoSvgIcon = () => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <G clip-path="url(#clip0_16_512)">
+                <Path d="M17.0716 2.92843C15.182 1.03885 12.6708 0 10 0C7.32924 0 4.818 1.03885 2.92843 2.92843C1.03885 4.818 0 7.32924 0 10C0 12.6708 1.03885 15.182 2.92843 17.0716C4.818 18.9611 7.32924 20 10 20C12.6708 20 15.182 18.9611 17.0716 17.0716C18.9611 15.182 20 12.6708 20 10C20 7.32924 18.9611 4.818 17.0716 2.92843ZM10 18.8957C5.09611 18.8957 1.10429 14.9039 1.10429 10C1.10429 5.09611 5.09611 1.10429 10 1.10429C14.9039 1.10429 18.8957 5.09611 18.8957 10C18.8957 14.9039 14.9039 18.8957 10 18.8957Z" fill="#FF007A"/>
+                <Path d="M12.4705 7.52964C12.2537 7.31287 11.906 7.31287 11.6893 7.52964L10.0001 9.2188L8.31095 7.52964C8.09418 7.31287 7.74653 7.31287 7.52976 7.52964C7.313 7.74641 7.313 8.09406 7.52976 8.31083L9.21893 9.99999L7.52976 11.6892C7.313 11.9059 7.313 12.2536 7.52976 12.4703C7.6361 12.5767 7.77925 12.6339 7.91831 12.6339C8.05737 12.6339 8.20052 12.5808 8.30686 12.4703L9.99602 10.7812L11.6852 12.4703C11.7915 12.5767 11.9347 12.6339 12.0737 12.6339C12.2128 12.6339 12.3559 12.5808 12.4623 12.4703C12.679 12.2536 12.679 11.9059 12.4623 11.6892L10.7813 9.99999L12.4705 8.31083C12.6872 8.09406 12.6872 7.74641 12.4705 7.52964Z" fill="#FF007A"/>
+            </G>
+            <Defs>
+                <ClipPath id="clip0_16_512">
+                    <Rect width="20" height="20" fill="white"/>
+                </ClipPath>
+            </Defs>
+        </Svg>
+    )
+}
+
 export {
+    ProfileVerifyNoSvgIcon,
+    LibraryBooksSvgIcon,
+    RegisterIconPageThreeSvgIcon,
+    RegisterIconPageTwoSvgIcon,
     ProfileExitSvgIcon,
     EmailVerifyYesSvgIcon,
     ProfileSvgIcon,
     MenuBackSvgIcon,
-    ProfileEditSvgIcon
+    ProfileEditSvgIcon,
+    ProfileInputEditSvgIcon
 };

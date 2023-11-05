@@ -12,8 +12,9 @@ import {observer} from "mobx-react-lite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as api from "../utils/api";
 import {useEffect} from "react";
-import {MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
+import {LibraryBooksSvgIcon, MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
 import * as React from "react";
+import {LibraryBtnLinearGradient} from "../components/LinearGradient";
 
 const MainPage = observer(({ navigation }) => {
     const getUserDate = async () => {
@@ -43,15 +44,15 @@ const MainPage = observer(({ navigation }) => {
                     <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
-{/*
-                    <Image style={styles.main__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
-*/}
+
                 <ProfileSvgIcon />
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.main__libraryBtn} onPress={() => navigation.navigate('Library')}>
-                    <Image style={styles.main__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
+                    <LibraryBooksSvgIcon />
                     <Text style={styles.main__textBtn}>БИБЛИОТЕКА</Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity style={styles.main__seriesBtn} onPress={() => navigation.navigate('Series')}>
                     <Text style={styles.main__textBtn}>ЧИТАТЬ</Text>
                     <Image style={styles.main__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
@@ -128,13 +129,22 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: 'row'
     },
+    main__libraryBtnContainer: {
+        borderRadius: 50, // Для border-radius используем borderRadius
+        borderWidth: 1, // Для border используем borderWidth
+        borderColor: '#FFF', // borderColor задает цвет границы
+        background: {
+            // Для linear-gradient используем background с LinearGradient
+            background: 'linear-gradient(90deg, rgba(79, 17, 255, 0.49) 0%, rgba(255, 255, 255, 0.00) 100%)',
+        },
+    },
     main__libraryBtn: {
         position: "absolute",
-        left: 30,
-        bottom: 15,
+        left: 10,
+        bottom: 10,
         display: "flex",
         flexDirection: 'row',
-        columnGap: 5,
+        columnGap: 10,
     },
     main__profileBtn: {
         position: "absolute",
@@ -145,11 +155,9 @@ const styles = StyleSheet.create({
     },
     main__textBtn: {
         fontSize: 15,
-        fontWeight: 700,
-        fontFamily: 'NanumGothicCodingBold',
-        textAlign: 'center',
+        fontWeight: 500,
+        fontFamily: 'Montserrat',
         color: '#FFF',
-        letterSpacing: 5,
     },
 });
 

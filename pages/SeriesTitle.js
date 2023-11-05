@@ -22,11 +22,9 @@ export default function SeriesTitle({ navigation }) {
             />
             <SliderSeries />
             <TouchableOpacity style={styles.series__profileBtn} onPress={() => navigation.navigate('Profile')}>
-                {/*<Image style={styles.series__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>*/}
                 <ProfileSvgIcon />
             </TouchableOpacity>
             <TouchableOpacity style={styles.series__menuBtn} onPress={() => navigation.navigate('Main')}>
-                {/*<Image style={styles.series__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>*/}
                 <MenuBackSvgIcon />
             </TouchableOpacity>
             <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>

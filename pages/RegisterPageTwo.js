@@ -6,12 +6,10 @@ import {
     View,
     Text,
     TouchableOpacity,
-    Image
 } from "react-native";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import * as api from "../utils/api";
 import * as React from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {observer} from "mobx-react-lite";
 import newUserDataStore from "../components/store/createUserDataStore";
 import PopupRegister from "../components/popupRegister";
@@ -100,6 +98,9 @@ const RegisterPageTwo = observer(({ navigation }) => {
     }
 
     function handleBlurInputPassword(){
+        if(passwordRepeatErrorInputText === 'Пароли не совпадают'){
+            setPasswordRepeatIsError(false);
+        }
         if (password.length < 1){
             setPasswordIsError(true);
             setPasswordErrorInputText('Обязательное поле');
@@ -113,6 +114,9 @@ const RegisterPageTwo = observer(({ navigation }) => {
         }
     }
     function handleBlurInputRepeatPassword(){
+        if(passwordErrorInputText === 'Пароли не совпадают'){
+            setPasswordIsError(false);
+        }
         if (passwordRepeat.length < 1){
             setPasswordRepeatIsError(true);
             setPasswordRepeatErrorInputText('Обязательное поле');
@@ -204,7 +208,6 @@ const RegisterPageTwo = observer(({ navigation }) => {
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.footer__container}>
-                                <Image style={styles.footer__image} source={require('../assets/footerImageOne.png')}/>
                             </View>
                         </View>
                     </ImageBackground>

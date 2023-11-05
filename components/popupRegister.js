@@ -1,11 +1,25 @@
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {BackgroundImage} from "react-native-elements/dist/config";
 import * as React from "react";
+import {useNavigation} from "@react-navigation/native";
 
 export default function PopupRegister({setPopupRegisterIsActive, popupRegisterText, popupRegisterIsError}){
+    const navigationNative = useNavigation();
+
+    const handleClick = () => {
+        if(!popupRegisterIsError) {
+            setPopupRegisterIsActive(false);
+            navigationNative.reset({
+                index: 0,
+                routes: [{ name: 'Main' }], // Переход на экран "Main"
+            });
+        } else {
+            setPopupRegisterIsActive(false);
+        }
+    }
 
     return (
-        <TouchableOpacity style={styles.popupRegister} onPress={() => setPopupRegisterIsActive(false)}>
+        <TouchableOpacity style={styles.popupRegister} onPress={() => handleClick()}>
                 <View style={styles.popupRegister__container}>
                     <View style={styles.popupRegister__block}>
                         {popupRegisterIsError ?

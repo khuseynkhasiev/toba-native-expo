@@ -13,7 +13,7 @@ import {useEffect, useState} from "react";
 import newGetUserDataStore from "../components/store/getUserDataStore";
 import EditUserDate from "../components/EditUserDate";
 import * as ImagePicker from 'expo-image-picker';
-import {MenuBackSvgIcon} from "../components/svg/Svg";
+import {MenuBackSvgIcon, ProfileInputEditSvgIcon} from "../components/svg/Svg";
 
 
 export default function ProfileEdit({ navigation }) {
@@ -55,18 +55,23 @@ export default function ProfileEdit({ navigation }) {
     }, [])
 
     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
 
-        if (!result.cancelled) {
-            const uri = result.assets[0].uri;
-            // Здесь вы можете отправить изображение на сервер или обработать его дальше
-            // Теперь `selectedImage` хранит путь к выбранной фотографии.
-            setSelectedImage(uri);
+            if (!result.cancelled) {
+                const uri = result.assets[0].uri;
+                setSelectedImage(uri);
+            }
+        } catch (error) {
+            console.log('Изображение не выбрано');
+/*
+            console.error('Ошибка при выборе изображения:', error);
+*/
         }
     };
 
@@ -104,7 +109,8 @@ export default function ProfileEdit({ navigation }) {
                 console.log('Ошибка при загрузке фотографии', response.status, response.statusText);
             }
         } catch (error) {
-            console.error('Ошибка при загрузке фотографии', error);
+            setAvatarValue(null); // проверка временно
+            console.log('Ошибка при загрузке фотографии', error);
         }
     }
 
@@ -159,12 +165,15 @@ export default function ProfileEdit({ navigation }) {
         newGetUserDataStore.updateUserDataValue('birthday', date);
         newGetUserDataStore.updateUserDataValue('surname', surnameInput);
         newGetUserDataStore.updateUserDataValue('phone', phoneInput);
-        newGetUserDataStore.updateUserDataValue('avatar', avatar);
+        if(avatar === undefined){
+            newGetUserDataStore.updateUserDataValue('avatar', null);
+        } else {
+            newGetUserDataStore.updateUserDataValue('avatar', avatar);
+        }
     }
 
     const submitFormEditUser = async () => {
         const avatar = await uploadPhotoToServer(selectedImage);
-
         if (login === loginInput) {
             if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
                 api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
@@ -208,9 +217,6 @@ export default function ProfileEdit({ navigation }) {
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
-{/*
-                    <Image style={styles.profile__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
-*/}
                     <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <Text style={styles.profile__title}>ПРОФИЛЬ</Text>
@@ -220,13 +226,10 @@ export default function ProfileEdit({ navigation }) {
                             <TouchableOpacity style={styles.profile__userImageTop} onPress={() => pickImage()}>
                                 { avatar === null
                                     ?
-                                    <ImageBackground style={styles.profile__image} source={require('../assets/image/profileCircLeImage.png')}>
+                                    <View style={styles.profile__imageCircle} source={require('../assets/image/profileCircLeImage.png')}>
                                         <Text style={styles.profile__imageText}>фото профиля</Text>
-                                    </ImageBackground>
+                                    </View>
                                     :
-/*
-                                    <Image style={styles.profile__image} source={{ uri: `https://animics.ru/storage/${avatarValue.substring(avatarValue.indexOf("avatars/"))}` }}/>
-*/
                                     <Image
                                         style={styles.profile__image}
                                         source={selectedImage ? { uri: selectedImage } : {uri: `https://animics.ru/storage/${avatarValue.substring(avatarValue.indexOf("avatars/"))}`} }
@@ -235,15 +238,19 @@ export default function ProfileEdit({ navigation }) {
                                 }
                             </TouchableOpacity>
                             <View style={styles.profile__userInfoTop}>
-                                <TextInput
-                                    style={[styles.input__login, {color: loginIsError ? 'red' : '#FFF'}]}
-                                    placeholder="укажите логин"
-                                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                    onChangeText={(text) => setLoginInput(text)}
-                                    value={loginIsError ? loginTextIsError : loginInput}
-                                    onFocus={() => setLoginIsError(false)}
-                                    onBlur={() => handleBlurInputLogin()}
-                                />
+                                <View style={styles.input__loginContainer}>
+                                    <TextInput
+                                        style={[styles.input__login, {color: loginIsError ? 'red' : '#FFF'}]}
+                                        placeholder="укажите логин"
+                                        placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                                        onChangeText={(text) => setLoginInput(text)}
+                                        value={loginIsError ? loginTextIsError : loginInput}
+                                        onFocus={() => setLoginIsError(false)}
+                                        onBlur={() => handleBlurInputLogin()}
+                                    />
+                                    <ProfileInputEditSvgIcon />
+                                </View>
+
                                 <View style={styles.profile__dateContainer}>
                                     <EditUserDate date={date} setDate={setDate} setDateIsError={setDateIsError}/>
                                     {dateIsError && <Text style={[styles.paragraph, {color: 'red'}]}>{dateErrorText}</Text>}
@@ -256,36 +263,43 @@ export default function ProfileEdit({ navigation }) {
                         <View style={styles.profile__formBottomBlock}>
                             <View style={styles.profile__firstLine}>
                                 <View style={styles.profile__textContainer}>
-                                    <TextInput
-                                        style={[
-                                            styles.input__firstName,
-                                            { color: nameIsError ? 'red' : '#FFF' }
-                                        ]}
-                                        placeholder="Имя"
-                                        placeholderTextColor='#FFF'
-                                        onChangeText={(text) => setNameInput(text)}
-                                        value={nameIsError ? nameTextIsError : nameInput}
-                                        onFocus={() => {
-                                            setNameIsError(false);
-                                        }} // Поле в фокусе
-                                        onBlur={() => handleBlurInputName()}
-                                    />
+                                    <View style={styles.input__firstNameContainer}>
+                                        <TextInput
+                                            style={[
+                                                styles.input__firstName,
+                                                { color: nameIsError ? 'red' : '#FFF' }
+                                            ]}
+                                            placeholder="Имя"
+                                            placeholderTextColor='#FFF'
+                                            onChangeText={(text) => setNameInput(text)}
+                                            value={nameIsError ? nameTextIsError : nameInput}
+                                            onFocus={() => {
+                                                setNameIsError(false);
+                                            }} // Поле в фокусе
+                                            onBlur={() => handleBlurInputName()}
+                                        />
+                                        <ProfileInputEditSvgIcon />
+                                    </View>
+
                                 </View>
                                 <View style={styles.profile__textContainer}>
-                                    <TextInput
-                                        style={[
-                                            styles.input__name,
-                                            { color: surnameIsError ? 'red' : '#FFF' }
-                                        ]}
-                                        placeholder="Фамилия"
-                                        placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                        onChangeText={(text) => setSurnameInput(text)}
-                                        value={surnameIsError ? surnameTextIsError : surnameInput}
-                                        onFocus={() => {
-                                            setSurnameIsError(false);
-                                        }} // Поле в фокусе
-                                        onBlur={() => handleBlurInputSurname()}
-                                    />
+                                    <View style={styles.input__firstNameContainer}>
+                                        <TextInput
+                                            style={[
+                                                styles.input__name,
+                                                { color: surnameIsError ? 'red' : '#FFF' }
+                                            ]}
+                                            placeholder="Фамилия"
+                                            placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                                            onChangeText={(text) => setSurnameInput(text)}
+                                            value={surnameIsError ? surnameTextIsError : surnameInput}
+                                            onFocus={() => {
+                                                setSurnameIsError(false);
+                                            }} // Поле в фокусе
+                                            onBlur={() => handleBlurInputSurname()}
+                                        />
+                                        <ProfileInputEditSvgIcon />
+                                    </View>
                                 </View>
                             </View>
                             <View style={styles.profile__firstLine}>
@@ -301,20 +315,23 @@ export default function ProfileEdit({ navigation }) {
                                     </View>
                                 </View>
                                 <View style={styles.profile__textContainer}>
-                                    <TextInput
-                                        style={[
-                                            styles.input__name,
-                                            { color: phoneIsError ? 'red' : '#FFF' }
-                                        ]}
-                                        placeholder="Укажите номер телефона"
-                                        placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                        onChangeText={(text) => setPhoneInput(text)}
-                                        value={phoneIsError ? phoneTextIsError : phoneInput}
-                                        onFocus={() => {
-                                            setPhoneIsError(false);
-                                        }} // Поле в фокусе
-                                        onBlur={() => handleBlurInputPhone()}
-                                    />
+                                    <View style={styles.input__firstNameContainer}>
+                                        <TextInput
+                                            style={[
+                                                styles.input__name,
+                                                { color: phoneIsError ? 'red' : '#FFF' }
+                                            ]}
+                                            placeholder="Укажите номер телефона"
+                                            placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                                            onChangeText={(text) => setPhoneInput(text)}
+                                            value={phoneIsError ? phoneTextIsError : phoneInput}
+                                            onFocus={() => {
+                                                setPhoneIsError(false);
+                                            }} // Поле в фокусе
+                                            onBlur={() => handleBlurInputPhone()}
+                                        />
+                                        <ProfileInputEditSvgIcon />
+                                    </View>
                                 </View>
                             </View>
                         </View>
@@ -331,6 +348,16 @@ export default function ProfileEdit({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    profile__imageCircle: {
+        width: 100,
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+        overflow: 'hidden',
+        borderWidth: 2,
+        borderColor: "#FFF"
+    },
     profile__dateContainer:{
         flexDirection: 'row',
         columnGap: 20
@@ -386,7 +413,7 @@ const styles = StyleSheet.create({
         /*fontWeight: 500,*/
     },
     input__name: {
-        width: '80%',
+        width: '100%',
         color: '#FFF',
         borderRadius: 10,
         borderWidth: 1,
@@ -398,8 +425,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontStyle: 'normal',
     },
-    input__firstName: {
+    input__loginContainer: {
+        width: '100%',
+        position: "relative",
+    },
+    input__firstNameContainer: {
         width: '80%',
+        position: "relative",
+    },
+    input__firstName: {
+        width: '100%',
         color: '#FFF',
         borderRadius: 10,
         borderWidth: 1,
@@ -451,6 +486,11 @@ const styles = StyleSheet.create({
         rowGap: 10,
         width: '100%',
     },
+/*    profile__inputEditIcon: {
+        position: 'absolute',
+        top: 5,
+        right: 5
+    },*/
     profile__userImageTop:{
         width: 100,
         height: 100,

@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
         fontSize: 38,
         fontFamily: 'comics-toba',
-        /*fontFamily: 'Montserrat',*/
         fontStyle: 'normal',
         fontWeight: 400,
         position: "absolute",
