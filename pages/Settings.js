@@ -12,6 +12,7 @@ import { observer } from 'mobx-react';
 import BackgroundMusicStore from '../components/store/BackgroundMusicStore';
 
 import {useEffect} from "react";
+import {MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
 
 const Settings = ({ navigation }) => {
     // запуск фоновой музыки
@@ -36,15 +37,16 @@ const Settings = ({ navigation }) => {
             <Text style={styles.settings__title}>НАСТРОЙКИ</Text>
             <View style={styles.settings__container}>
                 <ImageBackground style={styles.settings__background} source={require('../assets/image/settingBackground.png')} />
+                <TouchableOpacity style={styles.settings__menuBtn} onPress={() => navigation.navigate('Main')}>
+                    <MenuBackSvgIcon />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settings__profileBtn} onPress={() => navigation.navigate('Profile')}>
+                    <ProfileSvgIcon />
+                </TouchableOpacity>
                 <TouchableOpacity style={styles.settings__controlBtn} onPress={() => handleClickPlayBackgroundMusic()}>
                     <Text style={styles.settings__textForm}>Фоновая музыка (вкл/выкл)</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.settings__menuBtn} onPress={() => navigation.navigate('Main')}>
-                    <Image style={styles.settings__menuIcon} source={require('../assets/image/menuIcon.png')}></Image>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.settings__profileBtn} onPress={() => navigation.navigate('Profile')}>
-                    <Image style={styles.settings__profileIcon} source={require('../assets/image/profileIcon.png')}></Image>
-                </TouchableOpacity>
+
             </View>
         </SafeAreaView>
     )
@@ -78,8 +80,8 @@ const styles = StyleSheet.create({
     },
     settings__menuBtn: {
         position: "absolute",
-        top: 10,
-        left: 30,
+        top: 15,
+        left: 15,
     },
     settings__menuIcon: {
         width: 30,
@@ -124,8 +126,8 @@ const styles = StyleSheet.create({
     },
     settings__profileBtn: {
         position: "absolute",
-        top: 8,
-        right: 28,
+        top: 10,
+        right: 10,
     },
     settings__text: {
         fontSize: 15,

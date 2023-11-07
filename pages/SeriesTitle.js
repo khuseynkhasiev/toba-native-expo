@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import * as React from "react";
 import SliderSeries from "../components/SliderSeries";
-import {MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
+import {LibraryButtonSvgIcon, MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
+import LottieView from "lottie-react-native";
 
 const { width, height} = Dimensions.get('window')
 
@@ -27,9 +28,20 @@ export default function SeriesTitle({ navigation }) {
             <TouchableOpacity style={styles.series__menuBtn} onPress={() => navigation.navigate('Main')}>
                 <MenuBackSvgIcon />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>
+{/*            <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>
                 <Image style={styles.series__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
                 <Text style={styles.series__text}>БИБЛИОТЕКА</Text>
+            </TouchableOpacity>*/}
+            <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>
+                <LottieView
+                    source={require('../assets/lottie/libraryBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
+                    style={{
+                        width: 200,
+                        height: 40,
+                        position: "absolute",
+                    }}
+                />
+                <LibraryButtonSvgIcon />
             </TouchableOpacity>
         </View>
     )
@@ -74,8 +86,8 @@ const styles = StyleSheet.create({
     },
     series__libraryBtn: {
         position: "absolute",
-        left: 30,
-        bottom: 15,
+        left: 10,
+        bottom: 10,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,

@@ -12,8 +12,10 @@ import {observer} from "mobx-react-lite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as api from "../utils/api";
 import {useEffect} from "react";
-import {LibraryBooksSvgIcon, MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
+import {LibraryButtonSvgIcon, MenuBackSvgIcon, ProfileSvgIcon, ReadButtonSvgIcon} from "../components/svg/Svg";
 import * as React from "react";
+import LottieView from 'lottie-react-native';
+
 
 const MainPage = observer(({ navigation }) => {
     const getUserDate = async () => {
@@ -43,18 +45,31 @@ const MainPage = observer(({ navigation }) => {
                     <MenuBackSvgIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
-
-                <ProfileSvgIcon />
+                    <ProfileSvgIcon />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.main__libraryBtn} onPress={() => navigation.navigate('Library')}>
-                    <LibraryBooksSvgIcon />
-                    <Text style={styles.main__textBtn}>БИБЛИОТЕКА</Text>
+                    <LottieView
+                        source={require('../assets/lottie/libraryBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
+                        style={{
+                            width: 200,
+                            height: 40,
+                            position: "absolute",
+                        }}
+                    />
+                    <LibraryButtonSvgIcon />
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.main__seriesBtn} onPress={() => navigation.navigate('Series')}>
-                    <Text style={styles.main__textBtn}>ЧИТАТЬ</Text>
-                    <Image style={styles.main__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
+                    <LottieView
+                        source={require('../assets/lottie/readBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
+                        style={{
+                            width: 160,
+                            height: 40,
+                            position: "absolute"
+                        }}
+                    />
+                    <ReadButtonSvgIcon />
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -112,8 +127,8 @@ const styles = StyleSheet.create({
     },
     main__seriesBtn: {
         position: "absolute",
-        right: 30,
-        bottom: 15,
+        right: 10,
+        bottom: 10,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,
@@ -152,11 +167,14 @@ const styles = StyleSheet.create({
         zIndex: 2,
         color: 'white',
     },
-    main__textBtn: {
+    main__libraryTextBtn: {
         fontSize: 15,
         fontWeight: 500,
         fontFamily: 'Montserrat',
         color: '#FFF',
+        position: "absolute",
+        left: 60,
+        bottom: 10,
     },
 });
 

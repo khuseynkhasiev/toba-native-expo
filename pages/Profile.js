@@ -18,8 +18,10 @@ import {
     EmailVerifyYesSvgIcon,
     MenuBackSvgIcon,
     ProfileEditSvgIcon,
-    ProfileExitSvgIcon, ProfileVerifyNoSvgIcon
+    ProfileExitSvgIcon, ProfileVerifyNoSvgIcon, SettingsButtonSvgIcon
 } from "../components/svg/Svg";
+import LottieView from 'lottie-react-native';
+
 
 export default function Profile({ navigation }) {
 
@@ -87,6 +89,19 @@ export default function Profile({ navigation }) {
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
                 <MenuBackSvgIcon />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.profile__seriesBtn} onPress={() => navigation.navigate('Settings')}>
+                    {/*                    <Text style={styles.profile__textBtn}>НАСТРОЙКИ</Text>
+                    <Image style={styles.profile__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>*/}
+                    <LottieView
+                        source={require('../assets/lottie/settingsBgButton.json')}
+                        style={{
+                            width: 190,
+                            height: 40,
+                            position: "absolute"
+                        }}
+                    />
+                    <SettingsButtonSvgIcon />
                 </TouchableOpacity>
                 <Text style={styles.profile__title}>ПРОФИЛЬ</Text>
                 <View style={styles.profile__form}>
@@ -159,10 +174,7 @@ export default function Profile({ navigation }) {
                         </ImageBackground>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.profile__seriesBtn} onPress={() => navigation.navigate('Settings')}>
-                    <Text style={styles.profile__textBtn}>НАСТРОЙКИ</Text>
-                    <Image style={styles.profile__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
-                </TouchableOpacity>
+
 
             </ImageBackground>
             {popupExitIsActive
@@ -172,6 +184,7 @@ export default function Profile({ navigation }) {
             {popupVerifyIsActive &&
                 <PopupVerify message={popupVerifyMessage} setPopupVerifyIsActive={setPopupVerifyIsActive}/>
             }
+
         </SafeAreaView>
     )
 }
@@ -347,8 +360,8 @@ const styles = StyleSheet.create({
     },
     profile__seriesBtn: {
         position: "absolute",
-        right: 30,
-        bottom: 15,
+        right: 10,
+        top: 10,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,

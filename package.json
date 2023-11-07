@@ -23,6 +23,7 @@
     "expo-image-picker": "^14.5.0",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
+    "lottie-react-native": "^6.4.0",
     "mobx": "^6.9.0",
     "mobx-react": "^9.0.1",
     "mobx-react-lite": "^3.4.3",

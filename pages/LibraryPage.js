@@ -6,7 +6,9 @@ import {
     Text,
     TouchableOpacity, View,
 } from 'react-native';
-import {MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
+import {MenuBackSvgIcon, ProfileSvgIcon, ReadButtonSvgIcon} from "../components/svg/Svg";
+import LottieView from "lottie-react-native";
+import * as React from "react";
 
 export default function LibraryPage({ navigation }) {
     return (
@@ -20,9 +22,20 @@ export default function LibraryPage({ navigation }) {
                 <TouchableOpacity style={styles.library__profileBtn} onPress={() => navigation.navigate('Profile')}>
                     <ProfileSvgIcon />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>
+{/*                <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>
                     <Text style={styles.library__text}>ЧИТАТЬ</Text>
                     <Image style={styles.library__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
+                </TouchableOpacity>*/}
+                <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>
+                    <LottieView
+                        source={require('../assets/lottie/readBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
+                        style={{
+                            width: 160,
+                            height: 40,
+                            position: "absolute"
+                        }}
+                    />
+                    <ReadButtonSvgIcon />
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -73,8 +86,8 @@ const styles = StyleSheet.create({
     },
     library__seriesBtn: {
         position: "absolute",
-        right: 30,
-        bottom: 15,
+        right: 10,
+        bottom: 10,
         display: "flex",
         flexDirection: 'row',
         columnGap: 5,
