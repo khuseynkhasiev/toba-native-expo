@@ -336,6 +336,11 @@ export default function ProfileEdit({ navigation }) {
                             </View>
                         </View>
                     </ImageBackground>
+                    <TouchableOpacity style={styles.profile__backProfile} onPress={() => navigation.navigate('Profile')}>
+                        <View style={styles.profile__saveBtnContainer}>
+                            <Text style={styles.profile__saveBtnText}>НАЗАД</Text>
+                        </View>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.profile__saveBtn} onPress={() => submitFormEditUser()}>
                         <View style={styles.profile__saveBtnContainer}>
                             <Text style={styles.profile__saveBtnText}>СОХРАНИТЬ ИЗМЕНЕНИЯ</Text>
@@ -460,6 +465,11 @@ const styles = StyleSheet.create({
     profile__saveBtn:{
         bottom: 15,
         right: 15,
+        position: "absolute"
+    },
+    profile__backProfile:{
+        bottom: 15,
+        left: 15,
         position: "absolute"
     },
     profile__exitImageBg:{

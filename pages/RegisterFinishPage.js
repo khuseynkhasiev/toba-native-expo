@@ -220,18 +220,18 @@ const styles = StyleSheet.create({
     },
     authorization__headerTextBlockLeft: {
         width: '50%',
-        backgroundColor: 'rgba(0, 0, 0, 0.50)',
+        backgroundColor: 'rgba(255, 255, 255, 0.30)',
         height: 30,
         justifyContent: 'center',
     },
     authorization__headerTextBlockRight: {
         width: '50%',
-        backgroundColor: 'rgba(255, 255, 255, 0.30)',
+        backgroundColor: 'rgba(0, 0, 0, 0.50)',
         height: 30,
         justifyContent: 'center',
     },
     authorization__headerTextLeft: {
-        color: "#FFF",
+        color: "#000",
         textAlign: "center",
         fontFamily: "Montserrat",
         fontSize: 16,
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
         textTransform: "uppercase"
     },
     authorization__headerTextRight: {
-        color: "#000",
+        color: "#FFF",
         textAlign: "center",
         fontFamily: "Montserrat",
         fontSize: 14,

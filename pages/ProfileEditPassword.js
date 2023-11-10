@@ -116,20 +116,23 @@ export default function ProfileEditPassword({ navigation }) {
         if(!passwordIsError && !newPasswordIsError && !newPasswordRepeatIsError) {
             api.userPasswordCheck(password, token)
                 .then((data) => {
-                    console.log('------');
+/*                    console.log('------');
                     console.log(data.data);
-                    console.log('------');
+                    console.log('------');*/
                     if(data.data){
+/*
                         console.log('да');
+*/
                         editUserPassword();
                     } else {
+/*
                         console.log('нет');
+*/
                         setPasswordIsError(true);
                         setPasswordErrorInputText('Не верный пароль');
                     }
                 })
                 .catch((err) => console.log(err))
-                .finally(() => setPasswordIsError(false))
         }
     }
     return (
@@ -175,6 +178,11 @@ export default function ProfileEditPassword({ navigation }) {
                             />
                         </View>
                     </ImageBackground>
+                    <TouchableOpacity style={styles.profile__backEditProfile} onPress={() => navigation.navigate('ProfileEdit')}>
+                        <View style={styles.profile__saveBtnContainer}>
+                            <Text style={styles.profile__saveBtnText}>НАЗАД</Text>
+                        </View>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.profile__saveBtn} onPress={() => submitPasswordUser()}>
                         <View style={styles.profile__saveBtnContainer}>
                             <Text style={styles.profile__saveBtnText}>СОХРАНИТЬ ИЗМЕНЕНИЯ</Text>
@@ -237,6 +245,11 @@ const styles = StyleSheet.create({
     profile__saveBtn:{
         bottom: 15,
         right: 15,
+        position: "absolute"
+    },
+    profile__backEditProfile:{
+        bottom: 15,
+        left: 15,
         position: "absolute"
     },
     profile__title: {

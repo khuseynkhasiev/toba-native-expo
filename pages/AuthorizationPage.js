@@ -29,8 +29,7 @@ const Authorization = ({ navigation }) => {
     const [passwordIsError, setPasswordIsError] = useState(false);
     const [passwordErrorInputText, setPasswordErrorInputText] = useState('Пароль состоит минимум из 8 символов');
 
-    // переключение между авторизацией и регистрацией
-    const [isActive, setIsActive] = useState(true);
+
 
     // Для регистрации
     const [name, setName] = useState('');
@@ -52,8 +51,22 @@ const Authorization = ({ navigation }) => {
     const navigationNative = useNavigation();
 
     // переключение между авторизацией и регистрацией
+    const [isActive, setIsActive] = useState(true);
+    const [isActiveAuthorization, setIsActiveAuthorization] = useState(true);
+    const [isActiveRegister, setIsActiveRegister] = useState(false);
+
+    // переключение между авторизацией и регистрацией
     const handleIsActive = () => {
         setIsActive(!isActive);
+    }
+
+    const handleIsActiveAuthorization = () => {
+        setIsActiveAuthorization(true);
+        setIsActiveRegister(false);
+    }
+    const handleIsActiveRegister = () => {
+        setIsActiveAuthorization(false);
+        setIsActiveRegister(true);
     }
 
     // проверка токена, если есть то переход на главную страницу
@@ -292,14 +305,14 @@ const Authorization = ({ navigation }) => {
                     <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
                         <View style={styles.authorization__formContainer}>
                             <View style={styles.authorization__headerBlock}>
-                                <TouchableOpacity style={[styles.authorization__headerTextBlockLeft, isActive ? styles.authorization__headerTextBlockLeft_active : '']} onPress={() => handleIsActive()}>
-                                    <Text style={styles.authorization__headerTextLeft}>АВТОРИЗАЦИЯ</Text>
+                                <TouchableOpacity style={[styles.authorization__headerTextBlock, isActiveAuthorization ? styles.authorization__headerTextBlockLeft_active : '']} onPress={() => handleIsActiveAuthorization()}>
+                                    <Text style={[styles.authorization__headerText, isActiveAuthorization ? styles.authorization__headerText_active : '']}>АВТОРИЗАЦИЯ</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.authorization__headerTextBlockRight, !isActive ? styles.authorization__headerTextBlockLeft_active : '']} onPress={() => handleIsActive()}>
-                                    <Text style={styles.authorization__headerTextRight}>СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ</Text>
+                                <TouchableOpacity style={[styles.authorization__headerTextBlock, isActiveRegister ? styles.authorization__headerTextBlockLeft_active : '']} onPress={() => handleIsActiveRegister()}>
+                                    <Text style={[styles.authorization__headerText, isActiveRegister ? styles.authorization__headerText_active : '']}>СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ</Text>
                                 </TouchableOpacity>
                             </View>
-                            {isActive ?
+                            {isActiveAuthorization ?
                                 <>
                                     <TextInput
                                         style={[styles.input, {color: emailIsError ? 'red' : '#FFF'}]}
@@ -447,28 +460,30 @@ const styles = StyleSheet.create({
         width: '84%',
         height: '90%'
     },
-    authorization__headerTextBlockLeft: {
+/*    authorization__headerTextBlockLeft: {
         width: '50%',
         backgroundColor: 'rgba(0, 0, 0, 0.50)',
         height: 30,
         justifyContent: 'center',
-    },
-    authorization__headerTextBlockRight: {
+    },*/
+    authorization__headerTextBlock: {
         width: '50%',
         backgroundColor: 'rgba(255, 255, 255, 0.30)',
         height: 30,
         justifyContent: 'center',
     },
-    authorization__headerTextLeft: {
-        color: "#FFF",
-        textAlign: "center",
-        fontFamily: "Montserrat",
-        fontSize: 16,
-        fontStyle: "normal",
-        fontWeight: "500",
-        textTransform: "uppercase"
+
+/*    authorization__headerTextBlockRight: {
+        width: '50%',
+        backgroundColor: 'rgba(255, 255, 255, 0.30)',
+        height: 30,
+        justifyContent: 'center',
+    },*/
+    authorization__headerTextBlockLeft_active: {
+        height: 40,
+        backgroundColor: 'rgba(0, 0, 0, 0.50)',
     },
-    authorization__headerTextRight: {
+    authorization__headerText: {
         color: "#000",
         textAlign: "center",
         fontFamily: "Montserrat",
@@ -477,6 +492,28 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         textTransform: "uppercase"
     },
+    authorization__headerText_active: {
+        color: "#FFF",
+        fontSize: 16,
+    },
+/*    authorization__headerTextLeft: {
+        /!*color: "#FFF",*!/
+        textAlign: "center",
+        fontFamily: "Montserrat",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        textTransform: "uppercase"
+    },
+    authorization__headerTextRight: {
+        /!*color: "#000",*!/
+        textAlign: "center",
+        fontFamily: "Montserrat",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "500",
+        textTransform: "uppercase"
+    },*/
     authorization__headerBlock: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -484,9 +521,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         alignItems: 'center'
     },
-    authorization__headerTextBlockLeft_active: {
-        height: 40,
-    },
+
     authorization__formContainer: {
         rowGap: 15,
         justifyContent: 'center',

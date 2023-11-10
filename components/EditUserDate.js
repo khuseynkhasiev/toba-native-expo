@@ -41,18 +41,28 @@ const EditUserDate = ({date, setDate, setDateIsError}) => {
         }
     }
 
-    const onChange = (event, selectedDate) => {
+/*    const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setShow(false);
         const year = currentDate.getUTCFullYear();
         const month = (currentDate.getUTCMonth() + 1).toString().padStart(2, '0'); // +1, чтобы сделать месяцы с 1 по 12
         const day = currentDate.getUTCDate().toString().padStart(2, '0'); // добавляем нули спереди для однозначных месяцев и дней
         const newDate = `${year}-${month}-${day}`
-        /*console.log(newDate);*/
+        /!*console.log(newDate);*!/
+        checkUserDate(year, month, day);
+        setDate(newDate);
+    };*/
+
+    const onChange = (event, selectedDate) => {
+        setShow(false);
+        const currentDate = selectedDate;
+        const year = currentDate.getUTCFullYear();
+        const month = (currentDate.getUTCMonth() + 1).toString().padStart(2, '0');
+        const day = currentDate.getUTCDate().toString().padStart(2, '0');
+        const newDate = `${year}-${month}-${day}`;
         checkUserDate(year, month, day);
         setDate(newDate);
     };
-
     const showMode = (currentMode) => {
         setShow(true);
     };
@@ -60,17 +70,20 @@ const EditUserDate = ({date, setDate, setDateIsError}) => {
     const showDatepicker = () => {
         showMode('date');
     };
+
+
     return (
         <>
             <TouchableOpacity style={styles.registerUserDate__btn} onPress={showDatepicker}>
                 <Text style={styles.registerUserDate__btnText}>
+                    {/*{onDate ? date.split('-').reverse().join('.') : 'ДД.ММ.ГГГГ'}*/}
                     {onDate ? date.split('-').reverse().join('.') : 'ДД.ММ.ГГГГ'}
                 </Text>
             </TouchableOpacity>
             {show && (
                 <DateTimePicker
                     testID="dateTimePicker"
-                    value={new Date()}
+                    value={new Date(date)}
                     mode='date'
                     is24Hour={true}
                     onChange={onChange}

@@ -129,9 +129,9 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 10,
         bottom: 10,
-        display: "flex",
+/*        display: "flex",
         flexDirection: 'row',
-        columnGap: 5,
+        columnGap: 5,*/
     },
     main__seriesIcon: {
         width: 12,

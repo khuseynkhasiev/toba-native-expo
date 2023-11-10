@@ -46,7 +46,6 @@ const Settings = ({ navigation }) => {
                 <TouchableOpacity style={styles.settings__controlBtn} onPress={() => handleClickPlayBackgroundMusic()}>
                     <Text style={styles.settings__textForm}>Фоновая музыка (вкл/выкл)</Text>
                 </TouchableOpacity>
-
             </View>
         </SafeAreaView>
     )
