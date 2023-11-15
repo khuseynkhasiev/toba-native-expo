@@ -300,7 +300,21 @@ const HelpButtonSvgIcon = () => {
     )
 }
 
+const DeleteConfirmProfilePopupSvgIcon = () => {
+    return (
+        <Svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <Rect x="0.5" y="0.5" width="59" height="59" rx="9.5" stroke="white"/>
+            <Path d="M17 46.5C19 41.5 25 37 31 37C37 37 42 42.5 44 46.5" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <Path d="M40 13.6465L47.0711 20.7176" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <Path d="M13.3535 13.6465L20.4246 20.7176" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <Path d="M40 20.7175L47.0711 13.6465" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <Path d="M13.3535 20.7175L20.4246 13.6465" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </Svg>
+    )
+}
+
 export {
+    DeleteConfirmProfilePopupSvgIcon,
     NotificationDisableButtonSvgIcon,
     HelpButtonSvgIcon,
     HelpProjectButtonSvgIcon,

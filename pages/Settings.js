@@ -21,11 +21,33 @@ import {
     ProfileSvgIcon
 } from "../components/svg/Svg";
 import {Switch} from "react-native-elements";
+import PopupConfirmedDeleteAccount from "../components/PopupConfirmedDeleteAccount";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Settings = ({ navigation }) => {
 
     const [isSoundEnabled, setIsSoundEnabled] = useState(false);
-    const [notificationIsActive, setNotificationIsActive] = useState(true);
+    const [notificationIsActive, setNotificationIsActive] = useState(false);
+    const [popupConfirmedDeleteIsActive, setPopupConfirmedDeleteIsActive] = useState(false);
+/*    useEffect(() => {
+        const getNotificationPreference = async () => {
+            try {
+                const value = await AsyncStorage.getItem('notificationPreference');
+                return value !== null ? JSON.parse(value) : null;
+            } catch (error) {
+                console.error('Error getting notification preference:', error);
+            }
+        };
+        const isActive = getNotificationPreference();
+        console.log(isActive);
+        if (isActive) {
+            setNotificationIsActive(true);
+            console.log(true);
+        } else {
+            setNotificationIsActive(false);
+            console.log(false);
+        }
+    },[])*/
 
     // запуск фоновой музыки
     useEffect(() => {
@@ -44,11 +66,26 @@ const Settings = ({ navigation }) => {
         }
     }
 
+    const openPopupConfirmedDeleteAccount = () => {
+        setPopupConfirmedDeleteIsActive(true);
+    }
+
+/*    const saveNotificationPreference = async (value) => {
+        try {
+            await AsyncStorage.setItem('notificationPreference', value);
+        } catch (error) {
+            console.error('Error saving notification preference:', error);
+        }
+    };*/
+
     return (
         <SafeAreaView style={styles.settings}>
             <View style={styles.settings__container}>
                 <ImageBackground style={styles.settings__background} source={require('../assets/image/settingBackground.png')}>
+                    {popupConfirmedDeleteIsActive && <PopupConfirmedDeleteAccount setPopupConfirmedDeleteIsActive={setPopupConfirmedDeleteIsActive}/>}
+
                     <View style={styles.settings__backgroundContainer}>
+
                         <ImageBackground style={styles.settings__form} source={require('../assets/image/settingsBgContainer.png')}>
                             <Text style={styles.settings__title}>НАСТРОЙКИ</Text>
                             <View style={styles.settings__row}>
@@ -99,7 +136,7 @@ const Settings = ({ navigation }) => {
                                                 Язык/ *появится скоро
                                             </Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.settings__card}>
+                                        <TouchableOpacity style={styles.settings__card} onPress={() => openPopupConfirmedDeleteAccount()}>
                                             <DeleteAccountButtonSvgIcon />
                                             <Text style={styles.settings__cardText}>
                                                 Удалить
@@ -143,7 +180,6 @@ const Settings = ({ navigation }) => {
 {/*                <TouchableOpacity style={styles.settings__controlBtn} onPress={() => handleClickPlayBackgroundMusic()}>
                     <Text style={styles.settings__textForm}>Фоновая музыка (вкл/выкл)</Text>
                 </TouchableOpacity>*/}
-
             </View>
         </SafeAreaView>
     )
@@ -154,6 +190,11 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
         justifyContent: 'center',
         columnGap: 50
+    },
+    profile__saveBtn:{
+        bottom: 15,
+        right: 15,
+        position: "absolute"
     },
     settings__rightBlock: {
         width: '30%',

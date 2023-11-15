@@ -1,15 +1,16 @@
-import {Image, Text, TouchableOpacity, View, StyleSheet, ImageBackground} from "react-native";
+import {Text, TouchableOpacity, View, StyleSheet, ImageBackground} from "react-native";
 import * as React from "react";
 import {ProfileExitSvgIcon} from "./svg/Svg";
 
 export default function PopupExit({setPopupExitIsActive, handleExitProfile}){
+    const exitPopup = () => {
+        setPopupExitIsActive(false);
+    }
     return (
         <View style={styles.profile__popupExit}>
 {/*
             <Image style={styles.popup__exitIcon} source={require('../assets/image/popupExitIcon.png')}/>
 */}
-
-
             <ImageBackground style={styles.popup__exitIcon} source={require('../assets/image/iconEditBtnCircle.png')}>
                 <ProfileExitSvgIcon />
             </ImageBackground>
@@ -20,9 +21,9 @@ export default function PopupExit({setPopupExitIsActive, handleExitProfile}){
                         <Text style={styles.popup__btnTextYes}>ДА</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.popup__btnNo}>
+                <TouchableOpacity style={styles.popup__btnNo} onPress={() => exitPopup()}>
                     <View style={styles.popup__btnViewNo}>
-                        <Text style={styles.popup__btnTextNo} onPress={() => setPopupExitIsActive(false)}>НЕТ</Text>
+                        <Text style={styles.popup__btnTextNo}>НЕТ</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
         borderRadius: 10, // border-radius
         backgroundColor: 'rgba(255, 255, 255, 0.50)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     popup__btnViewNo: {
         width: 80,
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 30,
         borderRadius: 10, // border-radius
-        backgroundColor: 'rgba(6, 6, 6, 0.50);',
+        backgroundColor: 'rgba(6, 6, 6, 0.50)',
         justifyContent: 'center',
         alignItems: 'center'
     },
