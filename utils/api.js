@@ -201,7 +201,19 @@ const userPasswordCheck = (password, token) => {
         .catch((res) => res.json())
 }
 
+const deleteAccountUser = (password, token) => {
+    return fetch(`${BASE_URL}/user`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }).then((res) => res.json())
+        .catch((res) => res.json())
+}
+
 export {
+    deleteAccountUser,
     userPasswordCheck,
     register,
     checkUniqueLogin,
