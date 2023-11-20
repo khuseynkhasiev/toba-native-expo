@@ -160,13 +160,14 @@ export default function ProfileEdit({ navigation }) {
         }
     }
     const updateUserStore = (avatar) => {
+        console.log(avatar);
         newGetUserDataStore.updateUserDataValue('name', nameInput);
         newGetUserDataStore.updateUserDataValue('login', loginInput);
         newGetUserDataStore.updateUserDataValue('birthday', date);
         newGetUserDataStore.updateUserDataValue('surname', surnameInput);
         newGetUserDataStore.updateUserDataValue('phone', phoneInput);
-        if(avatar === undefined){
-            newGetUserDataStore.updateUserDataValue('avatar', null);
+        if(avatar === undefined || avatar === null){
+            newGetUserDataStore.updateUserDataValue('avatar', avatarValue);
         } else {
             newGetUserDataStore.updateUserDataValue('avatar', avatar);
         }
@@ -224,7 +225,7 @@ export default function ProfileEdit({ navigation }) {
                     <ImageBackground style={styles.profile__formBackground} source={require('../assets/image/profileBgForm.png')}>
                         <View style={styles.profile__formTopBlock}>
                             <TouchableOpacity style={styles.profile__userImageTop} onPress={() => pickImage()}>
-                                { avatar === null
+                                { avatar === null || avatar === undefined
                                     ?
                                     <View style={styles.profile__imageCircle} source={require('../assets/image/profileCircLeImage.png')}>
                                         <Text style={styles.profile__imageText}>фото профиля</Text>
@@ -234,7 +235,6 @@ export default function ProfileEdit({ navigation }) {
                                         style={styles.profile__image}
                                         source={selectedImage ? { uri: selectedImage } : {uri: `https://animics.ru/storage/${avatarValue.substring(avatarValue.indexOf("avatars/"))}`} }
                                     />
-
                                 }
                             </TouchableOpacity>
                             <View style={styles.profile__userInfoTop}>
@@ -321,7 +321,7 @@ export default function ProfileEdit({ navigation }) {
                                                 styles.input__name,
                                                 { color: phoneIsError ? 'red' : '#FFF' }
                                             ]}
-                                            placeholder="Укажите номер телефона"
+                                            placeholder="Номер телефона"
                                             placeholderTextColor="#FFF" // Установите цвет текста placeholder
                                             onChangeText={(text) => setPhoneInput(text)}
                                             value={phoneIsError ? phoneTextIsError : phoneInput}
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         fontFamily: 'Montserrat',
-        fontSize: 20,
+        fontSize: 18,
         fontStyle: 'normal',
         /*fontWeight: 500,*/
     },
@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         fontFamily: 'Montserrat',
-        fontSize: 14,
+        fontSize: 13,
         fontStyle: 'normal',
     },
     input__loginContainer: {
@@ -448,59 +448,27 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         fontFamily: 'Montserrat',
-        fontSize: 14,
+        fontSize: 13,
         fontStyle: 'normal',
-    },
-    profile__cancelIcon:{
-        width: 20,
-        height: 20,
     },
     profile__emailLine:{
         flexDirection: "row",
         justifyContent: "space-between"
     },
-    profile__lineBlock:{
-        flexDirection: "row"
-    },
     profile__saveBtn:{
-        bottom: 15,
+        bottom: 10,
         right: 15,
         position: "absolute"
     },
     profile__backProfile:{
-        bottom: 15,
+        bottom: 10,
         left: 15,
         position: "absolute"
-    },
-    profile__exitImageBg:{
-        width: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    profile__exitIcon:{
-        width: 24,
-        height: 24,
-    },
-    profile__editBtn:{
-        position: "absolute",
-        top: 30,
-        right: 30
-    },
-    profile__editUserIcon:{
-        width: 30,
-        height: 30,
     },
     profile__textContainer:{
         rowGap: 10,
         width: '100%',
     },
-/*    profile__inputEditIcon: {
-        position: 'absolute',
-        top: 5,
-        right: 5
-    },*/
     profile__userImageTop:{
         width: 100,
         height: 100,
@@ -524,21 +492,7 @@ const styles = StyleSheet.create({
         width: 100,
         /*position: "absolute",*/
     },
-    profile__textLine:{
-        color: '#FFF',
-        fontFamily: 'Montserrat',
-        fontSize: 10,
-        fontStyle: 'normal',
-        fontWeight: 300,
-    },
-    profile__textLine_underline:{
-        color: '#FFF',
-        fontFamily: 'Montserrat',
-        fontSize: 10,
-        fontStyle: 'normal',
-        fontWeight: 300,
-        textDecorationLine: 'underline',
-    },
+
     profile__formTopBlock:{
         flexDirection: "row",
         columnGap: 30,
@@ -555,9 +509,6 @@ const styles = StyleSheet.create({
     },
     profile__firstLine:{
         flexDirection: 'row',
-/*
-        columnGap: 70,
-*/
         width: '50%'
     },
     profile__text:{
@@ -568,28 +519,16 @@ const styles = StyleSheet.create({
         fontWeight: 300,
         paddingLeft: 15
     },
-    profile__line:{
-        width: 280,
-        height: 1,
-        backgroundColor: 'rgba(255, 255, 255, 0.50)'
-    },
 
     profile__userInfoTop:{
         flexDirection: "column",
         rowGap: 5,
         width: '50%'
     },
-    profile__loginText:{
-        color: '#FFF',
-        fontFamily: 'Montserrat',
-        fontSize: 20,
-        fontStyle: 'normal',
-        fontWeight: 500
-    },
     profile__dateText:{
         color: '#FFF',
         fontFamily: 'Montserrat',
-        fontSize: 14,
+        fontSize: 13,
         fontStyle: 'normal',
         fontWeight: 500,
         textDecorationLine: 'underline'
@@ -612,30 +551,7 @@ const styles = StyleSheet.create({
         top: 15,
         left: 15,
     },
-    profile__menuIcon: {
-        width: 30,
-        height: 20,
-    },
-    profile__seriesBtn: {
-        position: "absolute",
-        right: 30,
-        bottom: 15,
-        display: "flex",
-        flexDirection: 'row',
-        columnGap: 5,
-    },
-    profile__seriesIcon: {
-        width: 12,
-        height: 20
-    },
-    profile__textBtn: {
-        fontSize: 15,
-        fontWeight: 700,
-        textAlign: 'center',
-        color: '#FFF',
-        fontFamily: 'NanumGothicCodingBold',
-        letterSpacing: 5,
-    },
+
     profile: {
         width: '100%',
         height: '100%',
@@ -664,12 +580,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         width: '90%',
-        height: '70%',
+        height: '72%',
         position: "relative",
-    },
-    profile__formContainer: {
-        rowGap: 15,
-        justifyContent: 'center',
-        justifyItems: 'center',
     },
 });

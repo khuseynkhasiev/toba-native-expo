@@ -3,8 +3,14 @@ import React, { useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
+import {useRoute} from "@react-navigation/native";
+import BackgroundMusicStore from "../store/BackgroundMusicStore";
 
 export default function NewYear({ navigation }) {
+
+  const route = useRoute();
+  const { isActiveBackgroundMusic } = route.params;
+
   const [status, setStatus] = React.useState({});
   const video = useRef(null);
   const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
@@ -63,6 +69,9 @@ export default function NewYear({ navigation }) {
   }, [navigation]);
 
   const backScene = () => {
+    if (isActiveBackgroundMusic){
+      BackgroundMusicStore.playMusic();
+    }
     unloadVideo();
     navigation.goBack();
   };

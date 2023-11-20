@@ -22,11 +22,11 @@ class BackgroundMusicStore {
                 await AsyncStorage.setItem('soundIsActive', 'true');
             }
         } catch (error) {
-            console.error('Ошибка при загрузке isPlaying: ', error);
+            console.log('Ошибка при загрузке isPlaying: ', error);
         }
     }
 
-    async playMusic() {
+/*    async playMusic() {
         this.isPlaying = true;
         await AsyncStorage.setItem('soundIsActive', 'true');
 
@@ -42,7 +42,37 @@ class BackgroundMusicStore {
                 console.error('Ошибка воспроизведения музыки: ', error);
             }
         }
+    }*/
+    async playMusic() {
+        this.isPlaying = true;
+        await AsyncStorage.setItem('soundIsActive', 'true');
+
+        try {
+            if (!this.sound) {
+                this.sound = new Audio.Sound();
+                await this.sound.loadAsync(
+                    require('../../assets/music/baraban-background.mp3')
+                );
+            }
+
+            if (this.sound) {
+                // Проверяем, загружен ли звук перед попыткой воспроизведения
+                const status = await this.sound.getStatusAsync();
+                if (status.isLoaded) {
+                    await this.sound.playAsync();
+                    await this.sound.setIsLoopingAsync(true);
+                } else {
+                    // Если звук не загружен, не пытаемся его воспроизвести
+                    console.log('Звук не загружен');
+                }
+            }
+        } catch (error) {
+            console.log('Ошибка воспроизведения музыки: ', error);
+        }
     }
+
+
+
 
     async stopMusic() {
         this.isPlaying = false;

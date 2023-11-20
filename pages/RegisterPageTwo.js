@@ -13,6 +13,7 @@ import * as React from "react";
 import {observer} from "mobx-react-lite";
 import newUserDataStore from "../components/store/createUserDataStore";
 import PopupRegister from "../components/popupRegister";
+import {NotViewPasswordSvgIcon, ViewPasswordSvgIcon} from "../components/svg/Svg";
 
 
 const RegisterPageTwo = observer(({ navigation }) => {
@@ -33,6 +34,8 @@ const RegisterPageTwo = observer(({ navigation }) => {
     const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(false);
     const [popupRegisterIsError, setPopupRegisterIsError] = useState(false);
 
+    const [openPassword, setOpenPassword] = useState(false);
+    const [openPasswordRepeat, setOpenPasswordRepeat] = useState(false);
     function validateEmail(email){
         // Регулярное выражение для проверки валидности email.
         const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -97,38 +100,77 @@ const RegisterPageTwo = observer(({ navigation }) => {
         newUserDataStore.updateUserData(key, value);
     }
 
-    function handleBlurInputPassword(){
+/*    function handleBlurInputPassword(){
         if(passwordRepeatErrorInputText === 'Пароли не совпадают'){
             setPasswordRepeatIsError(false);
         }
         if (password.length < 1){
             setPasswordIsError(true);
             setPasswordErrorInputText('Обязательное поле');
+            setOpenPassword(false);
         } else {
             if(hasUpperCaseAndLowerCase(password)){
                 setPasswordIsError(false);
             } else {
                 setPasswordIsError(true);
+                setOpenPassword(false);
                 setPasswordErrorInputText('Не меньше 8 символов и символ верхнего и нижнего регистра');
             }
         }
+    }*/
+    function handleBlurInputPassword(){
+        console.log('handleBlurInputPassword');
+        if (password.length < 1){
+            setPasswordIsError(true);
+            setPasswordErrorInputText('Обязательное поле');
+            setOpenPassword(false);
+        } else if(hasUpperCaseAndLowerCase(password)){
+            setPasswordIsError(false);
+        } else {
+                setPasswordIsError(true);
+                setOpenPassword(false);
+                setPasswordErrorInputText('Не меньше 8 символов и символ верхнего и нижнего регистра');
+            }
+
+        if(passwordRepeatErrorInputText === 'Пароли не совпадают'){
+            setPasswordRepeatIsError(false);
+        }
     }
     function handleBlurInputRepeatPassword(){
+        if (passwordRepeat.length < 1){
+            console.log('условие <1');
+            setPasswordRepeatIsError(true);
+            setPasswordRepeatErrorInputText('Обязательное поле');
+            setOpenPasswordRepeat(false);
+        } else if(hasUpperCaseAndLowerCase(passwordRepeat)){
+            setPasswordRepeatIsError(false);
+        } else {
+            setPasswordRepeatIsError(true);
+            setPasswordRepeatErrorInputText('Не меньше 8 символов и символ верхнего и нижнего регистра');
+            setOpenPasswordRepeat(false);
+        }
+        if(passwordErrorInputText === 'Пароли не совпадают'){
+            setPasswordIsError(false);
+        }
+    }
+/*    function handleBlurInputRepeatPassword(){
         if(passwordErrorInputText === 'Пароли не совпадают'){
             setPasswordIsError(false);
         }
         if (passwordRepeat.length < 1){
             setPasswordRepeatIsError(true);
             setPasswordRepeatErrorInputText('Обязательное поле');
+            setOpenPasswordRepeat(false);
         } else {
             if(hasUpperCaseAndLowerCase(passwordRepeat)){
                 setPasswordRepeatIsError(false);
             } else {
                 setPasswordRepeatIsError(true);
                 setPasswordRepeatErrorInputText('Не меньше 8 символов и символ верхнего и нижнего регистра');
+                setOpenPasswordRepeat(false);
             }
         }
-    }
+    }*/
     function comparePasswords(){
         if(password === passwordRepeat){
             setPasswordRepeatIsError(false);
@@ -144,7 +186,8 @@ const RegisterPageTwo = observer(({ navigation }) => {
     }
 
     function hasUpperCaseAndLowerCase(str) {
-        return /[A-Z]/.test(str) && /[a-z0-9]/.test(str);
+        /*return /[A-Z]/.test(str) && /[a-z0-9]/.test(str);*/
+        return str.length >= 8 && /[A-Z]/.test(str) && /[a-z0-9]/.test(str);
     }
 
     function handleClickNextPage () {
@@ -163,9 +206,9 @@ const RegisterPageTwo = observer(({ navigation }) => {
                     <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
                         <View style={styles.authorization__formContainer}>
                             <View style={styles.authorization__headerBlock}>
-                                <View style={styles.authorization__headerTextBlockLeft}>
+                                <TouchableOpacity style={styles.authorization__headerTextBlockLeft} onPress={() => navigation.navigate('Authorization', { isActivePage: true })}>
                                     <Text style={styles.authorization__headerTextLeft}>АВТОРИЗАЦИЯ</Text>
-                                </View>
+                                </TouchableOpacity>
                                 <View style={[styles.authorization__headerTextBlockRight, styles.authorization__headerTextBlockLeft_active]}>
                                     <Text style={styles.authorization__headerTextRight}>СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ</Text>
                                 </View>
@@ -179,26 +222,46 @@ const RegisterPageTwo = observer(({ navigation }) => {
                                     onFocus={() => setEmailIsError(false)}
                                     onBlur={() => handleBlurInputEmail()}
                                 />
+                            <View style={styles.input__container}>
                                 <TextInput
                                     style={[styles.input, {color: passwordIsError ? 'red' : '#FFF'}]}
                                     placeholder="Пароль"
                                     placeholderTextColor="#FFF" // Установите цвет текста placeholder
                                     onChangeText={(text) => setPassword(text)}
-                                    value={passwordIsError ? passwordErrorInputText : password}
-                                    secureTextEntry={!passwordIsError} // Скрывает введенный текст (пароль)
+                                    value={openPassword ? password : passwordIsError ? passwordErrorInputText : password}
+                                    secureTextEntry={openPassword ? false : !passwordIsError} // Скрывает введенный текст (пароль)
                                     onFocus={() => setPasswordIsError(false)}
                                     onBlur={() => handleBlurInputPassword()}
                                 />
+                                <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenPassword(!openPassword)}>
+                                    {
+                                        openPassword
+                                            ? <ViewPasswordSvgIcon />
+                                            : <NotViewPasswordSvgIcon />
+                                    }
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={styles.input__container}>
                                 <TextInput
                                     style={[styles.input, {color: passwordRepeatIsError ? 'red' : '#FFF'}]}
                                     placeholder="Повторный пароль"
                                     placeholderTextColor="#FFF" // Установите цвет текста placeholder
                                     onChangeText={(text) => setPasswordRepeat(text)}
-                                    value={passwordRepeatIsError? passwordRepeatErrorInputText: passwordRepeat}
-                                    secureTextEntry={!passwordRepeatIsError} // Скрывает введенный текст (пароль)
+                                    value={openPasswordRepeat ? passwordRepeat : passwordRepeatIsError? passwordRepeatErrorInputText: passwordRepeat}
+                                    secureTextEntry={openPasswordRepeat ? false : !passwordRepeatIsError} // Скрывает введенный текст (пароль)
                                     onFocus={() => setPasswordRepeatIsError(false)}
-                                    onBlur={() => handleBlurInputRepeatPassword()}
+                                    onBlur={() =>handleBlurInputRepeatPassword()}
                                 />
+                                <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenPasswordRepeat(!openPasswordRepeat)}>
+                                    {
+                                        openPasswordRepeat
+                                            ? <ViewPasswordSvgIcon />
+                                            : <NotViewPasswordSvgIcon />
+                                    }
+                                </TouchableOpacity>
+                            </View>
+
                             <View style={styles.authorization__containerBtn}>
                                 <TouchableOpacity style={styles.authorization__btnContainer} title="НАЗАД" onPress={() => navigation.navigate('Authorization')}>
                                     <Text style={styles.authorization__textBtn}>НАЗАД</Text>
@@ -296,7 +359,8 @@ const styles = StyleSheet.create({
     authorization__headerBlock: {
         flexDirection: 'row',
         justifyContent: 'center',
-        width: 600,
+        /*width: 600,*/
+        width: '90%',
         alignContent: 'center',
         alignItems: 'center'
     },
@@ -308,16 +372,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         justifyItems: 'center'
     },
+    input__container: {
+        width: '100%',
+        position: "relative",
+    },
+    passwordIconSvgButton: {
+        position: 'absolute',
+        right: 15,
+        top: 10,
+    },
     input: {
         color: '#FFF',
-        width: 600,
+        minWidth: '90%',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#FFF',
         paddingLeft: 20,
         paddingTop: 10,
         paddingBottom: 10,
-
     },
     authorization__textBtn: {
         color: '#000',

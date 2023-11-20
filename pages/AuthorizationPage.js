@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
     ImageBackground,
     SafeAreaView,
@@ -8,17 +9,29 @@ import {
     TouchableOpacity,
     Image
 } from "react-native";
-import {useEffect, useState} from "react";
-import * as React from "react";
 import * as api from "../utils/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import newUserDataStore from "../components/store/createUserDataStore";
 import PopupRegister from "../components/popupRegister";
-import {useNavigation} from "@react-navigation/native";
+import {useNavigation, useRoute} from "@react-navigation/native";
 import { observer } from 'mobx-react';
 import BackgroundMusicStore from '../components/store/BackgroundMusicStore';
+import {
+    ActiveBackgroundSoundSvgIcon,
+    NotActiveBackgroundSoundSvgIcon,
+    NotViewPasswordSvgIcon, ViewPasswordSvgIcon
+} from "../components/svg/Svg";
 
-const Authorization = ({ navigation }) => {
+const Authorization = ({ route, navigation }) => {
+    const { isActivePage } = route.params || {};
+
+    useEffect(() => {
+        if (isActivePage !== undefined) {
+            // Производите необходимые действия на основе значения isActivePage
+            setIsActiveAuthorization(isActivePage);
+            setIsActiveRegister(!isActivePage);
+        }
+    }, [navigation, route, isActivePage]);
 
     // Для авторизации
     const [email, setEmail] = useState('');
@@ -28,8 +41,6 @@ const Authorization = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [passwordIsError, setPasswordIsError] = useState(false);
     const [passwordErrorInputText, setPasswordErrorInputText] = useState('Пароль состоит минимум из 8 символов');
-
-
 
     // Для регистрации
     const [name, setName] = useState('');
@@ -55,10 +66,16 @@ const Authorization = ({ navigation }) => {
     const [isActiveAuthorization, setIsActiveAuthorization] = useState(true);
     const [isActiveRegister, setIsActiveRegister] = useState(false);
 
+    const [openPassword, setOpenPassword] = useState(false);
+
     // переключение между авторизацией и регистрацией
     const handleIsActive = () => {
         setIsActive(!isActive);
     }
+/*    useEffect(() => {
+        setIsActiveAuthorization(true);
+        setIsActiveRegister(false);
+    },[])*/
 
     const handleIsActiveAuthorization = () => {
         setIsActiveAuthorization(true);
@@ -80,7 +97,7 @@ const Authorization = ({ navigation }) => {
                 console.log('Значение по указанному ключу не найдено.');
             }
         } catch (error) {
-            console.error('Ошибка при получении из AsyncStorage: ', error);
+            console.log('Ошибка при получении из AsyncStorage: ', error);
         }
     };
 
@@ -91,6 +108,7 @@ const Authorization = ({ navigation }) => {
     // запуск фоновой музыки
     useEffect(() => {
         if (BackgroundMusicStore.isPlaying) {
+
             BackgroundMusicStore.playMusic();
         } else {
             BackgroundMusicStore.stopMusic();
@@ -117,7 +135,7 @@ const Authorization = ({ navigation }) => {
                 routes: [{ name: 'Main' }], // Переход на экран "Main"
             });
         } catch (error) {
-            console.error('Ошибка при сохранении в AsyncStorage: ', error);
+            console.log('Ошибка при сохранении в AsyncStorage: ', error);
         }
     };
     function handleCheckUniqueEmail(){
@@ -141,10 +159,10 @@ const Authorization = ({ navigation }) => {
                 // нужен всплывающий попап
                 if (err instanceof TypeError && err.message === 'Failed to fetch') {
                     // Обработка ошибки, если нет интернет-соединения
-                    console.error('Нет интернет-соединения');
+                    console.log('Нет интернет-соединения');
                     setPopupRegisterText('Нет интернет-соединения')
                 } else {
-                    console.error('Необработанная ошибка:', err);
+                    console.log('Необработанная ошибка:', err);
                     setPopupRegisterText('Что то не так, попробуйте позже...')
                 }
             })
@@ -157,7 +175,7 @@ const Authorization = ({ navigation }) => {
                 setPopupRegisterIsError(false);
                 saveUserToken(data.message);
             }).catch((err) => {
-                console.error(err);
+                console.log(err);
                 setPopupRegisterText(err);
                 // нужен всплывающий попап
                 setPopupRegisterIsActive(true);
@@ -207,6 +225,7 @@ const Authorization = ({ navigation }) => {
     function handleBlurInputPassword(){
         if (password.length < 8){
             setPasswordIsError(true);
+            setOpenPassword(false);
             return true;
         } else {
             setPasswordIsError(false);
@@ -231,7 +250,6 @@ const Authorization = ({ navigation }) => {
             return false;
         }
     }
-
 
     function handleBlurInputSurname(){
         if (surname.length < 1){
@@ -289,10 +307,10 @@ const Authorization = ({ navigation }) => {
                 // нужен всплывающий попап
                 if (err instanceof TypeError && err.message === 'Failed to fetch') {
                     // Обработка ошибки, если нет интернет-соединения
-                    console.error('Нет интернет-соединения');
+                    console.log('Нет интернет-соединения');
                     setPopupRegisterText('Нет интернет-соединения')
                 } else {
-                    console.error('Необработанная ошибка:', err);
+                    console.log('Необработанная ошибка:', err);
                     setPopupRegisterText('Что то не так, попробуйте позже...')
                 }
             })
@@ -323,16 +341,25 @@ const Authorization = ({ navigation }) => {
                                         onFocus={() => setEmailIsError(false)}
                                         onBlur={() => handleBlurInputEmail()}
                                     />
-                                    <TextInput
-                                        style={[styles.input, {color: passwordIsError ? 'red' : '#FFF'}]}
-                                        placeholder="Пароль"
-                                        placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                        onChangeText={(text) => setPassword(text)}
-                                        value={passwordIsError ? passwordErrorInputText : password}
-                                        secureTextEntry={!passwordIsError} // Скрывает введенный текст (пароль)
-                                        onFocus={() => setPasswordIsError(false)}
-                                        onBlur={() => handleBlurInputPassword()}
-                                    />
+                                    <View style={styles.input__container}>
+                                        <TextInput
+                                            style={[styles.input, {color: passwordIsError ? 'red' : '#FFF'}]}
+                                            placeholder="Пароль"
+                                            placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                                            onChangeText={(text) => setPassword(text)}
+                                            value={openPassword ? password : passwordIsError ? passwordErrorInputText : password}
+                                            secureTextEntry={openPassword ? false : !passwordIsError} // Скрывает введенный текст (пароль)
+                                            onFocus={() => setPasswordIsError(false)}
+                                            onBlur={() => handleBlurInputPassword()}
+                                        />
+                                        <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenPassword(!openPassword)}>
+                                            {
+                                                openPassword
+                                                    ? <ViewPasswordSvgIcon />
+                                                    : <NotViewPasswordSvgIcon />
+                                            }
+                                        </TouchableOpacity>
+                                    </View>
                                     <TouchableOpacity style={styles.authorization__btnContainer} title="Войти" onPress={() => handleClickAuthorization()}>
                                         <Text style={styles.authorization__textBtn}>ВОЙТИ</Text>
                                     </TouchableOpacity>
@@ -412,7 +439,12 @@ const Authorization = ({ navigation }) => {
                         popupRegisterText={popupRegisterText}/>
                 }
                 <TouchableOpacity style={styles.soundIcon} onPress={() => handleClickPlayBackgroundMusic()}>
-                    <ImageBackground style={styles.soundActiveIcon} source={require('../assets/image/soundActiveIcon.png')}/>
+                    {BackgroundMusicStore.isPlaying
+                        ?
+                        <ActiveBackgroundSoundSvgIcon />
+                        :
+                        <NotActiveBackgroundSoundSvgIcon />
+                    }
                 </TouchableOpacity>
             </ImageBackground>
         </SafeAreaView>
@@ -421,7 +453,7 @@ const Authorization = ({ navigation }) => {
 const styles = StyleSheet.create({
     soundIcon: {
         position: "absolute",
-        right: 10,
+        right: 15,
         top: 10,
         zIndex: 2,
 
@@ -460,25 +492,12 @@ const styles = StyleSheet.create({
         width: '84%',
         height: '90%'
     },
-/*    authorization__headerTextBlockLeft: {
-        width: '50%',
-        backgroundColor: 'rgba(0, 0, 0, 0.50)',
-        height: 30,
-        justifyContent: 'center',
-    },*/
     authorization__headerTextBlock: {
         width: '50%',
         backgroundColor: 'rgba(255, 255, 255, 0.30)',
         height: 30,
         justifyContent: 'center',
     },
-
-/*    authorization__headerTextBlockRight: {
-        width: '50%',
-        backgroundColor: 'rgba(255, 255, 255, 0.30)',
-        height: 30,
-        justifyContent: 'center',
-    },*/
     authorization__headerTextBlockLeft_active: {
         height: 40,
         backgroundColor: 'rgba(0, 0, 0, 0.50)',
@@ -496,28 +515,10 @@ const styles = StyleSheet.create({
         color: "#FFF",
         fontSize: 16,
     },
-/*    authorization__headerTextLeft: {
-        /!*color: "#FFF",*!/
-        textAlign: "center",
-        fontFamily: "Montserrat",
-        fontSize: 16,
-        fontStyle: "normal",
-        fontWeight: "500",
-        textTransform: "uppercase"
-    },
-    authorization__headerTextRight: {
-        /!*color: "#000",*!/
-        textAlign: "center",
-        fontFamily: "Montserrat",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "500",
-        textTransform: "uppercase"
-    },*/
     authorization__headerBlock: {
         flexDirection: 'row',
         justifyContent: 'center',
-        width: 600,
+        width: '90%',
         alignContent: 'center',
         alignItems: 'center'
     },
@@ -527,9 +528,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         justifyItems: 'center'
     },
+    input__container: {
+        width: '100%',
+        position: "relative",
+    },
+    passwordIconSvgButton: {
+        position: 'absolute',
+        right: 15,
+        top: 10,
+    },
     input: {
         color: '#FFF',
-        width: 600,
+        minWidth: '90%',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#FFF',
@@ -545,14 +555,6 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: 'bold',
     },
-/*    input__loginError:{
-        color: '#000',
-        textAlign: 'center',
-        fontFamily: 'Montserrat',
-        fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-    },*/
     authorization__containerBtn: {
         justifyContent: 'flex-end',
         alignItems: 'flex-end',

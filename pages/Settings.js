@@ -29,25 +29,6 @@ const Settings = ({ navigation }) => {
     const [isSoundEnabled, setIsSoundEnabled] = useState(false);
     const [notificationIsActive, setNotificationIsActive] = useState(false);
     const [popupConfirmedDeleteIsActive, setPopupConfirmedDeleteIsActive] = useState(false);
-/*    useEffect(() => {
-        const getNotificationPreference = async () => {
-            try {
-                const value = await AsyncStorage.getItem('notificationPreference');
-                return value !== null ? JSON.parse(value) : null;
-            } catch (error) {
-                console.error('Error getting notification preference:', error);
-            }
-        };
-        const isActive = getNotificationPreference();
-        console.log(isActive);
-        if (isActive) {
-            setNotificationIsActive(true);
-            console.log(true);
-        } else {
-            setNotificationIsActive(false);
-            console.log(false);
-        }
-    },[])*/
 
     // запуск фоновой музыки
     useEffect(() => {
@@ -69,14 +50,6 @@ const Settings = ({ navigation }) => {
     const openPopupConfirmedDeleteAccount = () => {
         setPopupConfirmedDeleteIsActive(true);
     }
-
-/*    const saveNotificationPreference = async (value) => {
-        try {
-            await AsyncStorage.setItem('notificationPreference', value);
-        } catch (error) {
-            console.error('Error saving notification preference:', error);
-        }
-    };*/
 
     return (
         <SafeAreaView style={styles.settings}>
@@ -105,8 +78,8 @@ const Settings = ({ navigation }) => {
                                                 Музыка/Вкл
                                             </Text>
                                             <Switch
-                                                onValueChange={() => setIsSoundEnabled(!isSoundEnabled)}
-                                                value={isSoundEnabled}
+                                                onValueChange={() => handleClickPlayBackgroundMusic()}
+                                                value={BackgroundMusicStore.isPlaying}
                                             />
                                         </View>
                                     </View>
@@ -189,7 +162,7 @@ const styles = StyleSheet.create({
     settings__row: {
       flexDirection: 'row',
         justifyContent: 'center',
-        columnGap: 50
+        columnGap: 20
     },
     profile__saveBtn:{
         bottom: 15,
@@ -197,7 +170,7 @@ const styles = StyleSheet.create({
         position: "absolute"
     },
     settings__rightBlock: {
-        width: '30%',
+        width: '50%',
       marginTop: 20,
         rowGap: 15,
     },
@@ -252,6 +225,7 @@ const styles = StyleSheet.create({
         columnGap: 15
     },
     settings__containerText:{
+        width: '100%',
         display: "flex",
         flexDirection: "column",
         rowGap: 10
@@ -264,7 +238,7 @@ const styles = StyleSheet.create({
         fontWeight: 500,
     },
     settings__leftBlock: {
-        width: '30%',
+        width: '40%',
         marginTop: 20
     },
     settings__form: {
@@ -293,7 +267,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
         color: 'rgba(255, 255, 255, 0.80)',
         textShadowColor: '0px 0px 70px 0px rgba(45, 122, 238, 0.66)',
-        fontSize: 64,
+        fontSize: 50,
         fontFamily: 'comics-toba',
         fontStyle: 'normal',
         fontWeight: 400,

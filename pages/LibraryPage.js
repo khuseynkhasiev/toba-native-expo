@@ -9,8 +9,10 @@ import {
 import {MenuBackSvgIcon, ProfileSvgIcon, ReadButtonSvgIcon} from "../components/svg/Svg";
 import LottieView from "lottie-react-native";
 import * as React from "react";
+import TestAnimated from "../components/TestAnimated";
 
 export default function LibraryPage({ navigation }) {
+
     return (
         <SafeAreaView style={styles.library}>
             <Text style={styles.library__title}>БИБЛИОТЕКА</Text>
@@ -22,10 +24,8 @@ export default function LibraryPage({ navigation }) {
                 <TouchableOpacity style={styles.library__profileBtn} onPress={() => navigation.navigate('Profile')}>
                     <ProfileSvgIcon />
                 </TouchableOpacity>
-{/*                <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>
-                    <Text style={styles.library__text}>ЧИТАТЬ</Text>
-                    <Image style={styles.library__seriesIcon} source={require('../assets/image/seriesIcon.png')}></Image>
-                </TouchableOpacity>*/}
+                <TestAnimated />
+
                 <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>
                     <LottieView
                         source={require('../assets/lottie/readBgButton.json')} // Укажите путь к вашему JSON-файлу анимации

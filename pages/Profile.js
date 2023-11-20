@@ -55,14 +55,18 @@ export default function Profile({ navigation }) {
         try {
             AsyncStorage.removeItem('userToken')
                 .then(() => {
-                    navigation.navigate('Authorization');
+                    /*navigation.navigate('Authorization');*/
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Authorization' }],
+                    });
                     console.log('Значение успешно удалено из AsyncStorage');
                 })
                 .catch((error) => {
-                    console.error('Ошибка удаления в AsyncStorage: ', error);
+                    console.log('Ошибка удаления в AsyncStorage: ', error);
                 });
         } catch (error) {
-            console.error('Ошибка удаления в AsyncStorage: ', error);
+            console.log('Ошибка удаления в AsyncStorage: ', error);
         }
     }
 
@@ -108,7 +112,7 @@ export default function Profile({ navigation }) {
                     <ImageBackground style={styles.profile__formBackground} source={require('../assets/image/profileBgForm.png')}>
                         <View style={styles.profile__formTopBlock}>
                             <View style={styles.profile__userImageTop}>
-                                {userData.avatar === null
+                                {userData.avatar === null || userData.avatar === undefined
                                     ?
                                     <View style={styles.profile__imageCircle} source={require('../assets/image/profileCircLeImage.png')}>
                                         <Text style={styles.profile__imageText}>фото профиля</Text>
@@ -196,7 +200,7 @@ const styles = StyleSheet.create({
     },
     profile__emailLine:{
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     profile__lineBlock:{
         flexDirection: "row"
@@ -213,35 +217,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    profile__exitIcon:{
-        width: 24,
-        height: 24,
-    },
     profile__editBtn:{
         position: "absolute",
         top: 30,
         right: 30
     },
-    profile__editUserIcon:{
-        width: 30,
-        height: 30,
-    },
+
     profile__textContainer:{
-        rowGap: 10
+        rowGap: 10,
+        width: '42%'
     },
     profile__userImageTop:{
         width: 100,
         height: 100,
         position: "relative"
     },
-    profile__imageContainer:{
-        width: 100,
-        height: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 100,
-        overflow: 'hidden'
-    },
+
     profile__imageCircle: {
         width: 100,
         height: 100,
@@ -302,17 +293,23 @@ const styles = StyleSheet.create({
     profile__firstLine:{
         flexDirection: 'row',
         columnGap: 70,
+        /*minWidth: '20%'*/
     },
     profile__text:{
         color: '#FFF',
         fontFamily: 'Montserrat',
-        fontSize: 16,
+        fontSize: 13,
         fontStyle: 'normal',
         fontWeight: 300,
         paddingLeft: 15
     },
     profile__line:{
+/*
         width: 280,
+*/
+/*
+        minWidth: '40%',
+*/
         height: 1,
         backgroundColor: 'rgba(255, 255, 255, 0.50)'
     },
@@ -406,7 +403,7 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         width: '90%',
-        height: '70%',
+        height: '72%',
         position: "relative",
     },
     profile__formContainer: {

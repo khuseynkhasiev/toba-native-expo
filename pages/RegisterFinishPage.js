@@ -101,9 +101,9 @@ const RegisterFinishPage = ({ navigation }) => {
                     <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
                         <View style={styles.authorization__formContainer}>
                             <View style={styles.authorization__headerBlock}>
-                                <View style={[styles.authorization__headerTextBlockLeft]}>
+                                <TouchableOpacity style={[styles.authorization__headerTextBlockLeft]} onPress={() => navigation.navigate('Authorization', { isActivePage: true })}>
                                     <Text style={styles.authorization__headerTextLeft}>АВТОРИЗАЦИЯ</Text>
-                                </View>
+                                </TouchableOpacity>
                                 <View style={[styles.authorization__headerTextBlockRight, styles.authorization__headerTextBlockLeft_active]}>
                                     <Text style={styles.authorization__headerTextRight}>СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ</Text>
                                 </View>
@@ -171,12 +171,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
-    },
-    footer__image:{
-        width: 100,
-        height: 20,
-        justifyContent: 'center',
-        alignContent: 'center',
     },
     registerUserDate__containerCheck: {
       justifyContent: 'space-between',
@@ -251,7 +245,8 @@ const styles = StyleSheet.create({
     authorization__headerBlock: {
         flexDirection: 'row',
         justifyContent: 'center',
-        width: 600,
+        /*width: 600,*/
+        width: '90%',
         alignContent: 'center',
         alignItems: 'center'
     },
@@ -262,17 +257,6 @@ const styles = StyleSheet.create({
         rowGap: 15,
         justifyContent: 'center',
         justifyItems: 'center'
-    },
-    input: {
-        color: '#FFF',
-        width: 600,
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#FFF',
-        paddingLeft: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
-
     },
     authorization__textBtn: {
         color: '#000',
@@ -294,63 +278,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignContent: 'center',
         justifyContent: 'center'
-    },
-    authorization__footerLine: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 17,
-        marginBottom: 10
-    },
-    authorization__lineLeft: {
-        width: '42%',
-        height: .5,
-        backgroundColor: 'white',
-    },
-    authorization__lineRight: {
-        width: '42%',
-        height: .5,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center'
-    },
-    authorization__lineText: {
-        color: '#FFF',
-        textAlign: 'center',
-        fontFamily: 'Montserrat',
-        fontSize: 10,
-        fontStyle: 'normal',
-        fontWeight: 500,
-        paddingLeft: 9,
-        paddingRight: 9
-    },
-    authorization__footer: {
-        flexDirection: 'row',
-        columnGap: 50
-    },
-    authorization__nameInputBlock: {
-        flexDirection: "row",
-        justifyContent: 'space-between'
-    },
-    input__firstName: {
-        width: '45%',
-        color: '#FFF',
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#FFF',
-        paddingLeft: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
-    },
-    input__name: {
-        width: '45%',
-        color: '#FFF',
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#FFF',
-        paddingLeft: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
     },
     section: {
         flexDirection: 'row',

@@ -15,31 +15,26 @@ export default function SliderItem({item}) {
     const [isActiveSeries, setIsActiveSeries] = useState(false);
 
     const navigation = useNavigation();
-/*    function handleClick(){
-        // логика связки клика с запуском соотвествующей серии
-        if (item.id === 1) {
-            //navigation.navigate('SeriesOnePage');
-            navigation.navigate('NewYear');
-        }
-        // отключение фоновой музыки при запуски серии
-        BackgroundMusicStore.stopMusic();
-    }*/
 
     function handleClickSeriesCard(){
-        if (item.id === 1) {
-            setIsActiveSeries(!isActiveSeries);
-        }
+        setIsActiveSeries(!isActiveSeries)
     }
 
     function handleClickReadSeries(){
-        BackgroundMusicStore.stopMusic();
+        const isActive = BackgroundMusicStore.isPlaying;
         if (item.id === 1) {
             //navigation.navigate('SeriesOnePage');
-            navigation.navigate('NewYear');
+            navigation.navigate('NewYear', {isActiveBackgroundMusic: isActive});
         }
+        if(BackgroundMusicStore.isPlaying){
+            BackgroundMusicStore.stopMusic();
+        }
+
     }
     return (
-        <TouchableOpacity style={[styles.series__container, isActiveSeries && styles.series__container_active/* { width: itemWidth, height: sliderHeight }*/]} onPress={() => handleClickSeriesCard()}>
+        <TouchableOpacity
+            style={[styles.series__container, isActiveSeries && styles.series__container_active/* { width: itemWidth, height: sliderHeight }*/]}
+            onPress={() => handleClickSeriesCard()}>
             <ImageBackground
                 style={[styles.series__titleBackground, isActiveSeries && styles.series__titleBackground_active]}
                 source={require('../assets/image/seriesTitileBackground.png')}
@@ -61,7 +56,7 @@ export default function SliderItem({item}) {
                 {isActiveSeries &&
                     <TouchableOpacity style={styles.series__readBtn} onPress={() => handleClickReadSeries()}>
                         <LottieView
-                            source={require('../assets/lottie/readSeriesBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
+                            source={require('../assets/lottie/readSeriesBgButton.json')}
                             style={{
                                 width: 145,
                                 height: 40,
@@ -108,7 +103,8 @@ const styles = StyleSheet.create({
         backdropFilter: 'blur(5px)',
         /*width: itemWidth,*/
         width: 162,
-        height: 280,
+        /*height: 270,*/
+        height: '95%',
         borderRadius: 15,
         overflow: 'hidden',
     },
@@ -117,7 +113,7 @@ const styles = StyleSheet.create({
 
     },
     series__seriesImg: {
-        marginTop: 15,
+        marginTop: 5,
         width: 132,
         height: 150,
         resizeMode: 'cover',
@@ -126,11 +122,11 @@ const styles = StyleSheet.create({
     },
     series__seriesImg_active: {
         width: 187,
-        height: 250,
+        height: 240,
         marginLeft: 15
     },
     series__nameSeriesNumber: {
-        marginTop: 10,
+        marginTop: 5,
         fontSize: 16,
         fontWeight: 400,
         fontStyle: 'normal',
@@ -141,7 +137,7 @@ const styles = StyleSheet.create({
         textAlign: 'left',
     },
     series__nameSeriesNumber_active: {
-        marginTop: 35
+        marginTop: 15
     },
     series__nameSeries: {
         fontSize: 16,
@@ -156,23 +152,23 @@ const styles = StyleSheet.create({
     series__subtitle: {
         color: '#FFF',
         fontFamily: 'Montserrat',
-        fontSize: 8,
+        fontSize: 9,
         fontStyle: 'normal',
         fontWeight: 300,
         /*width: itemWidth - 10,*/
         width: 132,
         textAlign: 'left',
-        marginTop: 10
+        marginTop: 5
     },
     series__subtitleMax: {
         color: '#FFF',
         fontFamily: 'Montserrat',
-        fontSize: 8,
+        fontSize: 9,
         fontStyle: 'normal',
         fontWeight: 300,
         /*width: itemWidth - 10,*/
         width: 208,
         textAlign: 'left',
-        marginTop: 10
+        marginTop: 5
     }
 });

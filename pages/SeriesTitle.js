@@ -60,10 +60,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
-    series__profileIcon: {
-        width: 45,
-        height: 45,
-    },
+
     series__profileBtn: {
         position: "absolute",
         top: 10,
@@ -74,10 +71,7 @@ const styles = StyleSheet.create({
         top: 15,
         left: 15,
     },
-    series__menuIcon: {
-        width: 30,
-        height: 20,
-    },
+
     series__libraryIcon: {
         width: 16,
         height: 20,
@@ -100,27 +94,5 @@ const styles = StyleSheet.create({
         fontFamily: 'NanumGothicCodingBold',
         letterSpacing: 5,
     },
-    list:{
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-    },
-    series__nameSeries: {
-        fontSize: 10,
-        fontWeight: 'normal',
-        color: 'black',
-        backgroundColor: '#F0F8FF',
-        width: 150,
-        padding: 5,
-        textAlign: 'left',
-    },
-    series__subtitle:{
-        fontSize: 8,
-        fontWeight: 'normal',
-        color: 'black',
-        backgroundColor: '#F0F8FF',
-        width: 150,
-        padding: 5,
-        textAlign: 'left',
-    },
+
 });

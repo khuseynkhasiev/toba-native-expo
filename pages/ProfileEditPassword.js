@@ -10,7 +10,7 @@ import * as api from '../utils/api';
 import {useEffect, useState} from "react";
 import newGetUserDataStore from "../components/store/getUserDataStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {MenuBackSvgIcon} from "../components/svg/Svg";
+import {MenuBackSvgIcon, NotViewPasswordSvgIcon, ViewPasswordSvgIcon} from "../components/svg/Svg";
 
 export default function ProfileEditPassword({ navigation }) {
     const {
@@ -31,6 +31,10 @@ export default function ProfileEditPassword({ navigation }) {
     const [newPasswordRepeatErrorInputText, setNewPasswordRepeatErrorInputText] = useState('');
     const [token, setToken] = useState('');
 
+    const [openPassword, setOpenPassword] = useState(false);
+    const [openNewPassword, setOpenNewPassword] = useState(false);
+    const [openNewPasswordRepeat, setOpenNewPasswordRepeat] = useState(false);
+
     const getUserToken = async () => {
         setToken(await AsyncStorage.getItem('userToken'));
     }
@@ -43,6 +47,7 @@ export default function ProfileEditPassword({ navigation }) {
         if (password.length < 1){
             setPasswordIsError(true);
             setPasswordErrorInputText('Обязательное поле');
+            setOpenPassword(false);
         } else {
             setPasswordIsError(false);
         }
@@ -54,12 +59,14 @@ export default function ProfileEditPassword({ navigation }) {
         if (newPassword.length < 1){
             setNewPasswordIsError(true);
             setNewPasswordErrorInputText('Обязательное поле');
+            setOpenNewPassword(false);
         } else {
             if(hasUpperCaseAndLowerCase(newPassword)){
                 setNewPasswordIsError(false);
             } else {
                 setNewPasswordIsError(true);
                 setNewPasswordErrorInputText('Не меньше 8 символов и символ верхнего и нижнего регистра');
+                setOpenNewPassword(false);
             }
         }
     }
@@ -99,7 +106,12 @@ export default function ProfileEditPassword({ navigation }) {
 
     const editUserPassword = async () => {
         const token = await AsyncStorage.getItem('userToken');
-        api.editPasswordUser(newPassword, newPasswordRepeat, token, password)
+        console.log(token);
+        console.log(password);
+        console.log(newPassword);
+        console.log(newPasswordRepeat);
+
+        api.editPasswordUser({newPassword, newPasswordRepeat, token, password})
             .then((userData) => {
                 console.log(userData);
                 navigation.navigate('ProfileEdit');
@@ -110,24 +122,12 @@ export default function ProfileEditPassword({ navigation }) {
     }
     const submitPasswordUser = () => {
         comparePasswords();
-/*        console.log(passwordIsError);
-        console.log(newPasswordIsError);
-        console.log(newPasswordRepeatIsError);*/
         if(!passwordIsError && !newPasswordIsError && !newPasswordRepeatIsError) {
             api.userPasswordCheck(password, token)
                 .then((data) => {
-/*                    console.log('------');
-                    console.log(data.data);
-                    console.log('------');*/
                     if(data.data){
-/*
-                        console.log('да');
-*/
                         editUserPassword();
                     } else {
-/*
-                        console.log('нет');
-*/
                         setPasswordIsError(true);
                         setPasswordErrorInputText('Не верный пароль');
                     }
@@ -146,36 +146,63 @@ export default function ProfileEditPassword({ navigation }) {
                     <ImageBackground style={styles.profile__formBackground} source={require('../assets/image/profileBgForm.png')}>
                         <View style={styles.profile__formContent}>
                             <Text style={styles.paragraph}>СМЕНА ПАРОЛЯ</Text>
-                            <TextInput
-                                style={[styles.input__password, {color: passwordIsError ? 'red' : '#FFF'}]}
-                                placeholder="Старый пароль"
-                                placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                onChangeText={(text) => setPassword(text)}
-                                value={passwordIsError ? passwordErrorInputText : password}
-                                secureTextEntry={!passwordIsError} // Скрывает введенный текст (пароль)
-                                onFocus={() => setPasswordIsError(false)}
-                                onBlur={() => handleBlurInputPassword()}
-                            />
-                            <TextInput
-                                style={[styles.input__password, {color: newPasswordIsError ? 'red' : '#FFF'}]}
-                                placeholder="Новый пароль"
-                                placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                onChangeText={(text) => setNewPassword(text)}
-                                value={newPasswordIsError ? newPasswordErrorInputText : newPassword}
-                                secureTextEntry={!newPasswordIsError} // Скрывает введенный текст (пароль)
-                                onFocus={() => setNewPasswordIsError(false)}
-                                onBlur={() => handleBlurInputNewPassword()}
-                            />
-                            <TextInput
-                                style={[styles.input__password, {color: newPasswordRepeatIsError ? 'red' : '#FFF'}]}
-                                placeholder="Повторить новый пароль"
-                                placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                onChangeText={(text) => setNewPasswordRepeat(text)}
-                                value={newPasswordRepeatIsError? newPasswordRepeatErrorInputText: newPasswordRepeat}
-                                secureTextEntry={!newPasswordRepeatIsError} // Скрывает введенный текст (пароль)
-                                onFocus={() => setNewPasswordRepeatIsError(false)}
-                                onBlur={() => handleBlurInputRepeatNewPassword()}
-                            />
+                            <View style={styles.input__container}>
+                                <TextInput
+                                    style={[styles.input__password, {color: passwordIsError ? 'red' : '#FFF'}]}
+                                    placeholder="Старый пароль"
+                                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                                    onChangeText={(text) => setPassword(text)}
+                                    value={openPassword ? password : passwordIsError ? passwordErrorInputText : password}
+                                    secureTextEntry={openPassword ? false : !passwordIsError} // Скрывает введенный текст (пароль)
+                                    onFocus={() => setPasswordIsError(false)}
+                                    onBlur={() => handleBlurInputPassword()}
+                                />
+                                <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenPassword(!openPassword)}>
+                                    {
+                                        openPassword
+                                            ? <ViewPasswordSvgIcon />
+                                            : <NotViewPasswordSvgIcon />
+                                    }
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.input__container}>
+                                <TextInput
+                                    style={[styles.input__password, {color: newPasswordIsError ? 'red' : '#FFF'}]}
+                                    placeholder="Новый пароль"
+                                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                                    onChangeText={(text) => setNewPassword(text)}
+                                    value={openNewPassword ? newPassword : newPasswordIsError ? newPasswordErrorInputText : newPassword}
+                                    secureTextEntry={openNewPassword ? false : !newPasswordIsError} // Скрывает введенный текст (пароль)
+                                    onFocus={() => setNewPasswordIsError(false)}
+                                    onBlur={() => handleBlurInputNewPassword()}
+                                />
+                                <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenNewPassword(!openNewPassword)}>
+                                    {
+                                        openNewPassword
+                                            ? <ViewPasswordSvgIcon />
+                                            : <NotViewPasswordSvgIcon />
+                                    }
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.input__container}>
+                                <TextInput
+                                    style={[styles.input__password, {color: newPasswordRepeatIsError ? 'red' : '#FFF'}]}
+                                    placeholder="Повторить новый пароль"
+                                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                                    onChangeText={(text) => setNewPasswordRepeat(text)}
+                                    value={openNewPasswordRepeat ? newPasswordRepeat : newPasswordRepeatIsError ? newPasswordRepeatErrorInputText: newPasswordRepeat}
+                                    secureTextEntry={openNewPasswordRepeat ? false : !newPasswordRepeatIsError} // Скрывает введенный текст (пароль)
+                                    onFocus={() => setNewPasswordRepeatIsError(false)}
+                                    onBlur={() => handleBlurInputRepeatNewPassword()}
+                                />
+                                <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenNewPasswordRepeat(!openNewPasswordRepeat)}>
+                                    {
+                                        openNewPasswordRepeat
+                                            ? <ViewPasswordSvgIcon />
+                                            : <NotViewPasswordSvgIcon />
+                                    }
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </ImageBackground>
                     <TouchableOpacity style={styles.profile__backEditProfile} onPress={() => navigation.navigate('ProfileEdit')}>
@@ -228,9 +255,30 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
+    input__container: {
+        width: '90%',
+        position: "relative",
+    },
+    passwordIconSvgButton: {
+        position: 'absolute',
+        right: 15,
+        top: 10,
+    },
+/*    input: {
+        color: '#FFF',
+        minWidth: '90%',
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        paddingLeft: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
+    },*/
+
+
     input__password:{
         color: '#FFF',
-        width: '85%',
+        width: '100%',
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#FFF',
@@ -238,17 +286,17 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         fontFamily: 'Montserrat',
-        fontSize: 15,
+        fontSize: 13,
         fontStyle: 'normal',
-        marginTop: 15
+        marginTop: 10
     },
     profile__saveBtn:{
-        bottom: 15,
+        bottom: 10,
         right: 15,
         position: "absolute"
     },
     profile__backEditProfile:{
-        bottom: 15,
+        bottom: 10,
         left: 15,
         position: "absolute"
     },

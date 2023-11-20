@@ -142,17 +142,18 @@ const editPasswordUser = ({
                               newPasswordRepeat,
                               token
                   }) => {
+    const requestBody = {
+        old_password: password,
+        password: newPassword,
+        password_confirmation: newPasswordRepeat
+    };
     return fetch(`${BASE_URL}/user/edit`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization' : `Bearer ${token}`
         },
-        body: JSON.stringify({
-            old_password: password,
-            password: newPassword,
-            password_confirmation: newPasswordRepeat
-        })
+        body: JSON.stringify(requestBody)
     })
         .then((res) => res.ok ? res.json() : Promise.reject(res));
 }
