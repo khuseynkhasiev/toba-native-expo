@@ -24,7 +24,7 @@ export default function LibraryPage({ navigation }) {
                 <TouchableOpacity style={styles.library__profileBtn} onPress={() => navigation.navigate('Profile')}>
                     <ProfileSvgIcon />
                 </TouchableOpacity>
-                <TestAnimated />
+                {/*<TestAnimated />*/}
 
                 <TouchableOpacity style={styles.library__seriesBtn} onPress={() => navigation.navigate('Series')}>
                     <LottieView

@@ -15,12 +15,13 @@ import PopupExit from "../components/PopupExit";
 import PopupVerify from "../components/PopupVerify";
 import {useIsFocused} from '@react-navigation/native';
 import {
-    EmailVerifyYesSvgIcon,
+    EmailVerifyYesSvgIcon, LoadingConfirmProfileSvgIcon,
     MenuBackSvgIcon,
     ProfileEditSvgIcon,
     ProfileExitSvgIcon, ProfileVerifyNoSvgIcon, SettingsButtonSvgIcon
 } from "../components/svg/Svg";
 import LottieView from 'lottie-react-native';
+import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
 
 
 export default function Profile({ navigation }) {
@@ -29,6 +30,8 @@ export default function Profile({ navigation }) {
     const [popupExitIsActive, setPopupExitIsActive] = useState(false);
     const [popupVerifyIsActive, setPopupVerifyIsActive] = useState(false);
     const [popupVerifyMessage, setPopupVerifyMessage] = useState('');
+
+    const [loadingConfirmProfile, setLoadingConfirmProfile] = useState(false);
 
     const [token, setToken] = useState('');
 
@@ -75,6 +78,7 @@ export default function Profile({ navigation }) {
     }
 
     function handleEmailVerify(){
+        setLoadingConfirmProfile(true);
         api.emailVerify(token)
             .then((message) => {
                 console.log(message);
@@ -91,6 +95,8 @@ export default function Profile({ navigation }) {
     return (
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
+                <LoadingRequestAnimation />
+
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
                 <MenuBackSvgIcon />
                 </TouchableOpacity>
@@ -145,7 +151,16 @@ export default function Profile({ navigation }) {
                                     <View style={styles.profile__emailLine}>
                                         <Text style={styles.profile__text}>{userData.email}</Text>
                                         {userData.email_verified_at === null
-                                            ? <ProfileVerifyNoSvgIcon />
+                                            ?
+                                            <>
+                                                {loadingConfirmProfile
+                                                    ?
+                                                    <LoadingConfirmProfileSvgIcon />
+                                                    :
+                                                    <ProfileVerifyNoSvgIcon />
+                                                }
+                                            </>
+
                                             /*<Image style={styles.profile__cancelIcon} source={require('../assets/image/profileCancelIcon.png')}/>*/
                                             : /*<Image style={styles.profile__cancelIcon} source={require('../assets/image/profileTrueIcon.png')}/>*/
                                             <EmailVerifyYesSvgIcon />
@@ -154,12 +169,27 @@ export default function Profile({ navigation }) {
                                     <View style={styles.profile__line}/>
                                     {userData.email_verified_at === null
                                         &&
-                                        <View style={styles.profile__lineBlock}>
+                                            <>
+                                                {
+                                                    loadingConfirmProfile
+                                                        ? ''
+                                                        :
+                                                        <View style={styles.profile__lineBlock}>
+                                                            <Text style={styles.profile__textLine}>*нет подтверждения/ </Text>
+                                                            <TouchableOpacity onPress={() => handleEmailVerify()}>
+                                                                <Text style={styles.profile__textLine_underline}>отправить повторно?</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                }
+                                            </>
+
+
+/*                                        <View style={styles.profile__lineBlock}>
                                             <Text style={styles.profile__textLine}>*нет подтверждения/ </Text>
                                             <TouchableOpacity onPress={() => handleEmailVerify()}>
                                                 <Text style={styles.profile__textLine_underline}>отправить повторно?</Text>
                                             </TouchableOpacity>
-                                        </View>
+                                        </View>*/
                                     }
                                 </View>
                                 <View style={styles.profile__textContainer}>

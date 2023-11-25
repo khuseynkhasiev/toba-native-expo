@@ -14,6 +14,8 @@ import newGetUserDataStore from "../components/store/getUserDataStore";
 import EditUserDate from "../components/EditUserDate";
 import * as ImagePicker from 'expo-image-picker';
 import {MenuBackSvgIcon, ProfileInputEditSvgIcon} from "../components/svg/Svg";
+import LottieView from "lottie-react-native";
+import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
 
 
 export default function ProfileEdit({ navigation }) {
@@ -54,6 +56,10 @@ export default function ProfileEdit({ navigation }) {
         getUserToken();
     }, [])
 
+    useEffect(() => {
+
+    }, [selectedImage])
+
     const pickImage = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -65,6 +71,9 @@ export default function ProfileEdit({ navigation }) {
 
             if (!result.cancelled) {
                 const uri = result.assets[0].uri;
+
+
+                console.log(uri);
                 setSelectedImage(uri);
             }
         } catch (error) {
@@ -104,12 +113,13 @@ export default function ProfileEdit({ navigation }) {
             if (response.status === 200) {
                 const data = await response.json();
                 console.log('Фотография успешно загружена', data);
+
+
                 return data.data.avatar;
             } else {
                 console.log('Ошибка при загрузке фотографии', response.status, response.statusText);
             }
         } catch (error) {
-            setAvatarValue(null); // проверка временно
             console.log('Ошибка при загрузке фотографии', error);
         }
     }
@@ -159,31 +169,34 @@ export default function ProfileEdit({ navigation }) {
             return false;
         }
     }
-    const updateUserStore = (avatar) => {
-        console.log(avatar);
+    const updateUserStore = (avatarDowload) => {
+        console.log('avatar');
+        console.log(avatarDowload);
+        console.log('avatar');
         newGetUserDataStore.updateUserDataValue('name', nameInput);
         newGetUserDataStore.updateUserDataValue('login', loginInput);
         newGetUserDataStore.updateUserDataValue('birthday', date);
         newGetUserDataStore.updateUserDataValue('surname', surnameInput);
         newGetUserDataStore.updateUserDataValue('phone', phoneInput);
-        if(avatar === undefined || avatar === null){
+        if(avatarDowload === undefined || avatarDowload === null){
             newGetUserDataStore.updateUserDataValue('avatar', avatarValue);
         } else {
-            newGetUserDataStore.updateUserDataValue('avatar', avatar);
+            newGetUserDataStore.updateUserDataValue('avatar', avatarDowload);
         }
     }
 
     const submitFormEditUser = async () => {
-        const avatar = await uploadPhotoToServer(selectedImage);
+        const avatarDowload = await uploadPhotoToServer(selectedImage);
+
         if (login === loginInput) {
             if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
                 api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
                     .then((userData) => {
-                        updateUserStore(avatar);
+                        updateUserStore(avatarDowload);
                         prevScreenProfile();
                     })
                     .catch((err) => {
-                        console.error(err)
+                        console.log(err)
                     })
             }
         } else {
@@ -204,7 +217,7 @@ export default function ProfileEdit({ navigation }) {
                             updateUserStore(avatar);
                             prevScreenProfile();
                         }).catch((err) => {
-                        console.error(err)
+                        console.log(err)
                     })
                 }
             })
@@ -227,9 +240,18 @@ export default function ProfileEdit({ navigation }) {
                             <TouchableOpacity style={styles.profile__userImageTop} onPress={() => pickImage()}>
                                 { avatar === null || avatar === undefined
                                     ?
-                                    <View style={styles.profile__imageCircle} source={require('../assets/image/profileCircLeImage.png')}>
-                                        <Text style={styles.profile__imageText}>фото профиля</Text>
-                                    </View>
+                                    <>
+                                        {selectedImage ? (
+                                            <Image
+                                                style={styles.profile__image}
+                                                source={{ uri: selectedImage }}
+                                            />
+                                        ) : (
+                                            <View style={styles.profile__imageCircle}>
+                                                <Text style={styles.profile__imageText}>фото профиля</Text>
+                                            </View>
+                                        )}
+                                    </>
                                     :
                                     <Image
                                         style={styles.profile__image}
@@ -336,6 +358,7 @@ export default function ProfileEdit({ navigation }) {
                             </View>
                         </View>
                     </ImageBackground>
+
                     <TouchableOpacity style={styles.profile__backProfile} onPress={() => navigation.navigate('Profile')}>
                         <View style={styles.profile__saveBtnContainer}>
                             <Text style={styles.profile__saveBtnText}>НАЗАД</Text>
@@ -346,7 +369,9 @@ export default function ProfileEdit({ navigation }) {
                             <Text style={styles.profile__saveBtnText}>СОХРАНИТЬ ИЗМЕНЕНИЯ</Text>
                         </View>
                     </TouchableOpacity>
+                    {/*<LoadingRequestAnimation />*/}
                 </View>
+
             </ImageBackground>
         </SafeAreaView>
     )

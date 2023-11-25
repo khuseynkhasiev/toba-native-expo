@@ -10,15 +10,19 @@ import LottieView from "lottie-react-native";
 const { width, height} = Dimensions.get('window');
 const itemWidth = (width - 200 - 44) / 3;
 const sliderHeight = height * 0.7;
-export default function SliderItem({item}) {
+export default function SliderItem({item, activeCardId, setActiveCardId}) {
 
+/*
     const [isActiveSeries, setIsActiveSeries] = useState(false);
+*/
 
     const navigation = useNavigation();
 
     function handleClickSeriesCard(){
-        setIsActiveSeries(!isActiveSeries)
+        setActiveCardId(item.id === activeCardId ? null : item.id);
     }
+
+    const isActiveSeries = item.id === activeCardId;
 
     function handleClickReadSeries(){
         const isActive = BackgroundMusicStore.isPlaying;

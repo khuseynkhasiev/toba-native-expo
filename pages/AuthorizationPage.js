@@ -92,7 +92,11 @@ const Authorization = ({ route, navigation }) => {
             const value = await AsyncStorage.getItem('userToken');
             if (value !== null) {
                 /*console.log('Значение из AsyncStorage: ', value);*/
-                navigation.navigate('Main');
+                /*navigation.navigate('Main');*/
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Main' }],
+                });
             } else {
                 console.log('Значение по указанному ключу не найдено.');
             }

@@ -41,9 +41,9 @@ const MainPage = observer(({ navigation }) => {
             </View>
             <View style={styles.main__container}>
                 <ImageBackground style={styles.main__background} source={require('../assets/image/mainPage.png')} />
-                <TouchableOpacity style={styles.profile__menuBtn}>
+{/*                <TouchableOpacity style={styles.profile__menuBtn}>
                     <MenuBackSvgIcon />
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
                 <TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
                     <ProfileSvgIcon />
                 </TouchableOpacity>

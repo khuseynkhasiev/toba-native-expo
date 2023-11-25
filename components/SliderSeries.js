@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import {StyleSheet, View, Image, Text, FlatList, Dimensions, TouchableOpacity} from 'react-native';
 import * as React from "react";
 import SliderItem from "./SliderItem";
+import {useState} from "react";
 
 const { width, height} = Dimensions.get('window')
 
@@ -87,6 +88,7 @@ export default function SliderSeries() {
             img: require('../assets/image/series/seriestitletwo.jpg')
         },
     ]
+    const [activeCardId, setActiveCardId] = useState(null);
 
     return (
         <View style={styles.sliderSeries}>
@@ -96,7 +98,10 @@ export default function SliderSeries() {
                 data={series}
                 keyExtractor={(_, index) => index.toString()}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => <SliderItem item={item} />}
+                renderItem={({item}) => <SliderItem
+                    item={item}
+                    activeCardId={activeCardId}
+                    setActiveCardId={setActiveCardId}/>}
                 ItemSeparatorComponent={Separator}
                 horizontal
                 pagingEnabled
