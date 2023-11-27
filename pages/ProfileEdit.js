@@ -48,6 +48,8 @@ export default function ProfileEdit({ navigation }) {
 
     const [selectedImage, setSelectedImage] = useState(null);
 
+    const [loadingIsActive, setLoadingIsActive] = useState(false);
+
     const getUserToken = async () => {
         setToken(await AsyncStorage.getItem('userToken'));
     }
@@ -170,9 +172,9 @@ export default function ProfileEdit({ navigation }) {
         }
     }
     const updateUserStore = (avatarDowload) => {
-        console.log('avatar');
+/*        console.log('avatar');
         console.log(avatarDowload);
-        console.log('avatar');
+        console.log('avatar');*/
         newGetUserDataStore.updateUserDataValue('name', nameInput);
         newGetUserDataStore.updateUserDataValue('login', loginInput);
         newGetUserDataStore.updateUserDataValue('birthday', date);
@@ -190,6 +192,7 @@ export default function ProfileEdit({ navigation }) {
 
         if (login === loginInput) {
             if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
+                setLoadingIsActive(true);
                 api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
                     .then((userData) => {
                         updateUserStore(avatarDowload);
@@ -198,10 +201,12 @@ export default function ProfileEdit({ navigation }) {
                     .catch((err) => {
                         console.log(err)
                     })
+                    .finally(() => setLoadingIsActive(false))
             }
         } else {
-            api.checkUniqueLogin(loginInput)
-                .then((isUnique) => {
+                setLoadingIsActive(true);
+                api.checkUniqueLogin(loginInput)
+                    .then((isUnique) => {
                     console.log(isUnique);
                     if(isUnique) {
                         setLoginIsError(true);
@@ -210,17 +215,20 @@ export default function ProfileEdit({ navigation }) {
                         setLoginIsError(false);
                         setLoginTextIsError('Обязательное поле');
                     }
-                }).then(() => {
+                })
+                    .then(() => {
                 if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
+                    setLoadingIsActive(true);
                     api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
                         .then(() => {
-                            updateUserStore(avatar);
+                            updateUserStore(avatarDowload);
                             prevScreenProfile();
                         }).catch((err) => {
                         console.log(err)
                     })
+                        .finally(() => setLoadingIsActive(false))
                 }
-            })
+            }).finally(() => setLoadingIsActive(false))
         }
     }
     function prevScreenProfile(){
@@ -230,6 +238,7 @@ export default function ProfileEdit({ navigation }) {
     return (
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
+                {loadingIsActive && <LoadingRequestAnimation />}
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
                     <MenuBackSvgIcon />
                 </TouchableOpacity>

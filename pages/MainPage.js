@@ -11,14 +11,18 @@ import newGetUserDataStore from '../components/store/getUserDataStore';
 import {observer} from "mobx-react-lite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as api from "../utils/api";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {LibraryButtonSvgIcon, MenuBackSvgIcon, ProfileSvgIcon, ReadButtonSvgIcon} from "../components/svg/Svg";
 import * as React from "react";
 import LottieView from 'lottie-react-native';
+import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
 
 
 const MainPage = observer(({ navigation }) => {
+    const [loadingIsActive, setLoadingIsActive] = useState(true);
+
     const getUserDate = async () => {
+        setLoadingIsActive(true);
         const token = await AsyncStorage.getItem('userToken');
         api.getUser(token)
             .then((userData) => {
@@ -27,6 +31,7 @@ const MainPage = observer(({ navigation }) => {
             .catch((err) => {
                 console.log(err);
             })
+            .finally(() => setLoadingIsActive(false))
     }
 
     useEffect(() => {
@@ -35,42 +40,46 @@ const MainPage = observer(({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.main}>
+            {loadingIsActive && <LoadingRequestAnimation />}
+
             <View style={styles.main__textContainer}>
                 <Text style={styles.main__title}>ТОБА</Text>
                 <Text style={styles.main__subtitle}>ANIMICS</Text>
             </View>
             <View style={styles.main__container}>
                 <ImageBackground style={styles.main__background} source={require('../assets/image/mainPage.png')} />
-{/*                <TouchableOpacity style={styles.profile__menuBtn}>
-                    <MenuBackSvgIcon />
-                </TouchableOpacity>*/}
-                <TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
-                    <ProfileSvgIcon />
-                </TouchableOpacity>
+                {
+                    !loadingIsActive &&
+                    <>
+                        <TouchableOpacity style={styles.main__profileBtn} onPress={() => navigation.navigate('Profile')}>
+                            <ProfileSvgIcon />
+                        </TouchableOpacity>
 
-                <TouchableOpacity style={styles.main__libraryBtn} onPress={() => navigation.navigate('Library')}>
-                    <LottieView
-                        source={require('../assets/lottie/libraryBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
-                        style={{
-                            width: 200,
-                            height: 40,
-                            position: "absolute",
-                        }}
-                    />
-                    <LibraryButtonSvgIcon />
-                </TouchableOpacity>
+                        <TouchableOpacity style={styles.main__libraryBtn} onPress={() => navigation.navigate('Library')}>
+                            <LottieView
+                                source={require('../assets/lottie/libraryBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
+                                style={{
+                                    width: 200,
+                                    height: 40,
+                                    position: "absolute",
+                                }}
+                            />
+                            <LibraryButtonSvgIcon />
+                        </TouchableOpacity>
 
-                <TouchableOpacity style={styles.main__seriesBtn} onPress={() => navigation.navigate('Series')}>
-                    <LottieView
-                        source={require('../assets/lottie/readBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
-                        style={{
-                            width: 160,
-                            height: 40,
-                            position: "absolute"
-                        }}
-                    />
-                    <ReadButtonSvgIcon />
-                </TouchableOpacity>
+                        <TouchableOpacity style={styles.main__seriesBtn} onPress={() => navigation.navigate('Series')}>
+                            <LottieView
+                                source={require('../assets/lottie/readBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
+                                style={{
+                                    width: 160,
+                                    height: 40,
+                                    position: "absolute"
+                                }}
+                            />
+                            <ReadButtonSvgIcon />
+                        </TouchableOpacity>
+                    </>
+                }
             </View>
         </SafeAreaView>
     )

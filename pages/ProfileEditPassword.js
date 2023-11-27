@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import newGetUserDataStore from "../components/store/getUserDataStore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {MenuBackSvgIcon, NotViewPasswordSvgIcon, ViewPasswordSvgIcon} from "../components/svg/Svg";
+import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
 
 export default function ProfileEditPassword({ navigation }) {
     const {
@@ -34,6 +35,8 @@ export default function ProfileEditPassword({ navigation }) {
     const [openPassword, setOpenPassword] = useState(false);
     const [openNewPassword, setOpenNewPassword] = useState(false);
     const [openNewPasswordRepeat, setOpenNewPasswordRepeat] = useState(false);
+
+    const [loadingIsActive, setLoadingIsActive] = useState(false);
 
     const getUserToken = async () => {
         setToken(await AsyncStorage.getItem('userToken'));
@@ -106,10 +109,10 @@ export default function ProfileEditPassword({ navigation }) {
 
     const editUserPassword = async () => {
         const token = await AsyncStorage.getItem('userToken');
-        console.log(token);
+/*        console.log(token);
         console.log(password);
         console.log(newPassword);
-        console.log(newPasswordRepeat);
+        console.log(newPasswordRepeat);*/
 
         api.editPasswordUser({newPassword, newPasswordRepeat, token, password})
             .then((userData) => {
@@ -122,7 +125,9 @@ export default function ProfileEditPassword({ navigation }) {
     }
     const submitPasswordUser = () => {
         comparePasswords();
+
         if(!passwordIsError && !newPasswordIsError && !newPasswordRepeatIsError) {
+            setLoadingIsActive(true);
             api.userPasswordCheck(password, token)
                 .then((data) => {
                     if(data.data){
@@ -133,11 +138,13 @@ export default function ProfileEditPassword({ navigation }) {
                     }
                 })
                 .catch((err) => console.log(err))
+                .finally(() => setLoadingIsActive(false))
         }
     }
     return (
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
+                {loadingIsActive && <LoadingRequestAnimation />}
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
                     <MenuBackSvgIcon />
                 </TouchableOpacity>

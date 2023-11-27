@@ -2,8 +2,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import {useEffect, useState} from "react";
 
-const RegisterUserDate = ({setUserDate, userDate, setDateIsError}) => {
-    const [date, setDate] = useState('');
+const RegisterUserDate = ({userDate, setUserDate, setDateIsError}) => {
+
+    const [selectedDate, setSelectedDate] = useState(userDate ? new Date(userDate) : new Date());
+
     const [show, setShow] = useState(false);
     const [onDate, setOnDate] = useState(false);
 
@@ -21,21 +23,19 @@ const RegisterUserDate = ({setUserDate, userDate, setDateIsError}) => {
     }, [userDate])
 
     function checkUserDate(year, month, day){
-        if (year > currentYear ) {
+        if (Number(year) > currentYear ) {
             setDateIsError(true);
-        } else if(year < currentYear) {
+        } else if(Number(year) < currentYear) {
             setDateIsError(false);
-        } else if(year === currentYear) {
-            if(month > currentMonth) {
+        } else if(Number(year) === currentYear) {
+            if(Number(month) > currentMonth) {
                 setDateIsError(true);
-            } else if(month < currentMonth) {
+            } else if(Number(month) < currentMonth) {
                 setDateIsError(false);
-            } else if(month === currentMonth) {
-                if(day > currentDay) {
+            } else if(Number(month) === currentMonth) {
+                if(Number(day) > currentDay) {
                     setDateIsError(true);
-                } else if(day < currentDay){
-                    setDateIsError(false);
-                } else if(day === currentDay) {
+                } else{
                     setDateIsError(false);
                 }
             }
@@ -52,6 +52,8 @@ const RegisterUserDate = ({setUserDate, userDate, setDateIsError}) => {
         console.log(newDate);
         checkUserDate(year, month, day);
         setUserDate(newDate);
+        setSelectedDate(currentDate); // Добавляем обновление selectedDate
+
     };
 
     const showMode = (currentMode) => {
@@ -71,7 +73,7 @@ const RegisterUserDate = ({setUserDate, userDate, setDateIsError}) => {
             {show && (
                 <DateTimePicker
                     testID="dateTimePicker"
-                    value={new Date()}
+                    value={selectedDate}
                     mode='date'
                     is24Hour={true}
                     onChange={onChange}

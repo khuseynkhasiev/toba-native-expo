@@ -13,19 +13,20 @@ export default function LoadingRequestAnimation(){
     }, []);
     return (
         <LottieView
-/*            options={{
+            options={{
             }}
             ref={animationRef}
             source={animation}
             autoPlay={true}
-            loop*/
-            source={animation}
+            loop
+/*            source={animation}
             autoPlay={true}
-            loop={true}
+            loop={true}*/
             style={{
-                width: 300,
-                height: 300,
+                width: 128,
+                height: 128,
                 position: 'absolute',
+                zIndex: 99,
             }}
         />
     )

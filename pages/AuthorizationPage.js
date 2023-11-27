@@ -21,6 +21,7 @@ import {
     NotActiveBackgroundSoundSvgIcon,
     NotViewPasswordSvgIcon, ViewPasswordSvgIcon
 } from "../components/svg/Svg";
+import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
 
 const Authorization = ({ route, navigation }) => {
     const { isActivePage } = route.params || {};
@@ -68,6 +69,9 @@ const Authorization = ({ route, navigation }) => {
 
     const [openPassword, setOpenPassword] = useState(false);
 
+    const [loadingIsActive, setLoadingIsActive] = useState(true);
+
+
     // переключение между авторизацией и регистрацией
     const handleIsActive = () => {
         setIsActive(!isActive);
@@ -88,6 +92,7 @@ const Authorization = ({ route, navigation }) => {
 
     // проверка токена, если есть то переход на главную страницу
     const getUserToken = async () => {
+        setLoadingIsActive(true);
         try {
             const value = await AsyncStorage.getItem('userToken');
             if (value !== null) {
@@ -102,6 +107,8 @@ const Authorization = ({ route, navigation }) => {
             }
         } catch (error) {
             console.log('Ошибка при получении из AsyncStorage: ', error);
+        } finally {
+            setLoadingIsActive(false);
         }
     };
 
@@ -143,6 +150,8 @@ const Authorization = ({ route, navigation }) => {
         }
     };
     function handleCheckUniqueEmail(){
+        setLoadingIsActive(true);
+
         return api.checkUniqueEmail(email)
             .then((isEmail) => {
                 setPopupRegisterIsActive(false);
@@ -170,6 +179,7 @@ const Authorization = ({ route, navigation }) => {
                     setPopupRegisterText('Что то не так, попробуйте позже...')
                 }
             })
+            .finally(() => setLoadingIsActive(false))
     }
 
     function handleAuthorization(){
@@ -189,7 +199,6 @@ const Authorization = ({ route, navigation }) => {
     }
 
     function handleClickAuthorization(){
-
         const isEmail = handleBlurInputEmail();
         const isPassword = handleBlurInputPassword();
 
@@ -286,6 +295,7 @@ const Authorization = ({ route, navigation }) => {
 
     // проверка логина на уникальность
     function handleUniqueLogin(){
+        setLoadingIsActive(true);
         return api.checkUniqueLogin(login)
             .then((isLogin) => {
                 setPopupRegisterIsActive(false);
@@ -318,12 +328,16 @@ const Authorization = ({ route, navigation }) => {
                     setPopupRegisterText('Что то не так, попробуйте позже...')
                 }
             })
+            .finally(() => setLoadingIsActive(false));
     }
 
     return (
         <SafeAreaView style={styles.authorization}>
             <ImageBackground style={styles.authorization__background} source={require('../assets/image/RegisterBg.png')}>
+                {loadingIsActive && <LoadingRequestAnimation />}
+
                 <View style={styles.authorization__form}>
+
                     <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
                         <View style={styles.authorization__formContainer}>
                             <View style={styles.authorization__headerBlock}>

@@ -35,24 +35,25 @@ export default function Profile({ navigation }) {
 
     const [token, setToken] = useState('');
 
+    const [loadingIsActive, setLoadingIsActive] = useState(false);
+
     const [userData, setUserData] = useState(newGetUserDataStore.userData);
+
     // для перерисовки при возвращение по навагации назад, обычный способ не работает, т.к. экран сохраняется в кэш
     const isFocused = useIsFocused();
+
     useEffect(() => {
+        setLoadingIsActive(true);
         const updateStateUserDate = async () => {
             if (isFocused) {
                 setUserData(await newGetUserDataStore.userData);
+                setLoadingIsActive(false);
+            } else {
+                setLoadingIsActive(false);
             }
         }
         updateStateUserDate();
     }, [isFocused]);
-
-    const getUserToken = async () => {
-        setToken(await AsyncStorage.getItem('userToken'));
-    }
-    useEffect(() => {
-        getUserToken();
-    }, [])
 
     function deleteProfileToken() {
         try {
@@ -95,8 +96,7 @@ export default function Profile({ navigation }) {
     return (
         <SafeAreaView style={styles.profile}>
             <ImageBackground style={styles.profile__background} source={require('../assets/image/profileBackground.png')}>
-                <LoadingRequestAnimation />
-
+                {loadingIsActive && <LoadingRequestAnimation />}
                 <TouchableOpacity style={styles.profile__menuBtn} onPress={() => navigation.navigate('Main')}>
                 <MenuBackSvgIcon />
                 </TouchableOpacity>

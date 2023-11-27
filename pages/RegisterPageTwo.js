@@ -14,6 +14,7 @@ import {observer} from "mobx-react-lite";
 import newUserDataStore from "../components/store/createUserDataStore";
 import PopupRegister from "../components/popupRegister";
 import {NotViewPasswordSvgIcon, ViewPasswordSvgIcon} from "../components/svg/Svg";
+import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
 
 
 const RegisterPageTwo = observer(({ navigation }) => {
@@ -36,6 +37,9 @@ const RegisterPageTwo = observer(({ navigation }) => {
 
     const [openPassword, setOpenPassword] = useState(false);
     const [openPasswordRepeat, setOpenPasswordRepeat] = useState(false);
+
+    const [loadingIsActive, setLoadingIsActive] = useState(false);
+
     function validateEmail(email){
         // Регулярное выражение для проверки валидности email.
         const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -63,6 +67,7 @@ const RegisterPageTwo = observer(({ navigation }) => {
     }
 
     function handleCheckUniqueEmail(){
+        setLoadingIsActive(true);
         return api.checkUniqueEmail(email)
             .then((isEmail) => {
                 setPopupRegisterIsActive(false);
@@ -94,6 +99,7 @@ const RegisterPageTwo = observer(({ navigation }) => {
                     setPopupRegisterText('Что то не так, попробуйте позже...')
                 }
             })
+            .finally(() => setLoadingIsActive(false));
     }
 
     function updateNewUserDataStore (key, value){
@@ -202,6 +208,7 @@ const RegisterPageTwo = observer(({ navigation }) => {
     return (
         <SafeAreaView style={styles.authorization}>
             <ImageBackground style={styles.authorization__background} source={require('../assets/image/RegisterBg.png')}>
+                {loadingIsActive && <LoadingRequestAnimation />}
                 <View style={styles.authorization__form}>
                     <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
                         <View style={styles.authorization__formContainer}>

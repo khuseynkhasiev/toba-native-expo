@@ -20,38 +20,32 @@ const EditUserDate = ({date, setDate, setDateIsError}) => {
     }, [date])
 
     function checkUserDate(year, month, day){
-        if (year > currentYear ) {
+/*        console.log(typeof year);
+        console.log(typeof Number(month));
+        console.log(typeof Number(day));
+
+        console.log(typeof currentYear);
+        console.log(typeof currentMonth);
+        console.log(typeof currentDay);*/
+
+        if (Number(year) > currentYear ) {
             setDateIsError(true);
-        } else if(year < currentYear) {
+        } else if(Number(year) < currentYear) {
             setDateIsError(false);
-        } else if(year === currentYear) {
-            if(month > currentMonth) {
+        } else if(Number(year) === currentYear) {
+            if(Number(month) > currentMonth) {
                 setDateIsError(true);
-            } else if(month < currentMonth) {
+            } else if(Number(month) < currentMonth) {
                 setDateIsError(false);
-            } else if(month === currentMonth) {
-                if(day > currentDay) {
+            } else if(Number(month) === currentMonth) {
+                if(Number(day) > currentDay) {
                     setDateIsError(true);
-                } else if(day < currentDay){
-                    setDateIsError(false);
-                } else if(day === currentDay) {
+                } else{
                     setDateIsError(false);
                 }
             }
         }
     }
-
-/*    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        const year = currentDate.getUTCFullYear();
-        const month = (currentDate.getUTCMonth() + 1).toString().padStart(2, '0'); // +1, чтобы сделать месяцы с 1 по 12
-        const day = currentDate.getUTCDate().toString().padStart(2, '0'); // добавляем нули спереди для однозначных месяцев и дней
-        const newDate = `${year}-${month}-${day}`
-        /!*console.log(newDate);*!/
-        checkUserDate(year, month, day);
-        setDate(newDate);
-    };*/
 
     const onChange = (event, selectedDate) => {
         setShow(false);

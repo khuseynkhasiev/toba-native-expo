@@ -15,9 +15,11 @@ import { CheckBox } from 'react-native-elements';
 import PopupRegister from "../components/popupRegister";
 import newUserDataStore from "../components/store/createUserDataStore";
 import {RegisterIconPageThreeSvgIcon} from "../components/svg/Svg";
+import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
 
 const RegisterFinishPage = ({ navigation }) => {
-    const [date, setDate] = useState('');
+
+    const [date, setDate] = useState(null);
     const [dateErrorText, setDateErrorText] = useState('Вам должно быть 14+ лет');
     const [dateIsError, setDateIsError] = useState(false);
 
@@ -32,6 +34,8 @@ const RegisterFinishPage = ({ navigation }) => {
     const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(false);
     const [popupRegisterIsError, setPopupRegisterIsError] = useState(false);
 
+    const [loadingIsActive, setLoadingIsActive] = useState(false);
+
     function handleCheckIsAgreement(){
         if(!agreement){
             setAgreementIsError(true);
@@ -45,9 +49,21 @@ const RegisterFinishPage = ({ navigation }) => {
         updateNewUserDataStore('agreement', agreement);
         updateNewUserDataStore('consent', consent);
         updateNewUserDataStore('date', date);
-        const user = newUserDataStore.userData;
+
+        if(date === null) {
+            setDateIsError(true);
+        }
+        if(!agreementIsError && dateIsError) {
+            setLoadingIsActive(true);
+            const user = newUserDataStore.userData;
+            handleRegister(user);
+        } else {
+            setLoadingIsActive(false);
+
+        }
+/*
         console.log(user);
-        handleRegister(user);
+*/
     }
 
     function updateNewUserDataStore (key, value){
@@ -91,12 +107,14 @@ const RegisterFinishPage = ({ navigation }) => {
                     console.error('Необработанная ошибка:', err);
                     setPopupRegisterText('Что то не так, попробуйте позже...')
                 }
-            });
+            })
+            .finally(() => setLoadingIsActive(false));
     }
 
     return (
         <SafeAreaView style={styles.authorization}>
             <ImageBackground style={styles.authorization__background} source={require('../assets/image/RegisterBg.png')}>
+                {loadingIsActive && <LoadingRequestAnimation />}
                 <View style={styles.authorization__form}>
                     <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
                         <View style={styles.authorization__formContainer}>
