@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         /*width: width - 200,*/
         width: '90%',
         marginLeft: 30,
-        maxHeight: '73%'
+        maxHeight: '75%'
     },
     listContent: {
         flexGrow: 1,

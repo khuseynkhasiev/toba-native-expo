@@ -390,7 +390,6 @@ const LoadingConfirmProfileSvgIcon = () => {
     )
 }
 
-
 export {
     LoadingConfirmProfileSvgIcon,
     NotViewPasswordSvgIcon,

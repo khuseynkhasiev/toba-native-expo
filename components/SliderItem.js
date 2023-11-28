@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
 
     },
     series__seriesImg: {
-        marginTop: 5,
+        marginTop: 10,
         width: 132,
         height: 150,
         resizeMode: 'cover',

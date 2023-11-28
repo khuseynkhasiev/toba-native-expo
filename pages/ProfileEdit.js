@@ -16,6 +16,9 @@ import * as ImagePicker from 'expo-image-picker';
 import {MenuBackSvgIcon, ProfileInputEditSvgIcon} from "../components/svg/Svg";
 import LottieView from "lottie-react-native";
 import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
+import ImageResizer from 'react-native-image-resizer';
+
+import * as ImageManipulator from 'expo-image-manipulator';
 
 
 export default function ProfileEdit({ navigation }) {
@@ -62,6 +65,24 @@ export default function ProfileEdit({ navigation }) {
 
     }, [selectedImage])
 
+    const resizeImage = async (uri) => {
+        try {
+            const newWidth = 100; // Новая ширина изображения
+            const newHeight = 100; // Новая высота изображения
+
+            const resizedImage = await ImageManipulator.manipulateAsync(
+                uri,
+                [],
+                { compress: 0.0, format: 'png' }
+            );
+
+            console.log('Путь к измененному изображению:', resizedImage.uri);
+            setSelectedImage(resizedImage.uri);
+        } catch (error) {
+            console.log('Ошибка при изменении размера изображения:', error);
+        }
+    };
+
     const pickImage = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -72,17 +93,14 @@ export default function ProfileEdit({ navigation }) {
             });
 
             if (!result.cancelled) {
-                const uri = result.assets[0].uri;
-
-
+/*                const uri = result.assets[0].uri;
                 console.log(uri);
-                setSelectedImage(uri);
+                setSelectedImage(uri);*/
+                const uri = result.assets[0].uri;
+                await resizeImage(uri);
             }
         } catch (error) {
-            console.log('Изображение не выбрано');
-/*
-            console.error('Ошибка при выборе изображения:', error);
-*/
+            console.log('Ошибка при выборе изображения:', error);
         }
     };
 
@@ -119,7 +137,8 @@ export default function ProfileEdit({ navigation }) {
 
                 return data.data.avatar;
             } else {
-                console.log('Ошибка при загрузке фотографии', response.status, response.statusText);
+                console.log(response);
+                console.log('Ошибка при загрузке фотографии', response.status, response.message);
             }
         } catch (error) {
             console.log('Ошибка при загрузке фотографии', error);

@@ -29,10 +29,6 @@ export default function SeriesTitle({ navigation }) {
                 <MenuBackSvgIcon />
             </TouchableOpacity>
 {/*            <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>
-                <Image style={styles.series__libraryIcon} source={require('../assets/image/libraryIcon.png')}></Image>
-                <Text style={styles.series__text}>БИБЛИОТЕКА</Text>
-            </TouchableOpacity>*/}
-            <TouchableOpacity style={styles.series__libraryBtn} onPress={() => navigation.navigate('Library')}>
                 <LottieView
                     source={require('../assets/lottie/libraryBgButton.json')} // Укажите путь к вашему JSON-файлу анимации
                     style={{
@@ -42,7 +38,7 @@ export default function SeriesTitle({ navigation }) {
                     }}
                 />
                 <LibraryButtonSvgIcon />
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
         </View>
     )
 }
