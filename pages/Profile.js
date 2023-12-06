@@ -47,10 +47,11 @@ export default function Profile({ navigation }) {
         const updateStateUserDate = async () => {
             if (isFocused) {
                 setUserData(await newGetUserDataStore.userData);
-                setLoadingIsActive(false);
+                /*setLoadingIsActive(false);*/
             } else {
-                setLoadingIsActive(false);
+                /*setLoadingIsActive(false);*/
             }
+            setLoadingIsActive(false);
         }
         updateStateUserDate();
     }, [isFocused]);

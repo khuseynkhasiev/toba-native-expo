@@ -34,6 +34,7 @@ import { Provider } from 'mobx-react';
 import newUserDataStore from "./components/store/createUserDataStore";
 import ProfileEdit from "./pages/ProfileEdit";
 import ProfileEditPassword from "./pages/ProfileEditPassword";
+import LibraryCyberpunkPage from "./pages/LibraryCyberpunkPage";
 
 const Stack = createStackNavigator();
 
@@ -127,6 +128,18 @@ export default function Navigate() {
                     component={LibraryPage}
                     options={{
                         title: "Библиотека",
+                        headerShown: false,
+                        headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                        headerTitleStyle: { fontWeight: "bold" },
+                        cardStyleInterpolator:
+                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                    }}
+                />
+                <Stack.Screen
+                    name="LibraryCyberpunkPage"
+                    component={LibraryCyberpunkPage}
+                    options={{
+                        title: "Библиотека Киберпанк",
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },

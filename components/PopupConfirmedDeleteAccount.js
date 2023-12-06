@@ -97,7 +97,7 @@ export default function PopupConfirmedDeleteAccount({setPopupConfirmedDeleteIsAc
                 ?
                 <View style={styles.profile__popupExit}>
                     <DeleteAccountButtonSvgIcon />
-                    <Text style={styles.popup__text}>Вы действительно хотите удалить из аккаунт?</Text>
+                    <Text style={styles.popup__text}>Вы действительно хотите удалить аккаунт?</Text>
                     <View style={styles.popup__btnContainer}>
                         <TouchableOpacity style={styles.popup__btnYes} onPress={() => nextPopup()}>
                             <View style={styles.popup__btnViewYes}>

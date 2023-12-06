@@ -7,58 +7,79 @@ import {
 } from 'react-native';
 import {MenuBackSvgIcon, ProfileSvgIcon} from "../components/svg/Svg";
 import * as React from "react";
+import {useState} from "react";
 
 export default function LibraryPage({ navigation }) {
 
+    const [isActiveCyberpunk, setIsActiveCyberpunk] = useState(false);
+
+
     return (
         <SafeAreaView style={styles.library}>
+            {
+                isActiveCyberpunk ?
+                    <>
+                        <View style={styles.library__titleContainer}>
+                            <Text style={styles.library__title}>мир киберпанк</Text>
+                        </View>
+                        <View style={styles.library__container}>
+                            <ImageBackground style={styles.library__background} source={require('../assets/image/libraryPage__cyberpunkBg.png')} />
+                            <TouchableOpacity style={styles.library__menuBtn} onPress={() => navigation.navigate('Main')}>
+                                <MenuBackSvgIcon />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                    :
+                    <>
+                        <View style={styles.library__titleContainer}>
+                            <Text style={styles.library__title}>БИБЛИОТЕКА</Text>
+                        </View>
+                        <View style={styles.library__container}>
+                            <ImageBackground style={styles.library__background} source={require('../assets/image/libraryBackground.png')} />
+                            <View style={styles.library__textContainer}>
+                                <Text style={styles.library__text}>
+                                    Описание что такое библиотека,что можно в ней делать и тдОписание что такое библиотека,что можно в ней делать и тд
+                                </Text>
+                                <ImageBackground style={styles.library__lineImage} source={require('../assets/image/LibraryLine.png')} />
+                                <View style={styles.library__textBottomContainer}>
+                                    <Text style={styles.library__titleTextBottom}>
+                                        10
+                                    </Text>
+                                    <Text style={styles.library__textBottom}>
+                                        разделов
+                                    </Text>
+                                    <Text style={styles.library__titleTextBottom}>
+                                        56
+                                    </Text>
+                                    <Text style={styles.library__textBottom}>
+                                        книг
+                                    </Text>
+                                </View>
+                            </View>
+                            <TouchableOpacity style={styles.library__menuBtn} onPress={() => navigation.navigate('Main')}>
+                                <MenuBackSvgIcon />
+                            </TouchableOpacity>
 
-            <View style={styles.library__titleContainer}>
-                <Text style={styles.library__title}>БИБЛИОТЕКА</Text>
-            </View>
-
-            <View style={styles.library__container}>
-                <ImageBackground style={styles.library__background} source={require('../assets/image/libraryBackground.png')} />
-                <View style={styles.library__textContainer}>
-                    <Text style={styles.library__text}>
-                        Описание что такое библиотека,что можно в ней делать и тдОписание что такое библиотека,что можно в ней делать и тд
-                    </Text>
-                    <ImageBackground style={styles.library__lineImage} source={require('../assets/image/LibraryLine.png')} />
-                    <View style={styles.library__textBottomContainer}>
-                        <Text style={styles.library__titleTextBottom}>
-                            10
-                        </Text>
-                        <Text style={styles.library__textBottom}>
-                            разделов
-                        </Text>
-                        <Text style={styles.library__titleTextBottom}>
-                            56
-                        </Text>
-                        <Text style={styles.library__textBottom}>
-                            книг
-                        </Text>
-                    </View>
-                </View>
-                <TouchableOpacity style={styles.library__menuBtn} onPress={() => navigation.navigate('Main')}>
-                    <MenuBackSvgIcon />
-                </TouchableOpacity>
-{/*                <TouchableOpacity style={styles.library__profileBtn} onPress={() => navigation.navigate('Profile')}>
-                    <ProfileSvgIcon />
-                </TouchableOpacity>*/}
-
-                <ImageBackground resizeMode="contain" style={styles.library__rightBtnBg} source={require('../assets/image/libraryRightBtnBg.png')}>
-                    <TouchableOpacity style={styles.library__rightBtn}>
-                        <Text style={styles.library__rightBtnTextTitle}>мир</Text>
-                        <Text style={styles.library__rightBtnText}>утопия</Text>
-                    </TouchableOpacity>
-                </ImageBackground>
-                <ImageBackground resizeMode="contain" style={styles.library__leftBtnBg} source={require('../assets/image/libraryLeftBtnBg.png')}>
-                    <TouchableOpacity style={styles.library__leftBtn}>
-                        <Text style={styles.library__rightBtnTextTitle}>мир</Text>
-                        <Text style={styles.library__rightBtnText}>киберпанк</Text>
-                    </TouchableOpacity>
-                </ImageBackground>
-            </View>
+                            <ImageBackground
+                                resizeMode="contain" style={styles.library__leftBtnBg}
+                                source={require('../assets/image/libraryLeftBtnBg.png')}
+                            >
+                                <TouchableOpacity style={styles.library__leftBtn}
+                                    onPress={() => navigation.navigate('LibraryCyberpunkPage')}
+                                >
+                                    <Text style={styles.library__rightBtnTextTitle}>мир</Text>
+                                    <Text style={styles.library__rightBtnText}>киберпанк</Text>
+                                </TouchableOpacity>
+                            </ImageBackground>
+                            <ImageBackground resizeMode="contain" style={styles.library__rightBtnBg} source={require('../assets/image/libraryRightBtnBg.png')}>
+                                <TouchableOpacity style={styles.library__rightBtn}>
+                                    <Text style={styles.library__rightBtnTextTitle}>мир</Text>
+                                    <Text style={styles.library__rightBtnText}>утопия</Text>
+                                </TouchableOpacity>
+                            </ImageBackground>
+                        </View>
+                    </>
+            }
         </SafeAreaView>
     )
 }

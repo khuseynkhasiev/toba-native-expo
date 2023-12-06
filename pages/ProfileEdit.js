@@ -65,24 +65,6 @@ export default function ProfileEdit({ navigation }) {
 
     }, [selectedImage])
 
-    const resizeImage = async (uri) => {
-        try {
-            const newWidth = 100; // Новая ширина изображения
-            const newHeight = 100; // Новая высота изображения
-
-            const resizedImage = await ImageManipulator.manipulateAsync(
-                uri,
-                [],
-                { compress: 0.0, format: 'png' }
-            );
-
-            console.log('Путь к измененному изображению:', resizedImage.uri);
-            setSelectedImage(resizedImage.uri);
-        } catch (error) {
-            console.log('Ошибка при изменении размера изображения:', error);
-        }
-    };
-
     const pickImage = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -93,11 +75,11 @@ export default function ProfileEdit({ navigation }) {
             });
 
             if (!result.cancelled) {
-/*                const uri = result.assets[0].uri;
-                console.log(uri);
-                setSelectedImage(uri);*/
                 const uri = result.assets[0].uri;
-                await resizeImage(uri);
+                console.log(uri);
+                setSelectedImage(uri);
+/*                const uri = result.assets[0].uri;
+                await resizeImage(uri);*/
             }
         } catch (error) {
             console.log('Ошибка при выборе изображения:', error);
@@ -105,43 +87,47 @@ export default function ProfileEdit({ navigation }) {
     };
 
     async function uploadPhotoToServer(photoUri) {
-        try {
-            const formData = new FormData();
+        if(photoUri === undefined || photoUri === null){
+            return avatarValue;
+        } else {
+            try {
+                const formData = new FormData();
 
-            // Создайте объект FormData и добавьте фотографию в него
-            formData.append('avatar', {
-                uri: photoUri,
-                name: 'photo.jpg', // Имя файла, которое будет видно на сервере
-                type: 'image/jpeg', // Зависит от типа фотографии
-            });
+                // Создайте объект FormData и добавьте фотографию в него
+                formData.append('avatar', {
+                    uri: photoUri,
+                    name: 'photo.jpg', // Имя файла, которое будет видно на сервере
+                    type: 'image/jpeg', // Зависит от типа фотографии
+                });
 
-            // Загрузка фотографии в формате PNG
-            formData.append('avatar', {
-                uri: photoUri,
-                type: 'image/png', // Зависит от типа фотографии
-                name: 'photo.png', // Имя файла на сервере
-            });
+                // Загрузка фотографии в формате PNG
+                formData.append('avatar', {
+                    uri: photoUri,
+                    type: 'image/png', // Зависит от типа фотографии
+                    name: 'photo.png', // Имя файла на сервере
+                });
 
-            const response = await fetch('https://animics.ru/api/user/edit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'multipart/form-data', // Указываем Content-Type как multipart/form-data
-                    'Authorization': 'Bearer ' + token
-                },
-                body: formData,
-            });
-            if (response.status === 200) {
-                const data = await response.json();
-                console.log('Фотография успешно загружена', data);
+                const response = await fetch('https://animics.ru/api/user/edit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'multipart/form-data', // Указываем Content-Type как multipart/form-data
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: formData,
+                });
+                if (response.status === 200) {
+                    const data = await response.json();
+                    console.log('Фотография успешно загружена', data);
 
 
-                return data.data.avatar;
-            } else {
-                console.log(response);
-                console.log('Ошибка при загрузке фотографии', response.status, response.message);
+                    return data.data.avatar;
+                } else {
+                    console.log(response);
+                    console.log('Ошибка при загрузке фотографии', response.status, response.message);
+                }
+            } catch (error) {
+                console.log('Ошибка при загрузке фотографии', error);
             }
-        } catch (error) {
-            console.log('Ошибка при загрузке фотографии', error);
         }
     }
 
@@ -199,19 +185,20 @@ export default function ProfileEdit({ navigation }) {
         newGetUserDataStore.updateUserDataValue('birthday', date);
         newGetUserDataStore.updateUserDataValue('surname', surnameInput);
         newGetUserDataStore.updateUserDataValue('phone', phoneInput);
-        if(avatarDowload === undefined || avatarDowload === null){
+        newGetUserDataStore.updateUserDataValue('avatar', avatarDowload)
+/*        if(avatarDowload === undefined || avatarDowload === null){
             newGetUserDataStore.updateUserDataValue('avatar', avatarValue);
         } else {
             newGetUserDataStore.updateUserDataValue('avatar', avatarDowload);
-        }
+        }*/
     }
 
     const submitFormEditUser = async () => {
+        setLoadingIsActive(true);
         const avatarDowload = await uploadPhotoToServer(selectedImage);
-
         if (login === loginInput) {
             if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
-                setLoadingIsActive(true);
+                /*setLoadingIsActive(true);*/
                 api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
                     .then((userData) => {
                         updateUserStore(avatarDowload);
@@ -223,7 +210,9 @@ export default function ProfileEdit({ navigation }) {
                     .finally(() => setLoadingIsActive(false))
             }
         } else {
+/*
                 setLoadingIsActive(true);
+*/
                 api.checkUniqueLogin(loginInput)
                     .then((isUnique) => {
                     console.log(isUnique);
@@ -237,7 +226,9 @@ export default function ProfileEdit({ navigation }) {
                 })
                     .then(() => {
                 if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
+/*
                     setLoadingIsActive(true);
+*/
                     api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
                         .then(() => {
                             updateUserStore(avatarDowload);

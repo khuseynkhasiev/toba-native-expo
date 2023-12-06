@@ -328,7 +328,6 @@ const ActiveBackgroundSoundSvgIcon = () => {
                 </ClipPath>
             </Defs>
         </Svg>
-
     )
 }
 
@@ -390,7 +389,19 @@ const LoadingConfirmProfileSvgIcon = () => {
     )
 }
 
+const BackButtonSvgIcon = () => {
+    return (
+        <Svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <G id="Group 114">
+                <Circle id="Ellipse 28" cx="20" cy="20" r="19.5" stroke="white"/>
+                <Path id="Arrow 1" d="M9.64645 19.6464C9.45119 19.8417 9.45119 20.1583 9.64645 20.3536L12.8284 23.5355C13.0237 23.7308 13.3403 23.7308 13.5355 23.5355C13.7308 23.3403 13.7308 23.0237 13.5355 22.8284L10.7071 20L13.5355 17.1716C13.7308 16.9763 13.7308 16.6597 13.5355 16.4645C13.3403 16.2692 13.0237 16.2692 12.8284 16.4645L9.64645 19.6464ZM30 19.5L10 19.5V20.5L30 20.5V19.5Z" fill="white"/>
+            </G>
+        </Svg>
+    )
+}
+
 export {
+    BackButtonSvgIcon,
     LoadingConfirmProfileSvgIcon,
     NotViewPasswordSvgIcon,
     ViewPasswordSvgIcon,
