@@ -22,7 +22,6 @@ import {
 } from "../components/svg/Svg";
 import {Switch} from "react-native-elements";
 import PopupConfirmedDeleteAccount from "../components/PopupConfirmedDeleteAccount";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Settings = ({ navigation }) => {
 

@@ -100,14 +100,18 @@ export default function PopupConfirmedDeleteAccount({setPopupConfirmedDeleteIsAc
                     <Text style={styles.popup__text}>Вы действительно хотите удалить аккаунт?</Text>
                     <View style={styles.popup__btnContainer}>
                         <TouchableOpacity style={styles.popup__btnYes} onPress={() => nextPopup()}>
-                            <View style={styles.popup__btnViewYes}>
-                                <Text style={styles.popup__btnTextYes}>ДА</Text>
-                            </View>
+                            <ImageBackground style={styles.popup__btnYesBg} source={require('../assets/image/popupExit__yesBtnBg.png')}>
+                                <View style={styles.popup__btnViewYes}>
+                                    <Text style={styles.popup__btnTextYes}>ДА</Text>
+                                </View>
+                            </ImageBackground>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.popup__btnNo} onPress={() => exitPopup()}>
-                            <View style={styles.popup__btnViewNo}>
-                                <Text style={styles.popup__btnTextNo}>НЕТ</Text>
-                            </View>
+                            <ImageBackground style={styles.popup__btnYesBg} source={require('../assets/image/popupExit__noBtnBg.png')}>
+                                <View style={styles.popup__btnViewNo}>
+                                    <Text style={styles.popup__btnTextNo}>НЕТ</Text>
+                                </View>
+                            </ImageBackground>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -137,14 +141,18 @@ export default function PopupConfirmedDeleteAccount({setPopupConfirmedDeleteIsAc
                     </View>
 
                     <TouchableOpacity style={styles.profile__backEditProfile} onPress={() => setPopupConfirmedDeleteIsActive(false)}>
-                        <View style={styles.profile__saveBtnContainer}>
-                            <Text style={styles.profile__saveBtnText}>ОТМЕНА</Text>
-                        </View>
+                        <ImageBackground style={styles.profile__saveBtnBg} source={require('../assets/image/profile__saveBtnBg.png')}>
+                            <View style={styles.profile__saveBtnContainer}>
+                                <Text style={styles.profile__saveBtnText}>ОТМЕНА</Text>
+                            </View>
+                        </ImageBackground>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.profile__saveBtn} onPress={() => submitPasswordUser()}>
+                        <ImageBackground style={styles.profile__saveBtnBg} source={require('../assets/image/profile__saveBtnBg.png')}>
                             <View style={styles.profile__saveBtnContainer}>
                                 <Text style={styles.profile__saveBtnText}>УДАЛИТЬ</Text>
                             </View>
+                        </ImageBackground>
                     </TouchableOpacity>
                 </View>
             }
@@ -153,6 +161,18 @@ export default function PopupConfirmedDeleteAccount({setPopupConfirmedDeleteIsAc
 }
 
 const styles = StyleSheet.create({
+    profile__saveBtnBg: {
+        width: 270,
+        height: 60,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    popup__btnYesBg: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 110,
+        height: 60,
+    },
     input__container: {
         width: '75%',
         position: "relative",
@@ -177,7 +197,7 @@ const styles = StyleSheet.create({
         marginTop: 30
     },
     profile__backEditProfile:{
-        bottom: 22,
+        bottom: 0,
         left: 70,
         position: "absolute"
     },
@@ -190,15 +210,15 @@ const styles = StyleSheet.create({
         fontWeight: 600,
     },
     profile__saveBtnContainer: {
-        width: 160,
+/*        width: 160,
         height: 30,
         borderRadius: 10,
         backgroundColor: 'rgba(255, 255, 255, 0.50)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center'*/
     },
     profile__saveBtn:{
-        bottom: 22,
+        bottom: 0,
         right: 70,
         position: "absolute"
     },
@@ -233,35 +253,35 @@ const styles = StyleSheet.create({
     popup__btnContainer: {
         flexDirection: 'row',
         columnGap: 224,
-        marginTop: 30,
+        /*marginTop: 30,*/
     },
     popup__btnNo:{
-        borderRadius: 10, // border-radius
+/*        borderRadius: 10, // border-radius
         backgroundColor: 'rgba(255, 255, 255, 0.50)',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center',*/
     },
     popup__btnViewNo: {
-        width: 80,
+/*        width: 80,
         height: 30,
         borderRadius: 10, // border-radius
         backgroundColor: 'rgba(255, 255, 255, 0.50)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center'*/
     },
     popup__btnViewYes:{
-        width: 80,
+/*        width: 80,
         height: 30,
         borderRadius: 10, // border-radius
         backgroundColor: 'rgba(6, 6, 6, 0.50)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center'*/
     },
     popup__btnYes:{
-        width: 80,
+/*        width: 80,
         height: 30,
         borderRadius: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.50)',
+        backgroundColor: 'rgba(255, 255, 255, 0.50)',*/
 
 
         /*        borderRadius: 10, // border-radius

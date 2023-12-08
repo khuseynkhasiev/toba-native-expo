@@ -35,6 +35,7 @@ import newUserDataStore from "./components/store/createUserDataStore";
 import ProfileEdit from "./pages/ProfileEdit";
 import ProfileEditPassword from "./pages/ProfileEditPassword";
 import LibraryCyberpunkPage from "./pages/LibraryCyberpunkPage";
+import LibraryUtopiaPage from "./pages/LibraryUtopiaPage";
 
 const Stack = createStackNavigator();
 
@@ -139,7 +140,19 @@ export default function Navigate() {
                     name="LibraryCyberpunkPage"
                     component={LibraryCyberpunkPage}
                     options={{
-                        title: "Библиотека Киберпанк",
+                        title: "Мир Киберпанк",
+                        headerShown: false,
+                        headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                        headerTitleStyle: { fontWeight: "bold" },
+                        cardStyleInterpolator:
+                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                    }}
+                />
+                <Stack.Screen
+                    name="LibraryUtopiaPage"
+                    component={LibraryUtopiaPage}
+                    options={{
+                        title: "Мир Утопия",
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },

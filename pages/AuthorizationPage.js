@@ -379,7 +379,13 @@ const Authorization = ({ route, navigation }) => {
                                         </TouchableOpacity>
                                     </View>
                                     <TouchableOpacity style={styles.authorization__btnContainer} title="Войти" onPress={() => handleClickAuthorization()}>
-                                        <Text style={styles.authorization__textBtn}>ВОЙТИ</Text>
+{/*
+                                        <ImageBackground style={styles.authorization__btnBg} source={require('../assets/image/authorization__btnBg.png')}>
+*/}
+                                            <Text style={styles.authorization__textBtn}>ВОЙТИ</Text>
+{/*
+                                        </ImageBackground>
+*/}
                                     </TouchableOpacity>
                                 </>
                                 :
@@ -469,6 +475,13 @@ const Authorization = ({ route, navigation }) => {
     )
 }
 const styles = StyleSheet.create({
+    authorization__btnBg: {
+/*        width: 110,
+        height: 50,
+        alignItems: 'center',
+        alignContent: 'flex-end',
+        justifyContent: 'center'*/
+    },
     soundIcon: {
         position: "absolute",
         right: 15,

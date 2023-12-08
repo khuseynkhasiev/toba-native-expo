@@ -14,7 +14,7 @@ import {useRef, useState} from "react";
 const Separator = () => {
     return <View style={styles.separator} />;
 };
-export default function LibraryCyberpunkPage({ navigation }) {
+export default function LibraryUtopiaPage({ navigation }) {
 
     const [scrollPercentage, setScrollPercentage] = useState(0);
     const flatListRef = useRef(null);
@@ -26,31 +26,47 @@ export default function LibraryCyberpunkPage({ navigation }) {
         },
         {
             id: 2,
-            description: 'управление',
+            description: 'РАЙОНЫ',
         },
         {
             id: 3,
-            description: 'ДИПИ',
+            description: 'СТОЛИЦА',
         },
         {
             id: 4,
-            description: 'оружие',
+            description: 'ТРАНСПОРТ',
         },
         {
             id: 5,
-            description: 'импланты',
+            description: 'ПРАВИТЕЛЬСТВО',
         },
         {
             id: 6,
-            description: 'антиквар',
+            description: 'ЭКОНОМИКА',
         },
         {
             id: 7,
-            description: 'ДИПИ',
+            description: 'ОБРАЗОВАНИЕ',
         },
         {
             id: 8,
-            description: 'бар',
+            description: 'ИСТОРИЯ',
+        },
+        {
+            id: 9,
+            description: 'ПРАВИТЕЛЬСТВО',
+        },
+        {
+            id: 10,
+            description: 'ЭКОНОМИКА',
+        },
+        {
+            id: 11,
+            description: 'ОБРАЗОВАНИЕ',
+        },
+        {
+            id: 12,
+            description: 'ИСТОРИЯ',
         },
     ]
 
@@ -71,15 +87,15 @@ export default function LibraryCyberpunkPage({ navigation }) {
                 <MenuBackSvgIcon />
             </TouchableOpacity>
             <View style={styles.library__titleContainer}>
-                <Text style={styles.library__title}>мир киберпанк</Text>
+                <Text style={styles.library__title}>мир утопия</Text>
             </View>
             <TouchableOpacity style={styles.library__backBtnLibrary} onPress={() => navigation.navigate('Library')}>
                 <BackButtonSvgIcon />
             </TouchableOpacity>
 
-            <ImageBackground style={styles.library__background} source={require('../assets/image/libraryPage__cyberpunkBg.png')}>
+            <ImageBackground style={styles.library__background} source={require('../assets/image/libraryPage__utopiaBg.png')}>
                 <View style={styles.library__backgroundContainer}>
-                    <ImageBackground style={styles.library__bgFlatList} source={require('../assets/image/libraryBgFlatList.png')}>
+                    <ImageBackground style={styles.library__bgFlatList} source={require('../assets/image/library__utopiaLeftViewBg.png')}>
                         <View style={styles.library__flatListContainer}>
                             <FlatList
 
@@ -99,7 +115,6 @@ export default function LibraryCyberpunkPage({ navigation }) {
                                 onScroll={handleScroll}
                                 scrollEventThrottle={16}
                                 ref={flatListRef}
-
                             />
 
                             <View style={styles.scrollbar}>
@@ -115,7 +130,7 @@ export default function LibraryCyberpunkPage({ navigation }) {
                             </View>
                         </View>
                     </ImageBackground>
-                    <ImageBackground style={styles.library__bgFlatListRight} source={require('../assets/image/libraryBgRight.png')}>
+                    <ImageBackground style={styles.library__bgFlatListRight} source={require('../assets/image/library__utopiaLeftViewBg.png')}>
                     </ImageBackground>
                 </View>
             </ImageBackground>
@@ -151,9 +166,9 @@ const styles = StyleSheet.create({
     },
     library__backgroundContainer: {
         width: '100%',
-        flexDirection: 'row',
+        flexDirection: 'row-reverse',
         columnGap: 20,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     library__bgFlatListRight: {
         width: 480,

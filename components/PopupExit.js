@@ -17,14 +17,18 @@ export default function PopupExit({setPopupExitIsActive, handleExitProfile}){
             <Text style={styles.popup__text}>Вы действительно хотите выйти из аккаунта?</Text>
             <View style={styles.popup__btnContainer}>
                 <TouchableOpacity style={styles.popup__btnYes} onPress={() => handleExitProfile()}>
-                    <View style={styles.popup__btnViewYes}>
-                        <Text style={styles.popup__btnTextYes}>ДА</Text>
-                    </View>
+                    <ImageBackground style={styles.popup__btnYesBg} source={require('../assets/image/popupExit__yesBtnBg.png')}>
+                        <View style={styles.popup__btnViewYes}>
+                            <Text style={styles.popup__btnTextYes}>ДА</Text>
+                        </View>
+                    </ImageBackground>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.popup__btnNo} onPress={() => exitPopup()}>
-                    <View style={styles.popup__btnViewNo}>
-                        <Text style={styles.popup__btnTextNo}>НЕТ</Text>
-                    </View>
+                    <ImageBackground style={styles.popup__btnYesBg} source={require('../assets/image/popupExit__noBtnBg.png')}>
+                        <View style={styles.popup__btnViewNo}>
+                            <Text style={styles.popup__btnTextNo}>НЕТ</Text>
+                        </View>
+                    </ImageBackground>
                 </TouchableOpacity>
             </View>
         </View>
@@ -63,35 +67,41 @@ const styles = StyleSheet.create({
     popup__btnContainer: {
         flexDirection: 'row',
         columnGap: 224,
-        marginTop: 30,
+        /*marginTop: 30,*/
     },
     popup__btnNo:{
         borderRadius: 10, // border-radius
-        backgroundColor: 'rgba(255, 255, 255, 0.50)',
+        /*backgroundColor: 'rgba(255, 255, 255, 0.50)',*/
         justifyContent: 'center',
         alignItems: 'center',
     },
     popup__btnViewNo: {
-        width: 80,
+/*        width: 80,
         height: 30,
         borderRadius: 10, // border-radius
-        backgroundColor: 'rgba(255, 255, 255, 0.50)',
+        backgroundColor: 'rgba(255, 255, 255, 0.50)',*/
         justifyContent: 'center',
         alignItems: 'center'
     },
+    popup__btnYesBg: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 110,
+        height: 60,
+    },
     popup__btnViewYes:{
-        width: 80,
+/*        width: 80,
         height: 30,
         borderRadius: 10, // border-radius
         backgroundColor: 'rgba(6, 6, 6, 0.50)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center'*/
     },
     popup__btnYes:{
-        width: 80,
-        height: 30,
+   /*     width: 80,
+        height: 30,*/
         borderRadius: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.50)',
+        /*backgroundColor: 'rgba(255, 255, 255, 0.50)',*/
 
 
         /*        borderRadius: 10, // border-radius

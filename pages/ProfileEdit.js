@@ -14,12 +14,7 @@ import newGetUserDataStore from "../components/store/getUserDataStore";
 import EditUserDate from "../components/EditUserDate";
 import * as ImagePicker from 'expo-image-picker';
 import {MenuBackSvgIcon, ProfileInputEditSvgIcon} from "../components/svg/Svg";
-import LottieView from "lottie-react-native";
 import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
-import ImageResizer from 'react-native-image-resizer';
-
-import * as ImageManipulator from 'expo-image-manipulator';
-
 
 export default function ProfileEdit({ navigation }) {
     const {
@@ -78,8 +73,6 @@ export default function ProfileEdit({ navigation }) {
                 const uri = result.assets[0].uri;
                 console.log(uri);
                 setSelectedImage(uri);
-/*                const uri = result.assets[0].uri;
-                await resizeImage(uri);*/
             }
         } catch (error) {
             console.log('Ошибка при выборе изображения:', error);
@@ -177,20 +170,13 @@ export default function ProfileEdit({ navigation }) {
         }
     }
     const updateUserStore = (avatarDowload) => {
-/*        console.log('avatar');
-        console.log(avatarDowload);
-        console.log('avatar');*/
+
         newGetUserDataStore.updateUserDataValue('name', nameInput);
         newGetUserDataStore.updateUserDataValue('login', loginInput);
         newGetUserDataStore.updateUserDataValue('birthday', date);
         newGetUserDataStore.updateUserDataValue('surname', surnameInput);
         newGetUserDataStore.updateUserDataValue('phone', phoneInput);
         newGetUserDataStore.updateUserDataValue('avatar', avatarDowload)
-/*        if(avatarDowload === undefined || avatarDowload === null){
-            newGetUserDataStore.updateUserDataValue('avatar', avatarValue);
-        } else {
-            newGetUserDataStore.updateUserDataValue('avatar', avatarDowload);
-        }*/
     }
 
     const submitFormEditUser = async () => {
@@ -210,9 +196,6 @@ export default function ProfileEdit({ navigation }) {
                     .finally(() => setLoadingIsActive(false))
             }
         } else {
-/*
-                setLoadingIsActive(true);
-*/
                 api.checkUniqueLogin(loginInput)
                     .then((isUnique) => {
                     console.log(isUnique);
@@ -226,9 +209,6 @@ export default function ProfileEdit({ navigation }) {
                 })
                     .then(() => {
                 if (!nameIsError && !loginIsError && !dateIsError && !surnameIsError ){
-/*
-                    setLoadingIsActive(true);
-*/
                     api.editUser({loginInput, date, nameInput, surnameInput, phoneInput, token})
                         .then(() => {
                             updateUserStore(avatarDowload);
@@ -378,17 +358,32 @@ export default function ProfileEdit({ navigation }) {
                         </View>
                     </ImageBackground>
 
-                    <TouchableOpacity style={styles.profile__backProfile} onPress={() => navigation.navigate('Profile')}>
+{/*                    <TouchableOpacity style={styles.profile__backProfile} onPress={() => navigation.navigate('Profile')}>
                         <View style={styles.profile__saveBtnContainer}>
                             <Text style={styles.profile__saveBtnText}>НАЗАД</Text>
                         </View>
+                    </TouchableOpacity>*/}
+                    <TouchableOpacity style={styles.profile__backProfile} onPress={() => navigation.navigate('Profile')}>
+                        <ImageBackground style={styles.profile__saveBtnBg} source={require('../assets/image/profile__saveBtnBg.png')}>
+                            <View style={styles.profile__saveBtnContainer}>
+                                <Text style={styles.profile__saveBtnText}>НАЗАД</Text>
+                            </View>
+                        </ImageBackground>
+
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.profile__saveBtn} onPress={() => submitFormEditUser()}>
+                        <TouchableOpacity style={styles.profile__saveBtn} onPress={() => submitFormEditUser()}>
+                            <ImageBackground style={styles.profile__saveBtnBg} source={require('../assets/image/profile__saveBtnBg.png')}>
+                                <View style={styles.profile__saveBtnContainer}>
+                                    <Text style={styles.profile__saveBtnText}>СОХРАНИТЬ ИЗМЕНЕНИЯ</Text>
+                                </View>
+                            </ImageBackground>
+
+                        </TouchableOpacity>
+{/*                    <TouchableOpacity style={styles.profile__saveBtn} onPress={() => submitFormEditUser()}>
                         <View style={styles.profile__saveBtnContainer}>
                             <Text style={styles.profile__saveBtnText}>СОХРАНИТЬ ИЗМЕНЕНИЯ</Text>
                         </View>
-                    </TouchableOpacity>
-                    {/*<LoadingRequestAnimation />*/}
+                    </TouchableOpacity>*/}
                 </View>
 
             </ImageBackground>
@@ -427,12 +422,13 @@ const styles = StyleSheet.create({
         fontWeight: 600,
     },
     profile__saveBtnContainer: {
-        width: 250,
+
+/*        width: 250,
         height: 30,
         borderRadius: 10,
         backgroundColor: 'rgba(6, 6, 6, 0.50)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center'*/
     },
     input: {
         color: '#FFF',
@@ -499,13 +495,25 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between"
     },
+
+    profile__saveBtnBg: {
+/*        bottom: 10,
+        right: 15,
+        position: "absolute",
+        width: 250,
+        height: 30*/
+        width: 270,
+        height: 60,
+        justifyContent: "center",
+        alignItems: "center"
+    },
     profile__saveBtn:{
-        bottom: 10,
+        bottom: 0,
         right: 15,
         position: "absolute"
     },
     profile__backProfile:{
-        bottom: 10,
+        bottom: 0,
         left: 15,
         position: "absolute"
     },

@@ -12,11 +12,10 @@ import {observer} from "mobx-react-lite";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as api from "../utils/api";
 import {useEffect, useState} from "react";
-import {LibraryButtonSvgIcon, MenuBackSvgIcon, ProfileSvgIcon, ReadButtonSvgIcon} from "../components/svg/Svg";
+import {LibraryButtonSvgIcon, ProfileSvgIcon, ReadButtonSvgIcon} from "../components/svg/Svg";
 import * as React from "react";
 import LottieView from 'lottie-react-native';
 import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
-
 
 const MainPage = observer(({ navigation }) => {
     const [loadingIsActive, setLoadingIsActive] = useState(true);
@@ -41,7 +40,6 @@ const MainPage = observer(({ navigation }) => {
     return (
         <SafeAreaView style={styles.main}>
             {loadingIsActive && <LoadingRequestAnimation />}
-
             <View style={styles.main__textContainer}>
                 <Text style={styles.main__title}>ТОБА</Text>
                 <Text style={styles.main__subtitle}>ANIMICS</Text>

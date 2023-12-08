@@ -72,7 +72,9 @@ export default function LibraryPage({ navigation }) {
                                 </TouchableOpacity>
                             </ImageBackground>
                             <ImageBackground resizeMode="contain" style={styles.library__rightBtnBg} source={require('../assets/image/libraryRightBtnBg.png')}>
-                                <TouchableOpacity style={styles.library__rightBtn}>
+                                <TouchableOpacity style={styles.library__rightBtn}
+                                      onPress={() => navigation.navigate('LibraryUtopiaPage')}
+                                >
                                     <Text style={styles.library__rightBtnTextTitle}>мир</Text>
                                     <Text style={styles.library__rightBtnText}>утопия</Text>
                                 </TouchableOpacity>
