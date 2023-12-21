@@ -47,9 +47,6 @@ export default function Profile({ navigation }) {
         const updateStateUserDate = async () => {
             if (isFocused) {
                 setUserData(await newGetUserDataStore.userData);
-                /*setLoadingIsActive(false);*/
-            } else {
-                /*setLoadingIsActive(false);*/
             }
             setLoadingIsActive(false);
         }
@@ -125,8 +122,9 @@ export default function Profile({ navigation }) {
                                         <Text style={styles.profile__imageText}>фото профиля</Text>
                                     </View>
                                     :
-                                    <Image style={styles.profile__image} source={{ uri: `https://animics.ru/storage/${userData.avatar.substring(userData.avatar.indexOf("avatars/"))}` }}/>
-                                }
+                                    <Image style={styles.profile__image} source={{ uri: `https://animics.ru/storage/${userData.avatar}`}}/>
+
+                            }
 
                             </View>
                             <View style={styles.profile__userInfoTop}>

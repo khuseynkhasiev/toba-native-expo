@@ -45,8 +45,8 @@ export default function SeriesTitle({ navigation }) {
 const styles = StyleSheet.create({
     series: {
         flex: 1,
-        position: 'relative'
-        //backgroundColor: 'red'
+        position: 'relative',
+        backgroundColor: 'black'
     },
     backgroundImg: {
         //...StyleSheet.absoluteFillObject,

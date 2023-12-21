@@ -400,6 +400,13 @@ const BackButtonSvgIcon = () => {
     )
 }
 
+const DialogSvgIcon = () => {
+    return (
+        <>
+        </>
+    )
+}
+
 export {
     BackButtonSvgIcon,
     LoadingConfirmProfileSvgIcon,

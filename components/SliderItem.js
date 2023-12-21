@@ -30,6 +30,10 @@ export default function SliderItem({item, activeCardId, setActiveCardId}) {
             //navigation.navigate('SeriesOnePage');
             navigation.navigate('NewYear', {isActiveBackgroundMusic: isActive});
         }
+        if (item.id === 2) {
+            //navigation.navigate('SeriesOnePage');
+            navigation.navigate('TestVideoOne', {isActiveBackgroundMusic: isActive});
+        }
         if(BackgroundMusicStore.isPlaying){
             BackgroundMusicStore.stopMusic();
         }

@@ -16,6 +16,7 @@ import {LibraryButtonSvgIcon, ProfileSvgIcon, ReadButtonSvgIcon} from "../compon
 import * as React from "react";
 import LottieView from 'lottie-react-native';
 import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
+import TestZelim from "../assets/lottie/TestZelim";
 
 const MainPage = observer(({ navigation }) => {
     const [loadingIsActive, setLoadingIsActive] = useState(true);
@@ -78,8 +79,11 @@ const MainPage = observer(({ navigation }) => {
                         </TouchableOpacity>
                     </>
                 }
+                {/*<TestZelim />*/}
             </View>
+
         </SafeAreaView>
+
     )
 })
 

@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
 } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import * as React from "react";
 import * as api from "../utils/api";
 import RegisterUserDate from "../components/RegisterUserDate";
@@ -22,7 +22,6 @@ const RegisterFinishPage = ({ navigation }) => {
     const [date, setDate] = useState(null);
     const [dateErrorText, setDateErrorText] = useState('Вам должно быть 14+ лет');
     const [dateIsError, setDateIsError] = useState(false);
-
 
     const [agreement, setAgreement] = useState(false);
     const [agreementIsError, setAgreementIsError] = useState(false);
@@ -46,24 +45,19 @@ const RegisterFinishPage = ({ navigation }) => {
 
     function handleClickFinishRegister(){
         handleCheckIsAgreement();
-        updateNewUserDataStore('agreement', agreement);
-        updateNewUserDataStore('consent', consent);
-        updateNewUserDataStore('date', date);
-
         if(date === null) {
             setDateIsError(true);
         }
-        if(!agreementIsError && dateIsError) {
+        if(agreement && (!dateIsError && Boolean(date))) {
+            updateNewUserDataStore('agreement', agreement);
+            updateNewUserDataStore('consent', consent);
+            updateNewUserDataStore('date', date);
             setLoadingIsActive(true);
             const user = newUserDataStore.userData;
             handleRegister(user);
         } else {
             setLoadingIsActive(false);
-
         }
-/*
-        console.log(user);
-*/
     }
 
     function updateNewUserDataStore (key, value){
@@ -86,6 +80,7 @@ const RegisterFinishPage = ({ navigation }) => {
     };
 
     function handleRegister(user) {
+        console.log('register');
         return api.register(user)
             .then((data) => {
                 setPopupRegisterText('Для завершения регистрации Вам необходимо подтвердить электронный адрес. Письмо мы отправили, ожидайте.')
@@ -136,19 +131,19 @@ const RegisterFinishPage = ({ navigation }) => {
                             <View style={styles.registerUserDate__containerCheck}>
                                 <View style={styles.section}>
                                     <CheckBox
-                                        containerStyle={styles.checkbox} // Примените стили здесь
+                                        containerStyle={styles.checkbox}
                                         checked={agreement}
                                         onPress={() => setAgreement(!agreement)}
-                                        checkedColor="#FFF" // Примените цвет здесь
+                                        checkedColor="#FFF"
                                     />
                                     <Text style={styles.paragraph}>пользовательское соглашение на обработку персональных данных данных</Text>
                                 </View>
                                 <View style={styles.section}>
                                     <CheckBox
-                                        containerStyle={styles.checkbox} // Примените стили здесь
+                                        containerStyle={styles.checkbox}
                                         checked={consent}
                                         onPress={() => setConsent(!consent)}
-                                        checkedColor="#FFF" // Примените цвет здесь
+                                        checkedColor="#FFF"
                                     />
                                     <Text style={styles.paragraph}>даю согласие на то, чтобы получать оповещения и рассылки</Text>
                                 </View>

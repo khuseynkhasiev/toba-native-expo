@@ -4,6 +4,8 @@ import {
   createStackNavigator,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
+import { Animated } from "react-native";
+
 import { NavigationContainer } from "@react-navigation/native";
 import SeriesTitle from "./pages/SeriesTitle";
 import MainPage from "./pages/MainPage";
@@ -36,10 +38,45 @@ import ProfileEdit from "./pages/ProfileEdit";
 import ProfileEditPassword from "./pages/ProfileEditPassword";
 import LibraryCyberpunkPage from "./pages/LibraryCyberpunkPage";
 import LibraryUtopiaPage from "./pages/LibraryUtopiaPage";
+import TestVideoOne from "./components/SeriesTwo/TestVideoOne";
+import TestVideoTwo from "./components/SeriesTwo/TestVideoTwo";
+import { TransitionPresets } from '@react-navigation/stack';
+
 
 const Stack = createStackNavigator();
 
+
+
 export default function Navigate() {
+
+    const config = {
+        animation: 'spring',
+        config: {
+          stiffness: 1000,
+          damping: 500,
+          mass: 3,
+          overshootClamping: true,
+          restDisplacementThreshold: 0.01,
+          restSpeedThreshold: 0.01,
+        },
+      };
+
+      const forFade = ({ current, next }) => {
+        const opacity = Animated.add(
+          current.progress,
+          next ? next.progress : 0
+        ).interpolate({
+          inputRange: [0, 1, 2],
+          outputRange: [0, 1, 0],
+        });
+      
+        return {
+          leftButtonStyle: { opacity },
+          rightButtonStyle: { opacity },
+          titleStyle: { opacity },
+          backgroundStyle: { opacity },
+        };
+      };
     return (
     <Provider newUserDataStore={newUserDataStore}>
         <NavigationContainer>
@@ -60,8 +97,13 @@ export default function Navigate() {
                             alignItems: "center",
                             justifyContent: "center",
                         },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -80,8 +122,13 @@ export default function Navigate() {
                             alignItems: "center",
                             justifyContent: "center",
                         },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -100,8 +147,13 @@ export default function Navigate() {
                             alignItems: "center",
                             justifyContent: "center",
                         },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -122,6 +174,11 @@ export default function Navigate() {
                             justifyContent: "center",
                         },
                         gestureEnabled: false,
+                        ...TransitionPresets.ScaleFromCenterAndroid, // анимация перехода
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -132,8 +189,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -144,8 +206,14 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
+
                     }}
                 />
                 <Stack.Screen
@@ -156,8 +224,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -169,8 +242,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -181,8 +259,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -193,8 +276,14 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        presentation: 'transparentModal', // затухание при перемещении
+                        ...TransitionPresets.forRevealFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -205,8 +294,14 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -217,8 +312,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -229,8 +329,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -241,8 +346,14 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator: forFade
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -253,8 +364,14 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator: forFade
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -265,8 +382,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -277,8 +399,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -289,8 +416,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -301,8 +433,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -313,8 +450,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -325,8 +467,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -337,8 +484,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -349,8 +501,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -361,8 +518,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -373,8 +535,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -385,8 +552,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -397,8 +569,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -409,8 +586,13 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
                 <Stack.Screen
@@ -421,8 +603,47 @@ export default function Navigate() {
                         headerShown: false,
                         headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
                         headerTitleStyle: { fontWeight: "bold" },
-                        cardStyleInterpolator:
-                        CardStyleInterpolators.forFadeFromBottomAndroid,
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
+                    }}
+                />
+                <Stack.Screen
+                    name="TestVideoOne"
+                    component={TestVideoOne}
+                    options={{
+                        title: "TestVideoOne",
+                        headerShown: false,
+                        headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                        headerTitleStyle: { fontWeight: "bold" },
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
+                    }}
+                />
+                <Stack.Screen
+                    name="TestVideoTwo"
+                    component={TestVideoTwo}
+                    options={{
+                        title: "TestVideoTwo",
+                        headerShown: false,
+                        headerStyle: { backgroundColor: "#F0F8FF", height: 30 },
+                        headerTitleStyle: { fontWeight: "bold" },
+                        // cardStyleInterpolator:
+                        // CardStyleInterpolators.forFadeFromBottomAndroid,
+                        ...TransitionPresets.FadeFromBottomAndroid,
+                        transitionSpec: {
+                            open: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации открытия
+                            close: { animation: 'timing', config: { duration: 500 } }, // Настройка анимации закрытия
+                          },
                     }}
                 />
             </Stack.Navigator>

@@ -254,7 +254,7 @@ export default function ProfileEdit({ navigation }) {
                                     :
                                     <Image
                                         style={styles.profile__image}
-                                        source={selectedImage ? { uri: selectedImage } : {uri: `https://animics.ru/storage/${avatarValue.substring(avatarValue.indexOf("avatars/"))}`} }
+                                        source={selectedImage ? { uri: selectedImage } : {uri: `https://animics.ru/storage/${avatarValue}` }}
                                     />
                                 }
                             </TouchableOpacity>

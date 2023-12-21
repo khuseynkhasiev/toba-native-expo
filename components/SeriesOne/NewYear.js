@@ -9,7 +9,7 @@ import BackgroundMusicStore from "../store/BackgroundMusicStore";
 export default function NewYear({ navigation }) {
 
   const route = useRoute();
-  const { isActiveBackgroundMusic } = route.params;
+  /*const { isActiveBackgroundMusic } = route.params;*/
 
   const [status, setStatus] = React.useState({});
   const video = useRef(null);
@@ -69,9 +69,9 @@ export default function NewYear({ navigation }) {
   }, [navigation]);
 
   const backScene = () => {
-    if (isActiveBackgroundMusic){
+/*    if (isActiveBackgroundMusic){
       BackgroundMusicStore.playMusic();
-    }
+    }*/
     unloadVideo();
     navigation.goBack();
   };
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    //backgroundColor: 'black'
+    backgroundColor: 'black'
   },
   backgroundVideo: {
     position: "absolute",
