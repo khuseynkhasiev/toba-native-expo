@@ -1,13 +1,12 @@
-import { StyleSheet, Animated, Text } from "react-native";
+import { StyleSheet, Animated, Text, View } from "react-native";
 import React, { useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
-import {useRoute} from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import BackgroundMusicStore from "../store/BackgroundMusicStore";
 
 export default function NewYear({ navigation }) {
-
   const route = useRoute();
   /*const { isActiveBackgroundMusic } = route.params;*/
 
@@ -19,7 +18,7 @@ export default function NewYear({ navigation }) {
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
       toValue: 1,
-      duration: 1000,
+      duration: 5000,
       useNativeDriver: false,
     }).start();
   };
@@ -69,7 +68,7 @@ export default function NewYear({ navigation }) {
   }, [navigation]);
 
   const backScene = () => {
-/*    if (isActiveBackgroundMusic){
+    /*    if (isActiveBackgroundMusic){
       BackgroundMusicStore.playMusic();
     }*/
     unloadVideo();
@@ -77,27 +76,49 @@ export default function NewYear({ navigation }) {
   };
   const nextScene = () => {
     unloadVideo();
-    navigation.replace('ChartMan');
+    navigation.replace("ChartMan");
   };
   return (
-      <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
-        <Video
-            ref={video}
-            style={styles.backgroundVideo}
-            //source={require("../../assets/video/new-year.mp4")}
-            useNativeControls={true}
-            resizeMode="cover"
-            isLooping={false}
-            onPlaybackStatusUpdate={(status) => {
-              setStatus(status);
-              if (status.didJustFinish) {
-                unloadVideo(); // Выгрузка видео после окончания воспроизведения
-              }
-            }}
-        />
-        {isActiveDialog && <Text style={styles.dialog}>Человечество ждало от 21 века...</Text>}
-        <TouchScreen touchNext={nextScene} touchBack={backScene} />
-      </Animated.View>
+    <View style={styles.container}>
+      <Video
+        ref={video}
+        style={styles.backgroundVideo}
+        //source={require("../../assets/video/new-year.mp4")}
+        useNativeControls={true}
+        resizeMode="cover"
+        isLooping={false}
+        onPlaybackStatusUpdate={(status) => {
+          setStatus(status);
+          if (status.didJustFinish) {
+            unloadVideo(); // Выгрузка видео после окончания воспроизведения
+          }
+        }}
+      />
+      {isActiveDialog && (
+        <Text style={styles.dialog}>Человечество ждало от 21 века...</Text>
+      )}
+      <TouchScreen touchNext={nextScene} touchBack={backScene} />
+    </View>
+    // <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
+    //   <Video
+    //     ref={video}
+    //     style={styles.backgroundVideo}
+    //     //source={require("../../assets/video/new-year.mp4")}
+    //     useNativeControls={true}
+    //     resizeMode="cover"
+    //     isLooping={false}
+    //     onPlaybackStatusUpdate={(status) => {
+    //       setStatus(status);
+    //       if (status.didJustFinish) {
+    //         unloadVideo(); // Выгрузка видео после окончания воспроизведения
+    //       }
+    //     }}
+    //   />
+    //   {isActiveDialog && (
+    //     <Text style={styles.dialog}>Человечество ждало от 21 века...</Text>
+    //   )}
+    //   <TouchScreen touchNext={nextScene} touchBack={backScene} />
+    // </Animated.View>
   );
 }
 
@@ -106,7 +127,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: 'black'
+    backgroundVideo: "red",
   },
   backgroundVideo: {
     position: "absolute",

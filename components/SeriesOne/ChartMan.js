@@ -1,27 +1,30 @@
-import { StyleSheet, Animated, Text } from "react-native";
+import { StyleSheet, Animated, Text, View } from "react-native";
 import React, { useRef, useEffect, useState } from "react";
 import { Video } from "expo-av";
 import TouchScreen from "../TouchScreen";
-/*
-import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
-*/
 
 export default function ChartMan({ navigation }) {
   const [status, setStatus] = React.useState({});
   const [isActiveDialog, setIsActiveDialog] = useState(false);
   const video = useRef(null);
-  const fadeAnimOpacity = useRef(new Animated.Value(0)).current;
+  const fadeAnimOpacity = useRef(new Animated.Value(0)).current; // Начальное значение - полностью непрозрачный фон
+
+  // useEffect(() => {
+  //   animOpacity(); // Запуск анимации прозрачности при монтировании компонента
+  // }, []);
 
   const animOpacity = () => {
     Animated.timing(fadeAnimOpacity, {
       toValue: 1,
-      duration: 1000,
+      duration: 5000,
       useNativeDriver: false,
     }).start();
   };
   const prepare = async () => {
     try {
-      await video.current.loadAsync(require("../../assets/video/two-scene.mp4"));
+      await video.current.loadAsync(
+        require("../../assets/video/two-scene.mp4")
+      );
       await video.current.playAsync();
       animOpacity();
     } catch (error) {
@@ -65,32 +68,32 @@ export default function ChartMan({ navigation }) {
 
   const backScene = () => {
     unloadVideo();
-    navigation.replace('NewYear');
+    navigation.replace("NewYear");
   };
   const nextScene = () => {
     unloadVideo();
-    navigation.replace('Bio');
+    navigation.replace("Bio");
   };
 
   return (
-      <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
-        <Video
-            ref={video}
-            style={styles.backgroundVideo}
-            //source={require("../../assets/video/new-year.mp4")}
-            useNativeControls={true}
-            resizeMode="cover"
-            isLooping={false}
-            onPlaybackStatusUpdate={(status) => {
-              setStatus(status);
-              if (status.didJustFinish) {
-                unloadVideo(); // Выгрузка видео после окончания воспроизведения
-              }
-            }}
-        />
-        {isActiveDialog && <Text style={styles.dialog}>Новые технологии...</Text>}
-        <TouchScreen touchBack={backScene} touchNext={nextScene} />
-      </Animated.View>
+    <View style={styles.container}>
+      <Video
+        ref={video}
+        style={styles.backgroundVideo}
+        //source={require("../../assets/video/new-year.mp4")}
+        useNativeControls={true}
+        resizeMode="cover"
+        isLooping={false}
+        onPlaybackStatusUpdate={(status) => {
+          setStatus(status);
+          if (status.didJustFinish) {
+            unloadVideo(); // Выгрузка видео после окончания воспроизведения
+          }
+        }}
+      />
+      {isActiveDialog && <Text style={styles.dialog}>Новые технологии...</Text>}
+      <TouchScreen touchBack={backScene} touchNext={nextScene} />
+    </View>
   );
 }
 
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    //backgroundColor: 'black'
+    backgroundColor: "black",
   },
   backgroundVideo: {
     position: "absolute",

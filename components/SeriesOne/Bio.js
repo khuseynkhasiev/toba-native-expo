@@ -1,4 +1,10 @@
-import {StyleSheet, Animated, Text, TouchableOpacity} from "react-native";
+import {
+  StyleSheet,
+  Animated,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useRef, useEffect, useState } from "react";
 
 import { Video } from "expo-av";
@@ -67,33 +73,35 @@ export default function Bio({ navigation }) {
 
   const backScene = () => {
     unloadVideo();
-    navigation.replace('ChartMan');
+    navigation.replace("ChartMan");
   };
   const nextScene = () => {
     unloadVideo();
-    navigation.replace('RobotOneScene');
+    navigation.replace("RobotOneScene");
   };
   return (
-      <Animated.View style={[styles.container, { opacity: fadeAnimOpacity }]}>
-        <Video
-            ref={video}
-            style={styles.backgroundVideo}
-            //source={require("../../assets/video/new-year.mp4")}
-            useNativeControls={true}
-            resizeMode="cover"
-            isLooping={false}
-            onPlaybackStatusUpdate={(status) => {
-              setStatus(status);
-              if (status.didJustFinish) {
-                unloadVideo(); // Выгрузка видео после окончания воспроизведения
-              }
-            }}
-        />
-        {
-            isActiveDialog && <Text style={styles.dialog}>Медицину которая бы вылечила все болезни...</Text>
-        }
-        <TouchScreen touchBack={backScene} touchNext={nextScene} />
-      </Animated.View>
+    <View style={styles.container}>
+      <Video
+        ref={video}
+        style={styles.backgroundVideo}
+        //source={require("../../assets/video/new-year.mp4")}
+        useNativeControls={true}
+        resizeMode="cover"
+        isLooping={false}
+        onPlaybackStatusUpdate={(status) => {
+          setStatus(status);
+          if (status.didJustFinish) {
+            unloadVideo(); // Выгрузка видео после окончания воспроизведения
+          }
+        }}
+      />
+      {isActiveDialog && (
+        <Text style={styles.dialog}>
+          Медицину которая бы вылечила все болезни...
+        </Text>
+      )}
+      <TouchScreen touchBack={backScene} touchNext={nextScene} />
+    </View>
   );
 }
 
