@@ -206,91 +206,151 @@ const RegisterPageTwo = observer(({ navigation }) => {
     }
 
     return (
-        <SafeAreaView style={styles.authorization}>
-            <ImageBackground style={styles.authorization__background} source={require('../assets/image/RegisterBg.png')}>
-                {loadingIsActive && <LoadingRequestAnimation />}
-                <View style={styles.authorization__form}>
-                    <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
-                        <View style={styles.authorization__formContainer}>
-                            <View style={styles.authorization__headerBlock}>
-                                <TouchableOpacity style={styles.authorization__headerTextBlockLeft} onPress={() => navigation.navigate('Authorization', { isActivePage: true })}>
-                                    <Text style={styles.authorization__headerTextLeft}>АВТОРИЗАЦИЯ</Text>
-                                </TouchableOpacity>
-                                <View style={[styles.authorization__headerTextBlockRight, styles.authorization__headerTextBlockLeft_active]}>
-                                    <Text style={styles.authorization__headerTextRight}>СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ</Text>
-                                </View>
-                            </View>
-                                <TextInput
-                                    style={[styles.input, {color: emailIsError ? 'red' : '#FFF'}]}
-                                    placeholder="Электронный адрес"
-                                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                    onChangeText={(text) => setEmail(text)}
-                                    value={emailIsError ? emailErrorInputText : email}
-                                    onFocus={() => setEmailIsError(false)}
-                                    onBlur={() => handleBlurInputEmail()}
-                                />
-                            <View style={styles.input__container}>
-                                <TextInput
-                                    style={[styles.input, {color: passwordIsError ? 'red' : '#FFF'}]}
-                                    placeholder="Пароль"
-                                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                    onChangeText={(text) => setPassword(text)}
-                                    value={openPassword ? password : passwordIsError ? passwordErrorInputText : password}
-                                    secureTextEntry={openPassword ? false : !passwordIsError} // Скрывает введенный текст (пароль)
-                                    onFocus={() => setPasswordIsError(false)}
-                                    onBlur={() => handleBlurInputPassword()}
-                                />
-                                <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenPassword(!openPassword)}>
-                                    {
-                                        openPassword
-                                            ? <ViewPasswordSvgIcon />
-                                            : <NotViewPasswordSvgIcon />
-                                    }
-                                </TouchableOpacity>
-                            </View>
-
-                            <View style={styles.input__container}>
-                                <TextInput
-                                    style={[styles.input, {color: passwordRepeatIsError ? 'red' : '#FFF'}]}
-                                    placeholder="Повторный пароль"
-                                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                    onChangeText={(text) => setPasswordRepeat(text)}
-                                    value={openPasswordRepeat ? passwordRepeat : passwordRepeatIsError? passwordRepeatErrorInputText: passwordRepeat}
-                                    secureTextEntry={openPasswordRepeat ? false : !passwordRepeatIsError} // Скрывает введенный текст (пароль)
-                                    onFocus={() => setPasswordRepeatIsError(false)}
-                                    onBlur={() =>handleBlurInputRepeatPassword()}
-                                />
-                                <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenPasswordRepeat(!openPasswordRepeat)}>
-                                    {
-                                        openPasswordRepeat
-                                            ? <ViewPasswordSvgIcon />
-                                            : <NotViewPasswordSvgIcon />
-                                    }
-                                </TouchableOpacity>
-                            </View>
-
-                            <View style={styles.authorization__containerBtn}>
-                                <TouchableOpacity style={styles.authorization__btnContainer} title="НАЗАД" onPress={() => navigation.navigate('Authorization')}>
-                                    <Text style={styles.authorization__textBtn}>НАЗАД</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.authorization__btnContainer} title="ДАЛЕЕ" onPress={() => handleClickNextPage()}>
-                                    <Text style={styles.authorization__textBtn}>ДАЛЕЕ</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.footer__container}>
-                            </View>
-                        </View>
-                    </ImageBackground>
+      <SafeAreaView style={styles.authorization}>
+        <ImageBackground
+          style={styles.authorization__background}
+          source={require("../assets/image/RegisterBg.png")}
+        >
+          {loadingIsActive && <LoadingRequestAnimation />}
+          <View style={styles.authorization__form}>
+            <ImageBackground
+              style={styles.authorization__formBackground}
+              source={require("../assets/image/authorizationFormBg.png")}
+            >
+              <View style={styles.authorization__formContainer}>
+                <View style={styles.authorization__headerBlock}>
+                  <TouchableOpacity
+                    style={styles.authorization__headerTextBlockLeft}
+                    onPress={() =>
+                      navigation.navigate("Authorization", {
+                        isActivePage: true,
+                      })
+                    }
+                  >
+                    <Text style={styles.authorization__headerTextLeft}>
+                      АВТОРИЗАЦИЯ
+                    </Text>
+                  </TouchableOpacity>
+                  <View
+                    style={[
+                      styles.authorization__headerTextBlockRight,
+                      styles.authorization__headerTextBlockLeft_active,
+                    ]}
+                  >
+                    <Text style={styles.authorization__headerTextRight}>
+                      СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ
+                    </Text>
+                  </View>
                 </View>
-                {popupRegisterIsActive &&
-                    <PopupRegister
-                        popupRegisterIsError={popupRegisterIsError}
-                        setPopupRegisterIsActive={setPopupRegisterIsActive}
-                        popupRegisterText={popupRegisterText}/>
-                }
+                <TextInput
+                  style={[
+                    styles.input,
+                    { color: emailIsError ? "red" : "#FFF" },
+                  ]}
+                  placeholder="Электронный адрес"
+                  placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                  onChangeText={(text) => setEmail(text)}
+                  value={emailIsError ? emailErrorInputText : email}
+                  onFocus={() => setEmailIsError(false)}
+                  onBlur={() => handleBlurInputEmail()}
+                  keyboardType="email-address"
+                />
+                <View style={styles.input__container}>
+                  <TextInput
+                    style={[
+                      styles.input,
+                      { color: passwordIsError ? "red" : "#FFF" },
+                    ]}
+                    placeholder="Пароль"
+                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                    onChangeText={(text) => setPassword(text)}
+                    value={
+                      openPassword
+                        ? password
+                        : passwordIsError
+                        ? passwordErrorInputText
+                        : password
+                    }
+                    secureTextEntry={openPassword ? false : !passwordIsError} // Скрывает введенный текст (пароль)
+                    onFocus={() => setPasswordIsError(false)}
+                    onBlur={() => handleBlurInputPassword()}
+                  />
+                  <TouchableOpacity
+                    style={styles.passwordIconSvgButton}
+                    onPress={() => setOpenPassword(!openPassword)}
+                  >
+                    {openPassword ? (
+                      <ViewPasswordSvgIcon />
+                    ) : (
+                      <NotViewPasswordSvgIcon />
+                    )}
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.input__container}>
+                  <TextInput
+                    style={[
+                      styles.input,
+                      { color: passwordRepeatIsError ? "red" : "#FFF" },
+                    ]}
+                    placeholder="Повторный пароль"
+                    placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                    onChangeText={(text) => setPasswordRepeat(text)}
+                    value={
+                      openPasswordRepeat
+                        ? passwordRepeat
+                        : passwordRepeatIsError
+                        ? passwordRepeatErrorInputText
+                        : passwordRepeat
+                    }
+                    secureTextEntry={
+                      openPasswordRepeat ? false : !passwordRepeatIsError
+                    } // Скрывает введенный текст (пароль)
+                    onFocus={() => setPasswordRepeatIsError(false)}
+                    onBlur={() => handleBlurInputRepeatPassword()}
+                  />
+                  <TouchableOpacity
+                    style={styles.passwordIconSvgButton}
+                    onPress={() => setOpenPasswordRepeat(!openPasswordRepeat)}
+                  >
+                    {openPasswordRepeat ? (
+                      <ViewPasswordSvgIcon />
+                    ) : (
+                      <NotViewPasswordSvgIcon />
+                    )}
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.authorization__containerBtn}>
+                  <TouchableOpacity
+                    style={styles.authorization__btnContainer}
+                    title="НАЗАД"
+                    onPress={() => navigation.navigate("Authorization")}
+                  >
+                    <Text style={styles.authorization__textBtn}>НАЗАД</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.authorization__btnContainer}
+                    title="ДАЛЕЕ"
+                    onPress={() => handleClickNextPage()}
+                  >
+                    <Text style={styles.authorization__textBtn}>ДАЛЕЕ</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.footer__container}></View>
+              </View>
             </ImageBackground>
-        </SafeAreaView>
-    )
+          </View>
+          {popupRegisterIsActive && (
+            <PopupRegister
+              popupRegisterIsError={popupRegisterIsError}
+              setPopupRegisterIsActive={setPopupRegisterIsActive}
+              popupRegisterText={popupRegisterText}
+            />
+          )}
+        </ImageBackground>
+      </SafeAreaView>
+    );
 })
 const styles = StyleSheet.create({
     footer__container: {

@@ -332,147 +332,228 @@ const Authorization = ({ route, navigation }) => {
     }
 
     return (
-        <SafeAreaView style={styles.authorization}>
-            <ImageBackground style={styles.authorization__background} source={require('../assets/image/RegisterBg.png')}>
-                {loadingIsActive && <LoadingRequestAnimation />}
+      <SafeAreaView style={styles.authorization}>
+        <ImageBackground
+          style={styles.authorization__background}
+          source={require("../assets/image/RegisterBg.png")}
+        >
+          {loadingIsActive && <LoadingRequestAnimation />}
 
-                <View style={styles.authorization__form}>
-
-                    <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
-                        <View style={styles.authorization__formContainer}>
-                            <View style={styles.authorization__headerBlock}>
-                                <TouchableOpacity style={[styles.authorization__headerTextBlock, isActiveAuthorization ? styles.authorization__headerTextBlockLeft_active : '']} onPress={() => handleIsActiveAuthorization()}>
-                                    <Text style={[styles.authorization__headerText, isActiveAuthorization ? styles.authorization__headerText_active : '']}>АВТОРИЗАЦИЯ</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.authorization__headerTextBlock, isActiveRegister ? styles.authorization__headerTextBlockLeft_active : '']} onPress={() => handleIsActiveRegister()}>
-                                    <Text style={[styles.authorization__headerText, isActiveRegister ? styles.authorization__headerText_active : '']}>СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ</Text>
-                                </TouchableOpacity>
-                            </View>
-                            {isActiveAuthorization ?
-                                <>
-                                    <TextInput
-                                        style={[styles.input, {color: emailIsError ? 'red' : '#FFF'}]}
-                                        placeholder="Электронный адрес"
-                                        placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                        onChangeText={(text) => setEmail(text)}
-                                        value={emailIsError ? emailErrorInputText : email}
-                                        onFocus={() => setEmailIsError(false)}
-                                        onBlur={() => handleBlurInputEmail()}
-                                    />
-                                    <View style={styles.input__container}>
-                                        <TextInput
-                                            style={[styles.input, {color: passwordIsError ? 'red' : '#FFF'}]}
-                                            placeholder="Пароль"
-                                            placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                            onChangeText={(text) => setPassword(text)}
-                                            value={openPassword ? password : passwordIsError ? passwordErrorInputText : password}
-                                            secureTextEntry={openPassword ? false : !passwordIsError} // Скрывает введенный текст (пароль)
-                                            onFocus={() => setPasswordIsError(false)}
-                                            onBlur={() => handleBlurInputPassword()}
-                                        />
-                                        <TouchableOpacity style={styles.passwordIconSvgButton} onPress={() => setOpenPassword(!openPassword)}>
-                                            {
-                                                openPassword
-                                                    ? <ViewPasswordSvgIcon />
-                                                    : <NotViewPasswordSvgIcon />
-                                            }
-                                        </TouchableOpacity>
-                                    </View>
-                                    <TouchableOpacity style={styles.authorization__btnContainer} title="Войти" onPress={() => handleClickAuthorization()}>
-{/*
+          <View style={styles.authorization__form}>
+            <ImageBackground
+              style={styles.authorization__formBackground}
+              source={require("../assets/image/authorizationFormBg.png")}
+            >
+              <View style={styles.authorization__formContainer}>
+                <View style={styles.authorization__headerBlock}>
+                  <TouchableOpacity
+                    style={[
+                      styles.authorization__headerTextBlock,
+                      isActiveAuthorization
+                        ? styles.authorization__headerTextBlockLeft_active
+                        : "",
+                    ]}
+                    onPress={() => handleIsActiveAuthorization()}
+                  >
+                    <Text
+                      style={[
+                        styles.authorization__headerText,
+                        isActiveAuthorization
+                          ? styles.authorization__headerText_active
+                          : "",
+                      ]}
+                    >
+                      АВТОРИЗАЦИЯ
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.authorization__headerTextBlock,
+                      isActiveRegister
+                        ? styles.authorization__headerTextBlockLeft_active
+                        : "",
+                    ]}
+                    onPress={() => handleIsActiveRegister()}
+                  >
+                    <Text
+                      style={[
+                        styles.authorization__headerText,
+                        isActiveRegister
+                          ? styles.authorization__headerText_active
+                          : "",
+                      ]}
+                    >
+                      СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                {isActiveAuthorization ? (
+                  <>
+                    <TextInput
+                      style={[
+                        styles.input,
+                        { color: emailIsError ? "red" : "#FFF" },
+                      ]}
+                      placeholder="Электронный адрес"
+                      placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                      onChangeText={(text) => setEmail(text)}
+                      value={emailIsError ? emailErrorInputText : email}
+                      onFocus={() => setEmailIsError(false)}
+                      onBlur={() => handleBlurInputEmail()}
+                      keyboardType="email-address"
+                    />
+                    <View style={styles.input__container}>
+                      <TextInput
+                        style={[
+                          styles.input,
+                          { color: passwordIsError ? "red" : "#FFF" },
+                        ]}
+                        placeholder="Пароль"
+                        placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                        onChangeText={(text) => setPassword(text)}
+                        value={
+                          openPassword
+                            ? password
+                            : passwordIsError
+                            ? passwordErrorInputText
+                            : password
+                        }
+                        secureTextEntry={
+                          openPassword ? false : !passwordIsError
+                        } // Скрывает введенный текст (пароль)
+                        onFocus={() => setPasswordIsError(false)}
+                        onBlur={() => handleBlurInputPassword()}
+                      />
+                      <TouchableOpacity
+                        style={styles.passwordIconSvgButton}
+                        onPress={() => setOpenPassword(!openPassword)}
+                      >
+                        {openPassword ? (
+                          <ViewPasswordSvgIcon />
+                        ) : (
+                          <NotViewPasswordSvgIcon />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity
+                      style={styles.authorization__btnContainer}
+                      title="Войти"
+                      onPress={() => handleClickAuthorization()}
+                    >
+                      {/*
                                         <ImageBackground style={styles.authorization__btnBg} source={require('../assets/image/authorization__btnBg.png')}>
 */}
-                                            <Text style={styles.authorization__textBtn}>ВОЙТИ</Text>
-{/*
+                      <Text style={styles.authorization__textBtn}>ВОЙТИ</Text>
+                      {/*
                                         </ImageBackground>
 */}
-                                    </TouchableOpacity>
-                                </>
-                                :
-                                <>
-                                    <View style={styles.authorization__nameInputBlock}>
-                                        <TextInput
-                                            style={[
-                                                styles.input__firstName,
-                                                { color: nameIsError ? 'red' : '#FFF' }
-                                            ]}
-                                            placeholder="Имя"
-                                            placeholderTextColor='#FFF'
-                                            onChangeText={(text) => setName(text)}
-                                            value={nameIsError ? nameTextIsError : name}
-                                            onFocus={() => {
-                                                setNameIsError(false);
-                                            }} // Поле в фокусе
-                                            onBlur={() => handleBlurInputName()}
-                                        />
-                                        <TextInput
-                                            style={[
-                                                styles.input__name,
-                                                { color: surnameIsError ? 'red' : '#FFF' }
-                                            ]}
-                                            placeholder="Фамилия"
-                                            placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                            onChangeText={(text) => setSurname(text)}
-                                            value={surnameIsError ? surnameTextIsError : surname}
-                                            onFocus={() => {
-                                                setSurnameIsError(false);
-                                            }} // Поле в фокусе
-                                            onBlur={() => handleBlurInputSurname()}
-                                        />
-                                    </View>
-                                    <TextInput
-                                        style={[styles.input, {color: loginIsError ? 'red' : '#FFF'}]}
-                                        placeholder="Ваше универсальное имя пользователя"
-                                        placeholderTextColor="#FFF" // Установите цвет текста placeholder
-                                        onChangeText={(text) => setLogin(text)}
-                                        value={loginIsError ? loginTextIsError : login}
-                                        onFocus={() => setLoginIsError(false)}
-                                        onBlur={() => handleBlurInputLogin()}
-                                    />
-                                    <View style={styles.authorization__containerBtn}>
-                                        <TouchableOpacity style={styles.authorization__btnContainer} title="ДАЛЕЕ" onPress={handleNextPageClick}>
-                                            <Text style={styles.authorization__textBtn}>ДАЛЕЕ</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </>
-                            }
-                        </View>
-                        <View style={styles.authorization__footerLine}>
-                            <View style={styles.authorization__lineLeft}></View>
-                            <Text style={styles.authorization__lineText}>или войти через</Text>
-                            <View style={styles.authorization__lineRight}></View>
-                        </View>
-                        <View style={styles.authorization__footer}>
-                            <TouchableOpacity>
-                                <Image style={styles.main__profileIcon} source={require('../assets/image/authorizationIcons/iconVk.png')}></Image>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <Image style={styles.main__profileIcon} source={require('../assets/image/authorizationIcons/iconYandex.png')}></Image>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <Image style={styles.main__profileIcon} source={require('../assets/image/authorizationIcons/iconGoogle.png')}></Image>
-                            </TouchableOpacity>
-                        </View>
-                    </ImageBackground>
-
-                </View>
-                {popupRegisterIsActive &&
-                    <PopupRegister
-                        popupRegisterIsError={popupRegisterIsError}
-                        setPopupRegisterIsActive={setPopupRegisterIsActive}
-                        popupRegisterText={popupRegisterText}/>
-                }
-                <TouchableOpacity style={styles.soundIcon} onPress={() => handleClickPlayBackgroundMusic()}>
-                    {BackgroundMusicStore.isPlaying
-                        ?
-                        <ActiveBackgroundSoundSvgIcon />
-                        :
-                        <NotActiveBackgroundSoundSvgIcon />
-                    }
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <>
+                    <View style={styles.authorization__nameInputBlock}>
+                      <TextInput
+                        style={[
+                          styles.input__firstName,
+                          { color: nameIsError ? "red" : "#FFF" },
+                        ]}
+                        placeholder="Имя"
+                        placeholderTextColor="#FFF"
+                        onChangeText={(text) => setName(text)}
+                        value={nameIsError ? nameTextIsError : name}
+                        onFocus={() => {
+                          setNameIsError(false);
+                        }} // Поле в фокусе
+                        onBlur={() => handleBlurInputName()}
+                      />
+                      <TextInput
+                        style={[
+                          styles.input__name,
+                          { color: surnameIsError ? "red" : "#FFF" },
+                        ]}
+                        placeholder="Фамилия"
+                        placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                        onChangeText={(text) => setSurname(text)}
+                        value={surnameIsError ? surnameTextIsError : surname}
+                        onFocus={() => {
+                          setSurnameIsError(false);
+                        }} // Поле в фокусе
+                        onBlur={() => handleBlurInputSurname()}
+                      />
+                    </View>
+                    <TextInput
+                      style={[
+                        styles.input,
+                        { color: loginIsError ? "red" : "#FFF" },
+                      ]}
+                      placeholder="Ваше универсальное имя пользователя"
+                      placeholderTextColor="#FFF" // Установите цвет текста placeholder
+                      onChangeText={(text) => setLogin(text)}
+                      value={loginIsError ? loginTextIsError : login}
+                      onFocus={() => setLoginIsError(false)}
+                      onBlur={() => handleBlurInputLogin()}
+                    />
+                    <View style={styles.authorization__containerBtn}>
+                      <TouchableOpacity
+                        style={styles.authorization__btnContainer}
+                        title="ДАЛЕЕ"
+                        onPress={handleNextPageClick}
+                      >
+                        <Text style={styles.authorization__textBtn}>ДАЛЕЕ</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                )}
+              </View>
+              <View style={styles.authorization__footerLine}>
+                <View style={styles.authorization__lineLeft}></View>
+                <Text style={styles.authorization__lineText}>
+                  или войти через
+                </Text>
+                <View style={styles.authorization__lineRight}></View>
+              </View>
+              <View style={styles.authorization__footer}>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.main__profileIcon}
+                    source={require("../assets/image/authorizationIcons/iconVk.png")}
+                  ></Image>
                 </TouchableOpacity>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.main__profileIcon}
+                    source={require("../assets/image/authorizationIcons/iconYandex.png")}
+                  ></Image>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.main__profileIcon}
+                    source={require("../assets/image/authorizationIcons/iconGoogle.png")}
+                  ></Image>
+                </TouchableOpacity>
+              </View>
             </ImageBackground>
-        </SafeAreaView>
-    )
+          </View>
+          {popupRegisterIsActive && (
+            <PopupRegister
+              popupRegisterIsError={popupRegisterIsError}
+              setPopupRegisterIsActive={setPopupRegisterIsActive}
+              popupRegisterText={popupRegisterText}
+            />
+          )}
+          <TouchableOpacity
+            style={styles.soundIcon}
+            onPress={() => handleClickPlayBackgroundMusic()}
+          >
+            {BackgroundMusicStore.isPlaying ? (
+              <ActiveBackgroundSoundSvgIcon />
+            ) : (
+              <NotActiveBackgroundSoundSvgIcon />
+            )}
+          </TouchableOpacity>
+        </ImageBackground>
+      </SafeAreaView>
+    );
 }
 const styles = StyleSheet.create({
     authorization__btnBg: {
