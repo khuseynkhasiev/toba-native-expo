@@ -93,7 +93,7 @@ export default function SliderSeries() {
     return (
         <View style={styles.sliderSeries}>
             <FlatList
-                style={[styles.sliderSeries__container, /*{width: width - 200}*/]}
+                style={[styles.sliderSeries__container]}
                 contentContainerStyle={styles.listContent}
                 data={series}
                 keyExtractor={(_, index) => index.toString()}

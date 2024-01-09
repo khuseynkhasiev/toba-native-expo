@@ -6,52 +6,58 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useEffect, useState} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 import * as React from "react";
 import * as api from "../utils/api";
 import RegisterUserDate from "../components/RegisterUserDate";
-import { CheckBox } from 'react-native-elements';
+import { CheckBox } from "react-native-elements";
 import PopupRegister from "../components/popupRegister";
 import newUserDataStore from "../components/store/createUserDataStore";
-import {RegisterIconPageThreeSvgIcon} from "../components/svg/Svg";
+import { RegisterIconPageThreeSvgIcon } from "../components/svg/Svg";
 import LoadingRequestAnimation from "../assets/lottie/LoadingRequestAnimation";
+import PopupPrivacyPolicy from "../components/PopupPrivacyPolicy";
 
 const RegisterFinishPage = ({ navigation }) => {
-
     const [date, setDate] = useState(null);
-    const [dateErrorText, setDateErrorText] = useState('Вам должно быть 14+ лет');
+    const [dateErrorText, setDateErrorText] = useState(
+        "Вам должно быть 14+ лет"
+    );
     const [dateIsError, setDateIsError] = useState(false);
+
+    const [popupPrivacyPolicy, setPopupPrivacyPolicy] = useState(false);
 
     const [agreement, setAgreement] = useState(false);
     const [agreementIsError, setAgreementIsError] = useState(false);
-    const [agreementErrorText, setAgreementErrorText] = useState('Необходимо принять пользовательское соглашение')
+    const [agreementErrorText, setAgreementErrorText] = useState(
+        "Необходимо принять пользовательское соглашение"
+    );
 
     const [consent, setConsent] = useState(false);
 
-    const [popupRegisterText, setPopupRegisterText] = useState('');
+    const [popupRegisterText, setPopupRegisterText] = useState("");
     const [popupRegisterIsActive, setPopupRegisterIsActive] = useState(false);
     const [popupRegisterIsError, setPopupRegisterIsError] = useState(false);
 
     const [loadingIsActive, setLoadingIsActive] = useState(false);
 
-    function handleCheckIsAgreement(){
-        if(!agreement){
+    function handleCheckIsAgreement() {
+        if (!agreement) {
             setAgreementIsError(true);
         } else {
             setAgreementIsError(false);
         }
     }
 
-    function handleClickFinishRegister(){
+    function handleClickFinishRegister() {
         handleCheckIsAgreement();
-        if(date === null) {
+        if (date === null) {
             setDateIsError(true);
         }
-        if(agreement && (!dateIsError && Boolean(date))) {
-            updateNewUserDataStore('agreement', agreement);
-            updateNewUserDataStore('consent', consent);
-            updateNewUserDataStore('date', date);
+        if (agreement && !dateIsError && Boolean(date)) {
+            updateNewUserDataStore("agreement", agreement);
+            updateNewUserDataStore("consent", consent);
+            updateNewUserDataStore("date", date);
             setLoadingIsActive(true);
             const user = newUserDataStore.userData;
             handleRegister(user);
@@ -60,30 +66,33 @@ const RegisterFinishPage = ({ navigation }) => {
         }
     }
 
-    function updateNewUserDataStore (key, value){
+    function updateNewUserDataStore(key, value) {
         newUserDataStore.updateUserData(key, value);
     }
 
     const saveUserToken = async (token) => {
         try {
-            await AsyncStorage.setItem('userToken', token);
-            console.log('Значение успешно сохранено в AsyncStorage');
+            await AsyncStorage.setItem("userToken", token);
+            console.log("Значение успешно сохранено в AsyncStorage");
             /*navigation.navigate('Main');*/
             // сбрасываем навигационный стек и ставим Main на первое место
-/*            navigationNative.reset({
+            /*            navigationNative.reset({
                 index: 0,
                 routes: [{ name: 'Main' }], // Переход на экран "Main"
             });*/
         } catch (error) {
-            console.error('Ошибка при сохранении в AsyncStorage: ', error);
+            console.error("Ошибка при сохранении в AsyncStorage: ", error);
         }
     };
 
     function handleRegister(user) {
-        console.log('register');
-        return api.register(user)
+        console.log("register");
+        return api
+            .register(user)
             .then((data) => {
-                setPopupRegisterText('Для завершения регистрации Вам необходимо подтвердить электронный адрес. Письмо мы отправили, ожидайте.')
+                setPopupRegisterText(
+                    "Для завершения регистрации Вам необходимо подтвердить электронный адрес. Письмо мы отправили, ожидайте."
+                );
                 setPopupRegisterIsActive(true);
                 setPopupRegisterIsError(false);
                 console.log(data.message);
@@ -94,13 +103,16 @@ const RegisterFinishPage = ({ navigation }) => {
                 setPopupRegisterIsActive(true);
                 setPopupRegisterIsError(true);
                 // нужен всплывающий попап
-                if (err instanceof TypeError && err.message === 'Failed to fetch') {
+                if (
+                    err instanceof TypeError &&
+                    err.message === "Failed to fetch"
+                ) {
                     // Обработка ошибки, если нет интернет-соединения
-                    console.error('Нет интернет-соединения');
-                    setPopupRegisterText('Нет интернет-соединения')
+                    console.error("Нет интернет-соединения");
+                    setPopupRegisterText("Нет интернет-соединения");
                 } else {
-                    console.error('Необработанная ошибка:', err);
-                    setPopupRegisterText('Что то не так, попробуйте позже...')
+                    console.error("Необработанная ошибка:", err);
+                    setPopupRegisterText("Что то не так, попробуйте позже...");
                 }
             })
             .finally(() => setLoadingIsActive(false));
@@ -108,27 +120,79 @@ const RegisterFinishPage = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.authorization}>
-            <ImageBackground style={styles.authorization__background} source={require('../assets/image/RegisterBg.png')}>
+            <ImageBackground
+                style={styles.authorization__background}
+                source={require("../assets/image/RegisterBg.png")}
+            >
                 {loadingIsActive && <LoadingRequestAnimation />}
+                {popupPrivacyPolicy && (
+                    <PopupPrivacyPolicy
+                        setPopupPrivacyPolicy={setPopupPrivacyPolicy}
+                    />
+                )}
                 <View style={styles.authorization__form}>
-                    <ImageBackground style={styles.authorization__formBackground} source={require('../assets/image/authorizationFormBg.png')}>
+                    <ImageBackground
+                        style={styles.authorization__formBackground}
+                        source={require("../assets/image/authorizationFormBg.png")}
+                    >
                         <View style={styles.authorization__formContainer}>
                             <View style={styles.authorization__headerBlock}>
-                                <TouchableOpacity style={[styles.authorization__headerTextBlockLeft]} onPress={() => navigation.navigate('Authorization', { isActivePage: true })}>
-                                    <Text style={styles.authorization__headerTextLeft}>АВТОРИЗАЦИЯ</Text>
+                                <TouchableOpacity
+                                    style={[
+                                        styles.authorization__headerTextBlockLeft,
+                                    ]}
+                                    onPress={() =>
+                                        navigation.navigate("Authorization", {
+                                            isActivePage: true,
+                                        })
+                                    }
+                                >
+                                    <Text
+                                        style={
+                                            styles.authorization__headerTextLeft
+                                        }
+                                    >
+                                        АВТОРИЗАЦИЯ
+                                    </Text>
                                 </TouchableOpacity>
-                                <View style={[styles.authorization__headerTextBlockRight, styles.authorization__headerTextBlockLeft_active]}>
-                                    <Text style={styles.authorization__headerTextRight}>СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ</Text>
+                                <View
+                                    style={[
+                                        styles.authorization__headerTextBlockRight,
+                                        styles.authorization__headerTextBlockLeft_active,
+                                    ]}
+                                >
+                                    <Text
+                                        style={
+                                            styles.authorization__headerTextRight
+                                        }
+                                    >
+                                        СОЗДАТЬ УЧЕТНУЮ ЗАПИСЬ
+                                    </Text>
                                 </View>
                             </View>
                             <Text style={styles.authorization__text}>
                                 Когда Вы родились?
                             </Text>
                             <View style={styles.registerFinish__userDate}>
-                                <RegisterUserDate userDate={date} setUserDate={setDate} setDateIsError={setDateIsError}/>
-                                {dateIsError && <Text style={[styles.paragraph, {color: 'red'}]}>{dateErrorText}</Text>}
+                                <RegisterUserDate
+                                    userDate={date}
+                                    setUserDate={setDate}
+                                    setDateIsError={setDateIsError}
+                                />
+                                {dateIsError && (
+                                    <Text
+                                        style={[
+                                            styles.paragraph,
+                                            { color: "red" },
+                                        ]}
+                                    >
+                                        {dateErrorText}
+                                    </Text>
+                                )}
                             </View>
-                            <View style={styles.registerUserDate__containerCheck}>
+                            <View
+                                style={styles.registerUserDate__containerCheck}
+                            >
                                 <View style={styles.section}>
                                     <CheckBox
                                         containerStyle={styles.checkbox}
@@ -136,7 +200,16 @@ const RegisterFinishPage = ({ navigation }) => {
                                         onPress={() => setAgreement(!agreement)}
                                         checkedColor="#FFF"
                                     />
-                                    <Text style={styles.paragraph}>пользовательское соглашение на обработку персональных данных данных</Text>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            setPopupPrivacyPolicy(true)
+                                        }
+                                    >
+                                        <Text style={styles.paragraphPrivacyPolicy}>
+                                            пользовательское соглашение на
+                                            обработку персональных данных данных
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={styles.section}>
                                     <CheckBox
@@ -145,17 +218,40 @@ const RegisterFinishPage = ({ navigation }) => {
                                         onPress={() => setConsent(!consent)}
                                         checkedColor="#FFF"
                                     />
-                                    <Text style={styles.paragraph}>даю согласие на то, чтобы получать оповещения и рассылки</Text>
+                                    <Text style={styles.paragraph}>
+                                        даю согласие на то, чтобы получать
+                                        оповещения и рассылки
+                                    </Text>
                                 </View>
                             </View>
-                            {agreementIsError && <Text style={[styles.paragraph, {color: 'red'}]}>{agreementErrorText}</Text>}
+                            {agreementIsError && (
+                                <Text
+                                    style={[styles.paragraph, { color: "red" }]}
+                                >
+                                    {agreementErrorText}
+                                </Text>
+                            )}
 
                             <View style={styles.authorization__containerBtn}>
-                                <TouchableOpacity style={styles.authorization__btnContainer} title="НАЗАД" onPress={() => navigation.navigate('RegisterPageTwo')}>
-                                    <Text style={styles.authorization__textBtn}>НАЗАД</Text>
+                                <TouchableOpacity
+                                    style={styles.authorization__btnContainer}
+                                    title="НАЗАД"
+                                    onPress={() =>
+                                        navigation.navigate("RegisterPageTwo")
+                                    }
+                                >
+                                    <Text style={styles.authorization__textBtn}>
+                                        НАЗАД
+                                    </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.authorization__btnContainer} title="ЗАВЕРШИТЬ" onPress={() => handleClickFinishRegister()}>
-                                    <Text style={styles.authorization__textBtn}>ЗАВЕРШИТЬ</Text>
+                                <TouchableOpacity
+                                    style={styles.authorization__btnContainer}
+                                    title="ЗАВЕРШИТЬ"
+                                    onPress={() => handleClickFinishRegister()}
+                                >
+                                    <Text style={styles.authorization__textBtn}>
+                                        ЗАВЕРШИТЬ
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.footer__container}>
@@ -164,78 +260,79 @@ const RegisterFinishPage = ({ navigation }) => {
                         </View>
                     </ImageBackground>
                 </View>
-                {popupRegisterIsActive &&
+                {popupRegisterIsActive && (
                     <PopupRegister
                         popupRegisterText={popupRegisterText}
                         popupRegisterIsError={popupRegisterIsError}
-                        setPopupRegisterIsActive={setPopupRegisterIsActive}/>
-                }
+                        setPopupRegisterIsActive={setPopupRegisterIsActive}
+                    />
+                )}
             </ImageBackground>
         </SafeAreaView>
-    )
-}
+    );
+};
 const styles = StyleSheet.create({
     registerFinish__userDate: {
-        flexDirection: 'row',
+        flexDirection: "row",
         columnGap: 40,
-        alignItems: 'center'
+        alignItems: "center",
     },
     footer__container: {
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignContent: "center",
+        alignItems: "center",
     },
     registerUserDate__containerCheck: {
-      justifyContent: 'space-between',
-        flexDirection: 'row'
+        justifyContent: "space-between",
+        flexDirection: "row",
     },
     authorization__text: {
-        color: '#FFF',
-        fontFamily: 'Montserrat',
+        color: "#FFF",
+        fontFamily: "Montserrat",
         fontSize: 14,
-        fontStyle: 'normal',
+        fontStyle: "normal",
         fontWeight: 500,
     },
     authorization: {
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        justifyContent: "center",
     },
     authorization__background: {
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        alignContent: 'center',
-        justifyContent: 'center',
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center",
     },
     authorization__formBackground: {
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        alignContent: 'center',
-        justifyContent: 'center',
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center",
         borderRadius: 35,
-        overflow: 'hidden'
+        overflow: "hidden",
     },
     authorization__form: {
-        alignItems: 'center',
-        alignContent: 'center',
-        justifyContent: 'center',
-        width: '84%',
-        height: '90%'
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center",
+        width: "84%",
+        height: "90%",
     },
     authorization__headerTextBlockLeft: {
-        width: '50%',
-        backgroundColor: 'rgba(255, 255, 255, 0.30)',
+        width: "50%",
+        backgroundColor: "rgba(255, 255, 255, 0.30)",
         height: 30,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     authorization__headerTextBlockRight: {
-        width: '50%',
-        backgroundColor: 'rgba(0, 0, 0, 0.50)',
+        width: "50%",
+        backgroundColor: "rgba(0, 0, 0, 0.50)",
         height: 30,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     authorization__headerTextLeft: {
         color: "#000",
@@ -244,7 +341,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "500",
-        textTransform: "uppercase"
+        textTransform: "uppercase",
     },
     authorization__headerTextRight: {
         color: "#FFF",
@@ -253,57 +350,65 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontStyle: "normal",
         fontWeight: "500",
-        textTransform: "uppercase"
+        textTransform: "uppercase",
     },
     authorization__headerBlock: {
-        flexDirection: 'row',
-        justifyContent: 'center',
+        flexDirection: "row",
+        justifyContent: "center",
         /*width: 600,*/
-        width: '90%',
-        alignContent: 'center',
-        alignItems: 'center'
+        width: "90%",
+        alignContent: "center",
+        alignItems: "center",
     },
     authorization__headerTextBlockLeft_active: {
         height: 40,
     },
     authorization__formContainer: {
         rowGap: 15,
-        justifyContent: 'center',
-        justifyItems: 'center'
+        justifyContent: "center",
+        justifyItems: "center",
     },
     authorization__textBtn: {
-        color: '#000',
-        textAlign: 'center',
-        fontFamily: 'Montserrat',
+        color: "#000",
+        textAlign: "center",
+        fontFamily: "Montserrat",
         fontSize: 14,
-        fontStyle: 'normal',
-        fontWeight: 'bold',
+        fontStyle: "normal",
+        fontWeight: "bold",
     },
     authorization__containerBtn: {
-        justifyContent: 'space-between',
-        flexDirection: 'row',
+        justifyContent: "space-between",
+        flexDirection: "row",
     },
     authorization__btnContainer: {
         width: 100,
         height: 30,
         borderRadius: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        alignItems: 'center',
-        alignContent: 'center',
-        justifyContent: 'center'
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center",
     },
     section: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '40%',
-        justifyContent: 'space-between'
+        flexDirection: "row",
+        alignItems: "center",
+        width: "40%",
+        justifyContent: "space-between",
     },
     paragraph: {
-        color: '#FFF',
-        fontFamily: 'Montserrat',
+        color: "#FFF",
+        fontFamily: "Montserrat",
         fontSize: 14,
-        fontStyle: 'normal',
+        fontStyle: "normal",
         fontWeight: 300,
+    },
+    paragraphPrivacyPolicy: {
+        color: "#FFF",
+        fontFamily: "Montserrat",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: 300,
+        textDecorationLine: "underline",
     },
     checkbox: {
         marginTop: 0,

@@ -28,6 +28,7 @@ import {
 import { Switch } from "react-native-elements";
 import PopupConfirmedDeleteAccount from "../components/PopupConfirmedDeleteAccount";
 import PopupTemporarily from "../components/PopupTemporarily";
+import PopupPrivacyPolicy from "../components/PopupPrivacyPolicy";
 
 const Settings = ({ navigation }) => {
     const [isSoundEnabled, setIsSoundEnabled] = useState(false);
@@ -35,6 +36,7 @@ const Settings = ({ navigation }) => {
     const [popupConfirmedDeleteIsActive, setPopupConfirmedDeleteIsActive] =
         useState(false);
     const [popupTemporarily, setPopupTemporarily] = useState(false);
+    const [popupPrivacyPolicy, setPopupPrivacyPolicy] = useState(false);
 
     // запуск фоновой музыки
     useEffect(() => {
@@ -79,6 +81,11 @@ const Settings = ({ navigation }) => {
                         <PopupTemporarily
                             message="В разработке ..."
                             setPopupTemporarily={setPopupTemporarily}
+                        />
+                    )}
+                    {popupPrivacyPolicy && (
+                        <PopupPrivacyPolicy
+                            setPopupPrivacyPolicy={setPopupPrivacyPolicy}
                         />
                     )}
 
@@ -227,6 +234,9 @@ const Settings = ({ navigation }) => {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={styles.settings__card}
+                                            onPress={() => {
+                                                setPopupPrivacyPolicy(true);
+                                            }}
                                         >
                                             <NotificationActiveButtonSvgIcon />
                                             <Text
@@ -234,7 +244,7 @@ const Settings = ({ navigation }) => {
                                                     styles.settings__cardText
                                                 }
                                             >
-                                                Политика конф
+                                                Политика конфиденциальности
                                             </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
