@@ -1,7 +1,7 @@
 // BackgroundMusicStore.js
-import { makeAutoObservable } from 'mobx';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Audio } from 'expo-av';
+import { makeAutoObservable } from "mobx";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Audio } from "expo-av";
 
 class BackgroundMusicStore {
     isPlaying = true;
@@ -14,19 +14,19 @@ class BackgroundMusicStore {
 
     async loadIsPlaying() {
         try {
-            const value = await AsyncStorage.getItem('soundIsActive');
+            const value = await AsyncStorage.getItem("soundIsActive");
             if (value !== null) {
-                this.isPlaying = value === 'true';
+                this.isPlaying = value === "true";
             } else {
                 // Если нет значения в AsyncStorage, установите значение по умолчанию
-                await AsyncStorage.setItem('soundIsActive', 'true');
+                await AsyncStorage.setItem("soundIsActive", "true");
             }
         } catch (error) {
-            console.log('Ошибка при загрузке isPlaying: ', error);
+            console.log("Ошибка при загрузке isPlaying: ", error);
         }
     }
 
-/*    async playMusic() {
+    /*    async playMusic() {
         this.isPlaying = true;
         await AsyncStorage.setItem('soundIsActive', 'true');
 
@@ -45,13 +45,13 @@ class BackgroundMusicStore {
     }*/
     async playMusic() {
         this.isPlaying = true;
-        await AsyncStorage.setItem('soundIsActive', 'true');
+        await AsyncStorage.setItem("soundIsActive", "true");
 
         try {
             if (!this.sound) {
                 this.sound = new Audio.Sound();
                 await this.sound.loadAsync(
-                    require('../../assets/music/baraban-background.mp3')
+                    require("../../assets/music/baraban-background.mp3")
                 );
             }
 
@@ -63,20 +63,17 @@ class BackgroundMusicStore {
                     await this.sound.setIsLoopingAsync(true);
                 } else {
                     // Если звук не загружен, не пытаемся его воспроизвести
-                    console.log('Звук не загружен');
+                    console.log("Звук не загружен");
                 }
             }
         } catch (error) {
-            console.log('Ошибка воспроизведения музыки: ', error);
+            console.log("Ошибка воспроизведения музыки: ", error);
         }
     }
 
-
-
-
     async stopMusic() {
         this.isPlaying = false;
-        await AsyncStorage.setItem('soundIsActive', 'false');
+        await AsyncStorage.setItem("soundIsActive", "false");
 
         if (this.sound) {
             await this.sound.stopAsync();
