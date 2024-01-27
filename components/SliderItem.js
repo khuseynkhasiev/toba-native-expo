@@ -50,6 +50,13 @@ export default function SliderItem({ item, activeCardId, setActiveCardId }) {
       });
     }
 
+        if (item.id === 4) {
+            //navigation.navigate('SeriesOnePage');
+            navigation.navigate("SeriesFourTest", {
+                isActiveBackgroundMusic: isActive,
+            });
+        }
+
     if (BackgroundMusicStore.isPlaying) {
       BackgroundMusicStore.stopMusic();
     }
