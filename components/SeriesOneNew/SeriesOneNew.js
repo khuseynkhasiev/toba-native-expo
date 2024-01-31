@@ -30,7 +30,7 @@ export default function SeriesOneNew({ navigation }) {
     const scene7Pause = 52600;
     const scene8Pause = 57800;
     const scene9Pause = 63800;
-    const scene10Pause = 66000;
+    const scene10Pause = 72900;
 
     async function moveToBackScene() {
         if (
@@ -39,6 +39,7 @@ export default function SeriesOneNew({ navigation }) {
         ) {
             unloadVideo();
             navigation.replace("Series");
+            // navigation.replace("Main");
         }
 
         if (
@@ -112,7 +113,7 @@ export default function SeriesOneNew({ navigation }) {
 
         if (posMillis >= scene10Pause + scenePlayStart) {
             // setOnBubleSixScene(false);
-            await videoRef.current.playFromPositionAsync(scene9Pause);
+            await videoRef.current.playFromPositionAsync(scene10Pause);
         }
     }
 
@@ -220,7 +221,12 @@ export default function SeriesOneNew({ navigation }) {
             // setOnBubleSixScene(false);
         }
 
-        if (posMillis >= scene9Pause + scenePlayStart) {
+        // if (posMillis >= scene10Pause + scenePlayStart) {
+        //     unloadVideo();
+        //     navigation.replace("Series");
+        // }
+
+        if (posMillis >= scene10Pause) {
             unloadVideo();
             navigation.replace("Series");
         }
@@ -301,13 +307,13 @@ export default function SeriesOneNew({ navigation }) {
             await videoRef.current.pauseAsync();
         }
 
-        // if (
-        //     positionMillis >= scene10Pause &&
-        //     positionMillis <= scene10Pause + sceneStopInterval
-        // ) {
-        //     // setOnBubleSixScene(true);
-        //     await videoRef.current.pauseAsync();
-        // }
+        if (
+            positionMillis >= scene10Pause &&
+            positionMillis <= scene10Pause + sceneStopInterval
+        ) {
+            // setOnBubleSixScene(true);
+            await videoRef.current.pauseAsync();
+        }
     }
 
     const unloadVideo = async () => {
@@ -350,7 +356,8 @@ export default function SeriesOneNew({ navigation }) {
                 source={require("../../assets/video/OneSeriesNew/oneseriesnew.mp4")}
                 isLooping={false}
                 useNativeControls={false}
-                resizeMode="cover"
+                // resizeMode="cover"
+                resizeMode="contain"
                 shouldPlay
                 progressUpdateIntervalMillis={100}
                 isMuted={true}
