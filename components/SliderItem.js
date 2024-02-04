@@ -58,6 +58,12 @@ export default function SliderItem({ item, activeCardId, setActiveCardId }) {
                 isActiveBackgroundMusic: isActive,
             });
         }
+        if (item.id === 5) {
+            //navigation.navigate('SeriesOnePage');
+            navigation.navigate("SeriesFourNewTest", {
+                isActiveBackgroundMusic: isActive,
+            });
+        }
         if (item.id === 6) {
             //navigation.navigate('SeriesOnePage');
             navigation.navigate("OneSceneTest", {

@@ -43,6 +43,7 @@ import TestVideoTwo from "./components/SeriesTwo/TestVideoTwo";
 import OneSceneTest from "./components/SeriesThree/OneSceneTest";
 import SeriesFourTest from "./components/SeriesFour/SeriesFourTest";
 import SeriesOneNew from "./components/SeriesOneNew/SeriesOneNew";
+import SeriesFourNewTest from "./components/SeriesFourNew/SeriesFourNewTest";
 import { TransitionPresets } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
@@ -943,6 +944,32 @@ export default function Navigate() {
                         component={SeriesOneNew}
                         options={{
                             title: "SeriesOneNew",
+                            headerShown: false,
+                            headerStyle: {
+                                backgroundColor: "#F0F8FF",
+                                height: 30,
+                            },
+                            headerTitleStyle: { fontWeight: "bold" },
+                            // cardStyleInterpolator:
+                            // CardStyleInterpolators.forFadeFromBottomAndroid,
+                            ...TransitionPresets.FadeFromBottomAndroid,
+                            transitionSpec: {
+                                open: {
+                                    animation: "timing",
+                                    config: { duration: 500 },
+                                }, // Настройка анимации открытия
+                                close: {
+                                    animation: "timing",
+                                    config: { duration: 500 },
+                                }, // Настройка анимации закрытия
+                            },
+                        }}
+                    />
+                    <Stack.Screen
+                        name="SeriesFourNewTest"
+                        component={SeriesFourNewTest}
+                        options={{
+                            title: "SeriesFourNewTest",
                             headerShown: false,
                             headerStyle: {
                                 backgroundColor: "#F0F8FF",
